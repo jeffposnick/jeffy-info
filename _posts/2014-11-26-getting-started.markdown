@@ -3,7 +3,7 @@ layout: post
 title: "Getting Started (Again)"
 date: 2014-11-26 23:34:34
 excerpt: "A step-by-step guide to hosting a blog on HTTPS-enabled custom domain."
-tags: meta, https, cloudflare, gh-pages, github, hosting
+tags: meta https cloudflare gh-pages github hosting
 ---
 
 ### Registering the Domain
