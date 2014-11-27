@@ -1,0 +1,11 @@
+# Site settings
+title: Thirty-four
+email: thirtyfour@posnick.org
+description: "Thirty-four is a web log covering web technologies, on the web."
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://www.posnick.org" # the base hostname & protocol for your site
+twitter_username: jeffposnick
+github_username:  jeffposnick
+
+# Build settings
+markdown: kramdown
