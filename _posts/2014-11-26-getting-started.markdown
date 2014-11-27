@@ -18,4 +18,4 @@ As per the [instructions](https://help.github.com/articles/adding-a-cname-file-t
 This was my first time using CloudFlare, so I needed to set up a (free) account.
 I told CloudFlare that I wanted it to take control over the `jeffy.info` domain, and I set up two A records for the bare ("apex") domain `jeffy.info` to resolve to the two IP addresses for GitHub's servers.
 
-![A record screenshoot](/assets/images/cloudflare_dns_settings.png)
+![A record screenshoot](/assets/images-min/cloudflare_dns_settings.png)

@@ -1,0 +1,9 @@
+{
+  "name": "thirty-four",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-imagemin": "^2.0.0",
+    "imagemin-pngquant": "^4.0.0"
+  }
+}
