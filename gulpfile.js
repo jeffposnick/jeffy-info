@@ -4,7 +4,7 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 
 gulp.task('serve', function() {
-  child_process.spawn('jekyll', ['serve'], {stdio: 'inherit'});
+  child_process.spawn('jekyll', ['serve', '--watch'], {stdio: 'inherit'});
 });
 
 gulp.task('imagemin', function() {
