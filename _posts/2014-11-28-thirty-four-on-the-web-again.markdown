@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "thirty-four on the Web (Again)"
-date: 2014-11-26 23:34:34
+date: 2014-11-28 10:34:34
 excerpt: "But first, some administrivia."
 tags: meta
 ---
