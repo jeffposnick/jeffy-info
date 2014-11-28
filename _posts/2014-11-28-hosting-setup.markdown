@@ -48,7 +48,7 @@ Since CloudFlare is a full-fledged CDN, they offer a number of content optimizat
 
 Since I'm relying on GitHub Pages to do my Jekyll's `_site` build, it seemed easiest to just let CloudFlare handle the minification rather than trying to work out a scripted solution.
 
-CloudFlare offers imagine minimization as well, but only as part of their paid offering. So I'm using [`gulp-imagemin`](https://www.npmjs.org/package/gulp-imagemin) locally on all my images, and pointing to the minimized versions in posts. Be sure to minimize your images!
+CloudFlare offers image minification as well, but only as part of their paid offering. So I'm using [`gulp-imagemin`](https://www.npmjs.org/package/gulp-imagemin) locally on all my images, and pointing to the minified versions in posts. Be sure to minify your images!
 
 # Future Tweaks
 I'm not particularly happy with the default Jekyll templates, and have already made a few changes.
