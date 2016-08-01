@@ -3,7 +3,11 @@
     <title>Test</title>
   </head>
   <body>
-    <main></main>
-    <script src="bundled/test.js"></script>
+    <main>test</main>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js');
+      }
+    </script>
   </body>
 </html>

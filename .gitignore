@@ -4,3 +4,4 @@ _site/
 node_modules/
 /bundled/
 /assets/images-min/
+/service-worker.js
