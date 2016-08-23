@@ -9,3 +9,4 @@ github_username:  jeffposnick
 
 # Build settings
 markdown: kramdown
+exclude: ["node_modules"]
