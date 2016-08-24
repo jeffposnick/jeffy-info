@@ -34,7 +34,7 @@ That gets to the heart of my investigation: what's the easiest way to guide deve
 
 ## Adding a Web App Manifest
 
-This is just a [standard](https://developer.mozilla.org/en-US/docs/Web/Manifest) JSON file with fields containing metadata useful for controlling the "add to homescreen" experience (currently only on Android devices). While each developer needs to choose their metadata wisely, there's nothing particularly challenging here from a technical perspective, and we just need to create the file and get it copied over to the `dist/` output directory as part of the `npm run build` process.
+This is just a [standard](https://developer.mozilla.org/en-US/docs/Web/Manifest) JSON file with fields containing metadata useful for controlling the "add to homescreen" experience (currently only on Android devices). While each developer needs to choose their metadata wisely, there's nothing particularly challenging here from a technical perspective, and we just need to create the file and get it copied over to the `build/` output directory as part of the `npm run build` process.
 
 ## Adding a Service Worker
 
