@@ -4,7 +4,7 @@ import MarkdownIt from 'markdown-it';
 import NetworkFileSystem from './network-file-system.js';
 import {loadYaml} from './load.js';
 
-const markdown = new MarkdownIt();
+const markdown = new MarkdownIt({html: true});
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
@@ -30,5 +30,7 @@ export default async function jekyllBehavior(url, currentContent='', pageState={
     return jekyllBehavior(layoutUrl, renderedTemplate, accumulatedPageState);
   }
 
-  return new Response(renderedTemplate, {headers: {'content-type': 'text/html'}});
+  return new Response(renderedTemplate, {
+    headers: {'content-type': 'text/html'}
+  });
 }
