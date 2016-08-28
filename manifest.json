@@ -2,13 +2,12 @@
   "name": "thirty-four",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/assets/images-min/34.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "density": "4.0"
+      "type": "image/png"
     }
   ],
-  "start_url": "index.html",
+  "start_url": "./",
   "display": "browser",
   "orientation": "portrait"
 }

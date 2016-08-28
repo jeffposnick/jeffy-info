@@ -1,9 +1,25 @@
 {
   "name": "thirty-four",
   "private": true,
+  "engines": {
+    "node": ">= 5.0.0"
+  },
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "gulp-imagemin": "^2.0.0",
-    "imagemin-pngquant": "^4.0.0"
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "frontmatter": "0.0.3",
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.0.3",
+    "gulp-sass": "^2.3.2",
+    "http-server": "^0.9.0",
+    "imagemin-pngquant": "^5.0.0",
+    "js-yaml": "^3.6.1",
+    "liquid-node": "https://github.com/jeffposnick/liquid-node#master",
+    "markdown-it": "^7.0.1",
+    "sw-precache": "^4.0.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
