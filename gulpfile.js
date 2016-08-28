@@ -54,7 +54,7 @@ gulp.task('browserify', () => {
 gulp.task('service-worker', ['browserify'], () => {
   return swPrecache.write('service-worker.js', {
     dontCacheBustUrlsMatching: /./,
-    replacePrefix: 'http://localhost:8000/',//'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/sw-jekyll/',
+    replacePrefix: 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/',//'http://localhost:8000/',
     staticFileGlobs: [
       '_config.yml',
       'manifest.json',
