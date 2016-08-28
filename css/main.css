@@ -101,7 +101,7 @@ code {
 
 pre {
   padding: 8px 12px;
-  overflow-x: scroll; }
+  overflow-x: auto; }
   pre > code {
     border: 0;
     padding-right: 0;
@@ -300,6 +300,11 @@ pre {
 
 .post-content {
   margin-bottom: 30px; }
+  .post-content h1 {
+    font-size: 38px; }
+    @media screen and (max-width: 800px) {
+      .post-content h1 {
+        font-size: 34px; } }
   .post-content h2 {
     font-size: 32px; }
     @media screen and (max-width: 800px) {
