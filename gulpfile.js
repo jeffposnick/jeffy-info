@@ -23,7 +23,7 @@ gulp.task('localhost', callback => {
 });
 
 gulp.task('sass', () => {
-  return gulp.src('css/main.scss')
+  return gulp.src('_sass/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('css'));
 });

@@ -325,6 +325,10 @@ pre {
     box-shadow: 2px 2px 2px #B2EBF2;
     margin: 1em;
     padding: 0.5em; }
+    @media screen and (max-width: 600px) {
+      .post-content img {
+        margin: 0;
+        padding: 0; } }
 
 /**
  * Syntax highlighting styles
