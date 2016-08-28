@@ -6,6 +6,7 @@ const pngquant = require('imagemin-pngquant');
 const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
+const swPrecache = require('sw-precache');
 
 gulp.task('jekyll', callback => {
   spawn('jekyll', ['serve', '--watch'], {stdio: 'inherit'})
@@ -13,8 +14,12 @@ gulp.task('jekyll', callback => {
 });
 
 gulp.task('localhost', callback => {
-  spawn('python', ['-m', 'SimpleHTTPServer'], {stdio: 'inherit'})
-    .on('exit', callback);
+  spawn('node_modules/.bin/http-server', [
+    '-p', '8000',
+    '-a', '127.0.0.1',
+    '-c', '-1',
+    '--cors'
+  ]).on('exit', callback);
 });
 
 gulp.task('sass', () => {
@@ -34,16 +39,47 @@ gulp.task('imagemin', () => {
 });
 
 const bundler = browserify({
-  entries: 'src/service-worker.js',
+  entries: 'src/jekyll-behavior-import.js',
   transform: ['babelify']
 });
 
 gulp.task('browserify', () => {
   return bundler.bundle()
     .on('error', console.error)
-    .pipe(source('service-worker.js'))
+    .pipe(source('jekyll-behavior-import.js'))
     .pipe(buffer())
     .pipe(gulp.dest('./'));
+});
+
+gulp.task('service-worker', ['browserify'], () => {
+  return swPrecache.write('service-worker.js', {
+    dontCacheBustUrlsMatching: /./,
+    replacePrefix: 'http://localhost:8000/',//'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/sw-jekyll/',
+    staticFileGlobs: [
+      '_config.yml',
+      'manifest.json',
+      '_layouts/**/*.html',
+      '_includes/**/*.html',
+      '_posts/**/*.markdown'
+    ],
+    importScripts: ['jekyll-behavior-import.js'],
+    runtimeCaching: [{
+      urlPattern: /\/assets\/images-min\//,
+      handler: 'cacheFirst',
+      options: {
+        cache: {
+          maxEntries: 20,
+          name: 'images'
+        }
+      }
+    }, {
+      urlPattern: /\/css\/.*\.css$/,
+      handler: 'fastest'
+    }, {
+      urlPattern: /\/\/fonts\./,
+      handler: 'fastest'
+    }]
+  });
 });
 
 gulp.task('watch', ['browserify'], () => {

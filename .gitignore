@@ -2,6 +2,7 @@
 .sass-cache/
 /assets/images-min/
 /bundled/
+/jekyll-behavior-import.js
 /service-worker.js
 _site/
 Gemfile.lock

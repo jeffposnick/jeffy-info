@@ -1,16 +1,18 @@
 import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
 import Liquid from 'liquid-node';
+import loadYaml from './load-yaml.js';
 import MarkdownIt from 'markdown-it';
 import NetworkFileSystem from './network-file-system.js';
-import {loadYaml} from './load.js';
 
 const markdown = new MarkdownIt({html: true});
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
+const urlPrefix = 'http://localhost:8000/';//'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/sw-jekyll/';
+
 export default async function jekyllBehavior(url, currentContent='', pageState={}) {
-  const siteConfig = await loadYaml('_config.yml');
-  const parsedFrontmatter = await getParsedFrontmatterForUrl(url);
+  const siteConfig = await loadYaml(urlPrefix + '_config.yml');
+  const parsedFrontmatter = await getParsedFrontmatterForUrl(urlPrefix + url);
 
   const content = url.match(/\.(?:markdown|md)$/) ?
     markdown.render(parsedFrontmatter.content) :
