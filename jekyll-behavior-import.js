@@ -15954,6 +15954,8 @@ self.addEventListener('fetch', event => {
   if (path.match(/^\d{4}\/\d{2}\/\d{2}\/.*\.html$/)) {
     const postUrl = `_posts/${ path.replace(/\//g, '-').replace('html', 'markdown') }`;
     event.respondWith((0, _jekyllBehavior2.default)(postUrl));
+  } else if (path === '' || path === 'index.html') {
+    event.respondWith((0, _jekyllBehavior2.default)('index.html'));
   }
 });
 
@@ -16005,6 +16007,10 @@ var _liquidNode = require('liquid-node');
 
 var _liquidNode2 = _interopRequireDefault(_liquidNode);
 
+var _loadJson = require('./load-json.js');
+
+var _loadJson2 = _interopRequireDefault(_loadJson);
+
 var _loadYaml = require('./load-yaml.js');
 
 var _loadYaml2 = _interopRequireDefault(_loadYaml);
@@ -16030,6 +16036,8 @@ const urlPrefix = 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.git
 exports.default = (() => {
   var _ref = _asyncToGenerator(function* (url, currentContent = '', pageState = {}) {
     const siteConfig = yield (0, _loadYaml2.default)(urlPrefix + '_config.yml');
+    siteConfig.posts = yield (0, _loadJson2.default)(urlPrefix + 'posts.json');
+
     const parsedFrontmatter = yield (0, _getParsedFrontmatterForUrl2.default)(urlPrefix + url);
 
     const content = url.match(/\.(?:markdown|md)$/) ? markdown.render(parsedFrontmatter.content) : parsedFrontmatter.content;
@@ -16060,7 +16068,34 @@ exports.default = (() => {
   return jekyllBehavior;
 })();
 
-},{"./get-parsed-frontmatter-for-url.js":138,"./load-yaml.js":140,"./network-file-system.js":141,"liquid-node":37,"markdown-it":68}],140:[function(require,module,exports){
+},{"./get-parsed-frontmatter-for-url.js":138,"./load-json.js":140,"./load-yaml.js":141,"./network-file-system.js":142,"liquid-node":37,"markdown-it":68}],140:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+
+let parsedJsonCache = {};
+
+exports.default = (() => {
+  var _ref = _asyncToGenerator(function* (url) {
+    if (!(url in parsedJsonCache)) {
+      const response = (yield caches.match(urlsToCacheKeys.get(url))) || (yield fetch(url));
+      const json = yield response.json();
+      parsedJsonCache[url] = json;
+    }
+
+    return parsedJsonCache[url];
+  });
+
+  return function (_x) {
+    return _ref.apply(this, arguments);
+  };
+})();
+
+},{}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16093,7 +16128,7 @@ exports.default = (() => {
   };
 })();
 
-},{"js-yaml":5}],141:[function(require,module,exports){
+},{"js-yaml":5}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

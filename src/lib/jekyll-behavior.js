@@ -1,5 +1,6 @@
 import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
 import Liquid from 'liquid-node';
+import loadJson from './load-json.js';
 import loadYaml from './load-yaml.js';
 import MarkdownIt from 'markdown-it';
 import NetworkFileSystem from './network-file-system.js';
@@ -12,6 +13,8 @@ const urlPrefix = 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.git
 
 export default async function jekyllBehavior(url, currentContent='', pageState={}) {
   const siteConfig = await loadYaml(urlPrefix + '_config.yml');
+  siteConfig.posts = await loadJson(urlPrefix + 'posts.json');
+
   const parsedFrontmatter = await getParsedFrontmatterForUrl(urlPrefix + url);
 
   const content = url.match(/\.(?:markdown|md)$/) ?

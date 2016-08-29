@@ -1,5 +1,8 @@
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
+const frontmatter = require('frontmatter');
+const fs = require('fs');
+const glob = require('glob');
 const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
@@ -26,6 +29,21 @@ gulp.task('sass', () => {
   return gulp.src('_sass/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('css'));
+});
+
+gulp.task('site-metadata', callback => {
+  const posts = glob.sync('_posts/**/*.markdown').map(post => {
+    const markdown = fs.readFileSync(post, 'utf-8');
+    const parsedFrontmatter = frontmatter(markdown);
+    return {
+      url: post.replace(/^_posts\//, '').replace(/-/g, '/').replace('markdown', 'html'),
+      title: parsedFrontmatter.data.title,
+      date: parsedFrontmatter.data.date,
+      excerpt: parsedFrontmatter.data.excerpt
+    };
+  }).sort((a, b) => a.date < b.date);
+
+  fs.writeFile('posts.json', JSON.stringify(posts), callback);
 });
 
 gulp.task('imagemin', () => {
@@ -56,6 +74,7 @@ gulp.task('service-worker', ['browserify'], () => {
     replacePrefix: 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/',//'http://localhost:8000/',
     staticFileGlobs: [
       '_config.yml',
+      'posts.json',
       'manifest.json',
       '_layouts/**/*.html',
       '_includes/**/*.html',

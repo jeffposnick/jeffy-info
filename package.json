@@ -10,6 +10,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "frontmatter": "0.0.3",
+    "glob": "^7.0.6",
     "gulp": "^3.9.1",
     "gulp-imagemin": "^3.0.3",
     "gulp-sass": "^2.3.2",
