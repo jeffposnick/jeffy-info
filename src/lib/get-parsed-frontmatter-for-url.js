@@ -4,7 +4,7 @@ let parsedFrontmatterCache = {};
 
 export default async url => {
   if (!(url in parsedFrontmatterCache)) {
-    const response = await caches.match(url) || await fetch(url);
+    const response = await caches.match(urlsToCacheKeys.get(url)) || await fetch(url);
     const text = await response.text();
     parsedFrontmatterCache[url] = frontmatter(text);
   }

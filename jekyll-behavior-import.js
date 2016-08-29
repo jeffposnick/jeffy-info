@@ -15977,7 +15977,7 @@ let parsedFrontmatterCache = {};
 exports.default = (() => {
   var _ref = _asyncToGenerator(function* (url) {
     if (!(url in parsedFrontmatterCache)) {
-      const response = (yield caches.match(url)) || (yield fetch(url));
+      const response = (yield caches.match(urlsToCacheKeys.get(url))) || (yield fetch(url));
       const text = yield response.text();
       parsedFrontmatterCache[url] = (0, _frontmatter2.default)(text);
     }
@@ -16080,7 +16080,7 @@ let parsedYamlCache = {};
 exports.default = (() => {
   var _ref = _asyncToGenerator(function* (url) {
     if (!(url in parsedYamlCache)) {
-      const response = (yield caches.match(url)) || (yield fetch(url));
+      const response = (yield caches.match(urlsToCacheKeys.get(url))) || (yield fetch(url));
       const text = yield response.text();
       parsedYamlCache[url] = _jsYaml2.default.load(text);
     }
@@ -16109,7 +16109,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 class NetworkFileSystem extends _liquidNode2.default.BlankFileSystem {
   readTemplateFile(path) {
     const url = `https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/_includes/${ path }.html`; //`http://localhost:8000/_includes/${path}.html`;
-    return caches.match(url).then(response => response || fetch(url)).then(response => response.text());
+    return caches.match(urlsToCacheKeys.get(url)).then(response => response || fetch(url)).then(response => response.text());
   }
 }
 exports.default = NetworkFileSystem;
