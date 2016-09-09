@@ -12,4 +12,4 @@ logo: /assets/images-min/34.png
 
 # Build settings
 markdown: kramdown
-exclude: ["node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "package.json", "README.md", "src"]
+exclude: ["node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "package.json", "README.md", "src", "gulpfile.js"]
