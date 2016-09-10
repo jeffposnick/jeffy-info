@@ -261,7 +261,7 @@ function parse(e){for(var t,r=[],n=0,o=0,a="";null!=(t=PATH_REGEXP.exec(e));){va
 
 // Runtime cache configuration, using the sw-toolbox library.
 
-toolbox.router.get(/\/assets\/images-min\//, toolbox.cacheFirst, {"cache":{"maxEntries":20,"name":"images"}});
+toolbox.router.get(/\/assets\/images\//, toolbox.cacheFirst, {"cache":{"maxEntries":20,"name":"images"}});
 toolbox.router.get(/\/css\/.*\.css$/, toolbox.fastest, {});
 toolbox.router.get(/\/\/fonts\./, toolbox.fastest, {});
 

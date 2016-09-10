@@ -4,17 +4,34 @@ const frontmatter = require('frontmatter');
 const fs = require('fs');
 const glob = require('glob');
 const gulp = require('gulp');
-const imagemin = require('gulp-imagemin');
-const pngquant = require('imagemin-pngquant');
+const htmlmin = require('gulp-htmlmin');
+const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
 const swPrecache = require('sw-precache');
+const tmp = require('tmp');
 
-gulp.task('jekyll', callback => {
+let tmpDirs;
+const getTempDir = () => {
+  if (!tmpDir) {
+    const result = tmp.dirSync({keep: true, unsafeCleanup: false});
+    tmpDir = result.name;
+    console.log(result.name);
+  }
+  return tmpDir;
+};
+
+gulp.task('jekyll:serve', callback => {
   spawn('jekyll', ['serve', '--watch'], {stdio: 'inherit'})
     .on('exit', callback);
 });
+
+gulp.task('jekyll:build', callback => {
+  spawn('jekyll', ['build', '--destination', getTempDir()], {stdio: 'inherit'})
+    .on('exit', callback);
+});
+
 
 gulp.task('localhost', callback => {
   spawn('node_modules/.bin/http-server', [
@@ -46,16 +63,6 @@ gulp.task('site-metadata', callback => {
   fs.writeFile('posts.json', JSON.stringify(posts), callback);
 });
 
-gulp.task('imagemin', () => {
-  return gulp.src('assets/images/*')
-    .pipe(imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}],
-      use: [pngquant()]
-    }))
-    .pipe(gulp.dest('assets/images-min'));
-});
-
 const bundler = browserify({
   entries: 'src/jekyll-behavior-import.js',
   transform: ['babelify']
@@ -82,7 +89,7 @@ gulp.task('service-worker', ['browserify'], () => {
     ],
     importScripts: ['jekyll-behavior-import.js'],
     runtimeCaching: [{
-      urlPattern: /\/assets\/images-min\//,
+      urlPattern: /\/assets\/images\//,
       handler: 'cacheFirst',
       options: {
         cache: {
@@ -102,4 +109,14 @@ gulp.task('service-worker', ['browserify'], () => {
 
 gulp.task('watch', ['browserify'], () => {
   return gulp.watch('src/**/*.js', ['browserify']);
+});
+
+gulp.task('html-min', () => {
+  return gulp.src(`${getTempDir()}/**/*.html`)
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('/tmp/b'));
+});
+
+gulp.task('build', callback => {
+  runSequence('sass', 'jekyll:build', 'html-min', callback);
 });
