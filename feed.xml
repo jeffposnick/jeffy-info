@@ -1,30 +1,184 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.url }}" rel="self" type="application/atom+xml"/>
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.posts limit:10 %}
+    <title>thirty-four</title>
+    <description>thirty-four is crafted with love in Brooklyn, by Jeff Posnick.</description>
+    <link>https://jeffy.info</link>
+    <atom:link href="https://jeffy.info/feed.xml" rel="self" type="application/atom+xml"/>
+    <pubDate>Fri, 09 Sep 2016 23:26:27 -0400</pubDate>
+    <lastBuildDate>Fri, 09 Sep 2016 23:26:27 -0400</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ post.url | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>create-react-pwa</title>
+        <description>&lt;h1 id=&quot;tldr&quot;&gt;tl;dr&lt;/h1&gt;
+
+&lt;p&gt;If you’d like to turn the output of &lt;a href=&quot;https://github.com/facebookincubator/create-react-app&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt;&lt;/a&gt; into a &lt;a href=&quot;https://developers.google.com/web/progressive-web-apps/&quot;&gt;progressive web app&lt;/a&gt; (PWA) with offline support, take a look at the &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-pwa&lt;/code&gt;&lt;/a&gt; repo, and in particular, the &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa/compare/starting-point...pwa&quot;&gt;GitHub diff&lt;/a&gt; of the minimal changes required.&lt;/p&gt;
+
+&lt;h1 id=&quot;create-react-app&quot;&gt;create-react-app…&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt;&lt;/a&gt; solves a problem that many folks (including I) have run into: how can you get started with a straightforward, client-rendered, single page React app and build process, without spending hours researching a list of (sometimes conflicting) dependencies to list in your &lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt;? It’s a project that came out of Facebook’s React engineering a few months back, and has since gained some significant mindshare in the web developer community.&lt;/p&gt;
+
+&lt;h1 id=&quot;and-its-limitations&quot;&gt;…and it’s limitations&lt;/h1&gt;
+
+&lt;p&gt;In keeping with the fewer-depencies-are-better-dependencies philosophy behind &lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt;, the maintainers &lt;a href=&quot;https://github.com/facebookincubator/create-react-app/issues/192&quot;&gt;appear to be vigilant&lt;/a&gt; in the fight against scope creep, and are keeping the project lean. That’s understandable, and it’s left up to end users to decide what additional functionality to layer on top of the project’s skeleton.&lt;/p&gt;
+
+&lt;p&gt;By design, the core of the build process isn’t directly extensible. It’s kicked off by &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run build&lt;/code&gt; and consists of&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;scripts&quot;: {
+ &quot;build&quot;: &quot;react-scripts build&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But! The opportunity’s there to cleanly chain some additional commands after that initial &lt;code class=&quot;highlighter-rouge&quot;&gt;react-scripts build&lt;/code&gt;, while keeping the &lt;code class=&quot;highlighter-rouge&quot;&gt;react-scripts&lt;/code&gt; black box opaque, giving us the chance to modify the output of the original build process.&lt;/p&gt;
+
+&lt;h1 id=&quot;an-opportunity-for-pwa-ification&quot;&gt;An Opportunity for PWA-ification&lt;/h1&gt;
+
+&lt;p&gt;That gets to the heart of my investigation: what’s the easiest way to guide developers starting from a fresh &lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt; towards the end goal of deploying a &lt;a href=&quot;https://developers.google.com/web/progressive-web-apps/&quot;&gt;progressive web app&lt;/a&gt;? Specifically, what would it take to add in a &lt;a href=&quot;https://developers.google.com/web/fundamentals/primers/service-worker/&quot;&gt;service worker&lt;/a&gt; that provided performance benefits as well as a meaningful offline experience, as well as a &lt;a href=&quot;https://developers.google.com/web/updates/2014/11/Support-for-installable-web-apps-with-webapp-manifest-in-chrome-38-for-Android&quot;&gt;web app manifest&lt;/a&gt; that contained application metadata?&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-a-web-app-manifest&quot;&gt;Adding a Web App Manifest&lt;/h2&gt;
+
+&lt;p&gt;This is just a &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Manifest&quot;&gt;standard&lt;/a&gt; JSON file with fields containing metadata useful for controlling the “add to homescreen” experience (currently only on Android devices). While each developer needs to choose their metadata wisely, there’s nothing particularly challenging here from a technical perspective, and we just need to create the file and get it copied over to the &lt;code class=&quot;highlighter-rouge&quot;&gt;build/&lt;/code&gt; output directory as part of the &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run build&lt;/code&gt; process.&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-a-service-worker&quot;&gt;Adding a Service Worker&lt;/h2&gt;
+
+&lt;p&gt;To handle the service worker, I (not surprisingly) turned to the &lt;a href=&quot;https://github.com/GoogleChrome/sw-precache&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sw-precache&lt;/code&gt;&lt;/a&gt; project. When added to a build process, it generates a service worker JavaScript file that will automatically version and keep all local static files—HTML, JavaScript, CSS, images, etc.—up to date. Because &lt;em&gt;all&lt;/em&gt; of the &lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt; output is local static files (there’s no server-side rendering or remote API calls by default, for example), &lt;code class=&quot;highlighter-rouge&quot;&gt;sw-precache&lt;/code&gt; can handle everything we need with little configuration needed.&lt;/p&gt;
+
+&lt;p&gt;While I’ve traditionally used &lt;code class=&quot;highlighter-rouge&quot;&gt;sw-precache&lt;/code&gt; as a JavaScript module inside of a &lt;a href=&quot;http://gulpjs.com/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gulp&lt;/code&gt; build&lt;/a&gt; process, it also sports a &lt;a href=&quot;https://github.com/GoogleChrome/sw-precache#command-line-interface&quot;&gt;command-line interface&lt;/a&gt;, and it’s simple to add in the &lt;code class=&quot;highlighter-rouge&quot;&gt;sw-precache&lt;/code&gt; command to the end of the &lt;code class=&quot;highlighter-rouge&quot;&gt;npm run build&lt;/code&gt; script chain.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-user-experience&quot;&gt;The User Experience&lt;/h2&gt;
+
+&lt;p&gt;Here’s what the deployed PWA looks like on Chrome for Android, going through the steps of accepting the Add to Homescreen banner, and then launching it without a network connection.&lt;/p&gt;
+
+&lt;iframe width=&quot;271&quot; height=&quot;480&quot; src=&quot;https://www.youtube.com/embed/nV8sKoVbD5Q?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;h1 id=&quot;try-it-yourself&quot;&gt;Try it Yourself&lt;/h1&gt;
+
+&lt;p&gt;The best way to visualize the changes to the build process, as well as the (small) modifications needed to the source code, is to view the &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa/compare/starting-point...pwa&quot;&gt;GitHub diff&lt;/a&gt; between the starting point and the “final” PWA.&lt;/p&gt;
+
+&lt;p&gt;Take “final” with a grain of salt, because while you will end up with a build process that yields a progressive web app, there are many directions you might want to take the starter project, and some of those might entail a more complex service worker implementation. I’ve tried to cover &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa#what-additional-changes-might-be-needed&quot;&gt;some scenarios&lt;/a&gt; in the repo’s README, including &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa#ive-added-in-react-router-and-now-my-urls-dont-work-offline&quot;&gt;steps to take&lt;/a&gt; if you’re using &lt;code class=&quot;highlighter-rouge&quot;&gt;react-router&lt;/code&gt; and need arbitrary URLs to work offline, as well as how you can add in &lt;a href=&quot;https://github.com/jeffposnick/create-react-pwa#im-using-cross-origin-apis-or-resources-and-they-arent-working-while-offline&quot;&gt;runtime caching strategies&lt;/a&gt; for calls to third party APIs and resources.&lt;/p&gt;
+
+&lt;h1 id=&quot;beyond-create-react-app&quot;&gt;Beyond create-react-app&lt;/h1&gt;
+
+&lt;p&gt;If you’re looking for examples of PWAs build with React that go a bit beyond what  &lt;code class=&quot;highlighter-rouge&quot;&gt;create-react-app&lt;/code&gt; offers—for instance, that take advantage of server-side rendering or are built on third-party APIs—there are a few examples I could recommend:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/GoogleChrome/sw-precache/tree/master/app-shell-demo&quot;&gt;iFixit PWA&lt;/a&gt; (&lt;a href=&quot;https://ifixit-pwa.appspot.com/&quot;&gt;live deployment&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/insin/react-hn&quot;&gt;Hacker News PWA&lt;/a&gt; (&lt;a href=&quot;https://react-hn.appspot.com/&quot;&gt;live deployment&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 20 Aug 2016 08:00:00 -0400</pubDate>
+        <link>https://jeffy.info/2016/08/20/create-react-pwa.html</link>
+        <guid isPermaLink="true">https://jeffy.info/2016/08/20/create-react-pwa.html</guid>
+        
+        <category>pwa</category>
+        
+        <category>sw</category>
+        
+        <category>service-worker</category>
+        
+        <category>react</category>
+        
+        
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>Hosting Setup</title>
+        <description>&lt;h1 id=&quot;blogging-software&quot;&gt;Blogging Software&lt;/h1&gt;
+&lt;p&gt;I decided to go with &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;, which ships templates for blog posts, but makes it simple enough to put together standalone pages.&lt;/p&gt;
+
+&lt;h1 id=&quot;web-hosting&quot;&gt;Web Hosting&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;GitHub Pages&lt;/a&gt; is free, which is nice, and (obviously) has first-class support for version control.
+GitHub Pages &lt;a href=&quot;https://help.github.com/articles/using-jekyll-with-pages/&quot;&gt;natively supports Jekyll&lt;/a&gt;, which means I just need to add the raw material to source control, and the &lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt; content will be automatically generated.
+If you don’t care about a custom domain then you can stop at this point—you can serve your site off of https://&lt;em&gt;youraccount&lt;/em&gt;.github.io. No effort required for HTTPS support!
+&lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io&quot;&gt;jeffposnick.github.io&lt;/a&gt; is the GitHub repo with this site’s content, if you want to check out what’s going on under the hood.&lt;/p&gt;
+
+&lt;h1 id=&quot;registering-the-domain&quot;&gt;Registering the Domain&lt;/h1&gt;
+&lt;p&gt;I registered “jeffy.info” using &lt;a href=&quot;https://domains.google.com&quot;&gt;Google Domains&lt;/a&gt;.
+Google Domains is in invite-only beta mode at the moment, but using an alternative domain registrar shouldn’t change the process much.
+(I was surprised at how easy it was to get a &lt;code class=&quot;highlighter-rouge&quot;&gt;.info&lt;/code&gt; domain—for whatever reason, they don’t seem to be very popular. Check them out rather than settling for some obscure &lt;code class=&quot;highlighter-rouge&quot;&gt;.com&lt;/code&gt;.)&lt;/p&gt;
+
+&lt;h1 id=&quot;add-a-cname-file-to-github&quot;&gt;Add a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; file to GitHub&lt;/h1&gt;
+&lt;p&gt;As per the &lt;a href=&quot;https://help.github.com/articles/adding-a-cname-file-to-your-repository/&quot;&gt;instructions&lt;/a&gt;, I added a &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/blob/master/CNAME&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; file&lt;/a&gt; to the top-level of the repo and pushed to GitHub.&lt;/p&gt;
+
+&lt;h1 id=&quot;cloudflare-setup&quot;&gt;CloudFlare Setup&lt;/h1&gt;
+&lt;p&gt;This was my first time using CloudFlare, so I needed to set up a (free) account.
+I told CloudFlare that I wanted it to take control over the “jeffy.info” domain, and I set up two &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; records for the bare (“apex”) domain “jeffy.info” to resolve to the &lt;a href=&quot;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&quot;&gt;two published IP addresses&lt;/a&gt; for GitHub’s servers.
+I also set up a &lt;code class=&quot;highlighter-rouge&quot;&gt;CNAME&lt;/code&gt; record for “www” as an alias of “jeffposnick.github.io”, so that “www.jeffy.info” will resolve.
+&lt;img src=&quot;/assets/images/cloudflare_dns_settings.png&quot; alt=&quot;CloudFlare settings screenshot&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;changing-the-google-domains-dns-settings&quot;&gt;Changing the Google Domains DNS Settings&lt;/h1&gt;
+&lt;p&gt;In order for CloudFlare to start serving traffic for “jeffy.info”, I needed to change the authoritative DNS settings for the domain to point to CloudFlare’s severs.
+This was straight forward with the Google Domains UI (refer to your registrar’s online help if you’re using something else):
+&lt;img src=&quot;/assets/images/google_domains_custom_dns.png&quot; alt=&quot;Google Domains custom DNS settings&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;https-only-setup&quot;&gt;HTTPS-only Setup&lt;/h1&gt;
+&lt;p&gt;CloudFlare auto-provisioned a certificate for “jeffy.info” withing a couple of minutes, which was awesome and as painless as promised.
+Make sure you use the “Flexible SSL” option, which is required to work with a GitHub Pages backend server.
+Using “Flexible SSL” means that the GitHub Pages ⇔ CloudFlare traffic isn’t encrypted, but the CloudFlare ⇔ user’s browser traffic is.
+That’s sufficient for my goal of enabling web functionality that requires HTTPS to the end user’s browser, but it’s probably not a good idea if you’re concerned about traffic vulnerabilities in the GitHub Pages ⇔ CloudFlare hop.
+I want to make sure that my blog is HTTPS-only, and &lt;a href=&quot;https://support.cloudflare.com/hc/en-us/sections/200038236-Page-Rules&quot;&gt;CloudFlare’s page rules&lt;/a&gt; interface allowed me to set that up:
+&lt;img src=&quot;/assets/images/cloudflare_page_rules.png&quot; alt=&quot;HTTPS-only via CloudFlare's page rules&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;optimizing-content&quot;&gt;Optimizing Content&lt;/h1&gt;
+&lt;p&gt;Since CloudFlare is a full-fledged CDN, they offer a number of content optimization options. In general, I turned off most of the settings, but I did enable HTML + JS + CSS minification:
+&lt;img src=&quot;/assets/images/cloudflare_auto_minify.png&quot; alt=&quot;CloudFlare's web optimization settings&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Since I’m relying on GitHub Pages to do my Jekyll’s &lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt; build, it seemed easiest to just let CloudFlare handle the minification rather than trying to work out a scripted solution.&lt;/p&gt;
+
+&lt;p&gt;CloudFlare offers image minification as well, but only as part of their paid offering. So I’m using &lt;a href=&quot;https://www.npmjs.org/package/gulp-imagemin&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gulp-imagemin&lt;/code&gt;&lt;/a&gt; locally on all my images, and pointing to the minified versions in posts. Be sure to minify your images!&lt;/p&gt;
+
+&lt;h1 id=&quot;future-tweaks&quot;&gt;Future Tweaks&lt;/h1&gt;
+&lt;p&gt;I’m not particularly happy with the default Jekyll templates, and have already made a few changes.
+I’m sure there will be lots of twiddling with that to come.
+I’m also not particularly familiar with the best practices for a build workflow. I’ve got a basic &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/blob/master/gulpfile.js&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gulpfile.js&lt;/code&gt;&lt;/a&gt; that I’m sure will grow over time.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 28 Nov 2014 08:34:34 -0500</pubDate>
+        <link>https://jeffy.info/2014/11/28/hosting-setup.html</link>
+        <guid isPermaLink="true">https://jeffy.info/2014/11/28/hosting-setup.html</guid>
+        
+        <category>meta</category>
+        
+        <category>https</category>
+        
+        <category>cloudflare</category>
+        
+        <category>gh-pages</category>
+        
+        <category>github</category>
+        
+        <category>hosting</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>thirty-four on the Web (Again)</title>
+        <description>&lt;h1 id=&quot;about-me&quot;&gt;About Me&lt;/h1&gt;
+&lt;p&gt;I’m &lt;a href=&quot;https://twitter.com/jeffposnick&quot;&gt;Jeff Posnick&lt;/a&gt;.
+I’ve been working on the &lt;a href=&quot;https://developers.google.com/careers/&quot;&gt;Developer Relations&lt;/a&gt; team at Google NYC since 2007, first on the &lt;a href=&quot;https://developers.google.com/adwords/api/&quot;&gt;Ads APIs&lt;/a&gt;, then &lt;a href=&quot;https://developers.google.com/youtube/&quot;&gt;YouTube&lt;/a&gt;, and currently on the &lt;a href=&quot;http://www.webplatform.org/&quot;&gt;Open Web Platform&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;about-this-blog&quot;&gt;About this Blog&lt;/h1&gt;
+&lt;p&gt;I’ve been blogging &lt;a href=&quot;http://thirtyfour.blogspot.com/&quot;&gt;elsewhere&lt;/a&gt; since 2003.
+The other 34 started out using &lt;a href=&quot;http://en.wikipedia.org/wiki/Blosxom&quot;&gt;Blosxom&lt;/a&gt; on a self-hosted web server.
+I moved it over to Blogger eventually.&lt;/p&gt;
+
+&lt;p&gt;I’m going to keep &lt;a href=&quot;http://thirtyfour.blogspot.com/&quot;&gt;34&lt;/a&gt; around for personal topics.
+This blog, &lt;a href=&quot;https://jeffy.info/&quot;&gt;thirty-four&lt;/a&gt;, is going to focus on web technologies.
+Serving it via HTTPS, and having full control over the HTML/JavaScript/CSS, means that I’ll be able to take advantage of some of the new features being added to the web platform, like those powered by &lt;a href=&quot;https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html&quot;&gt;service workers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned for a post detailing this blog’s setup (spoiler alert: it’s a &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; site hosted on &lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;GitHub pages&lt;/a&gt;, with the &lt;a href=&quot;https://www.cloudflare.com/&quot;&gt;CloudFlare CDN&lt;/a&gt; providing &lt;a href=&quot;http://blog.cloudflare.com/easiest-ssl-ever-now-included-automatically-w/&quot;&gt;HTTPS support&lt;/a&gt;.)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 28 Nov 2014 05:34:34 -0500</pubDate>
+        <link>https://jeffy.info/2014/11/28/thirty-four-on-the-web-again.html</link>
+        <guid isPermaLink="true">https://jeffy.info/2014/11/28/thirty-four-on-the-web-again.html</guid>
+        
+        <category>meta</category>
+        
+        
+      </item>
+    
   </channel>
 </rss>

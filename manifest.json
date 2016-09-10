@@ -2,7 +2,7 @@
   "name": "thirty-four",
   "icons": [
     {
-      "src": "/assets/images-min/34.png",
+      "src": "/assets/images/34.png",
       "sizes": "192x192",
       "type": "image/png"
     }
