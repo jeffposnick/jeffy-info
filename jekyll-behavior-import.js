@@ -16051,14 +16051,12 @@ const markdown = new _markdownIt2.default({ html: true });
 let liquidEngine = new _liquidNode2.default.Engine();
 liquidEngine.fileSystem = new _networkFileSystem2.default();
 
-const urlPrefix = 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/work/'; //'http://localhost:8000/';
-
 exports.default = (() => {
   var _ref = _asyncToGenerator(function* (url, currentContent = '', pageState = {}) {
-    const siteConfig = yield (0, _loadYaml2.default)(urlPrefix + '_config.yml');
-    siteConfig.posts = yield (0, _loadJson2.default)(urlPrefix + 'posts.json');
+    const siteConfig = yield (0, _loadYaml2.default)('_config.yml');
+    siteConfig.posts = yield (0, _loadJson2.default)('posts.json');
 
-    const parsedFrontmatter = yield (0, _getParsedFrontmatterForUrl2.default)(urlPrefix + url);
+    const parsedFrontmatter = yield (0, _getParsedFrontmatterForUrl2.default)(url);
 
     const content = url.match(/\.(?:markdown|md)$/) ? markdown.render(parsedFrontmatter.content) : parsedFrontmatter.content;
 
@@ -16163,7 +16161,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 class NetworkFileSystem extends _liquidNode2.default.BlankFileSystem {
   readTemplateFile(path) {
-    const url = `https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/work/_includes/${ path }.html`; //`http://localhost:8000/_includes/${path}.html`;
+    const url = `_includes/${ path }.html`;
     return caches.match(urlsToCacheKeys.get(url)).then(response => response || fetch(url)).then(response => response.text());
   }
 }
