@@ -70,7 +70,7 @@ gulp.task('browserify', () => {
 
 gulp.task('service-worker', ['browserify'], () => {
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
-    replacePrefix: 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/work/',//'http://localhost:8000/',
+    stripPrefix: `${BUILD_DIR}/`,
     staticFileGlobs: [
       '_config.yml',
       'posts.json',
@@ -78,7 +78,7 @@ gulp.task('service-worker', ['browserify'], () => {
       '_layouts/**/*.html',
       '_includes/**/*.html',
       '_posts/**/*.markdown'
-    ],
+    ].map(glob => `${BUILD_DIR}/${glob}`),
     importScripts: ['jekyll-behavior-import.js'],
     runtimeCaching: [{
       urlPattern: /\/assets\/images\//,
@@ -111,15 +111,26 @@ gulp.task('build', callback => {
   runSequence(
     'clean',
     'jekyll:build',
-    ['sass', 'site-metadata'],
+    ['sass', 'site-metadata', 'copy-raw-files'],
     'service-worker',
     callback
   );
 });
 
+gulp.task('copy-raw-files', () => {
+  // See https://github.com/blog/572-bypassing-jekyll-on-github-pages
+  fs.closeSync(fs.openSync(`${BUILD_DIR}/.nojekyll`, 'w'));
+
+  return gulp.src([
+    '{_includes,_layouts,_posts}/**/*.{html,markdown}',
+    '_config.yml'
+  ]).pipe(gulp.dest(BUILD_DIR));
+});
+
 gulp.task('deploy', ['build'], callback => {
   ghPages.publish(BUILD_DIR, {
-    branch: 'test',
-    message: 'Automated build.'
+    branch: 'master',
+    message: 'Automated build.',
+    dotfiles: true
   }, callback);
 });
