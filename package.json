@@ -8,6 +8,7 @@
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.14.0",
     "babelify": "^7.3.0",
+    "babili": "0.0.4",
     "browserify": "^13.1.0",
     "clean-css": "^3.4.19",
     "del": "^2.2.2",

@@ -79,7 +79,8 @@ gulp.task('minify:css', () => {
 
 const bundler = browserify({
   entries: 'src/jekyll-behavior-import.js',
-  transform: ['babelify']
+}).transform('babelify', {
+  plugins: ['transform-async-to-generator', 'transform-es2015-modules-commonjs']
 });
 
 gulp.task('bundle', () => {
@@ -94,7 +95,15 @@ gulp.task('bundle:watch', ['bundle'], () => {
   return gulp.watch('src/**/*.js', ['bundle']);
 });
 
-gulp.task('service-worker', ['bundle'], () => {
+gulp.task('minify:js', callback => {
+  spawn('node_modules/.bin/babili', [
+    `${BUILD_DIR}/jekyll-behavior-import.js`,
+    '-d', '.',
+    '--no-comments'
+  ]).on('exit', callback);
+});
+
+gulp.task('service-worker', () => {
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
     stripPrefix: `${BUILD_DIR}/`,
     staticFileGlobs: [
@@ -129,8 +138,8 @@ gulp.task('build', callback => {
   runSequence(
     'clean',
     'jekyll:build',
-    ['sass', 'site-metadata', 'copy-raw-files', 'minify:html'],
-    'minify:css',
+    ['sass', 'site-metadata', 'copy-raw-files', 'minify:html', 'bundle'],
+    ['minify:css', 'minify:js'],
     'service-worker',
     callback
   );
