@@ -9,7 +9,7 @@ const markdown = new MarkdownIt({html: true});
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
-const urlPrefix = 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/';//'http://localhost:8000/';
+const urlPrefix = 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/work/';//'http://localhost:8000/';
 
 export default async function jekyllBehavior(url, currentContent='', pageState={}) {
   const siteConfig = await loadYaml(urlPrefix + '_config.yml');

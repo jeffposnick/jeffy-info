@@ -1,26 +1,18 @@
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
+const del = require('del');
 const frontmatter = require('frontmatter');
 const fs = require('fs');
+const ghPages = require('gh-pages');
 const glob = require('glob');
 const gulp = require('gulp');
-const htmlmin = require('gulp-htmlmin');
 const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
 const swPrecache = require('sw-precache');
-const tmp = require('tmp');
 
-let tmpDirs;
-const getTempDir = () => {
-  if (!tmpDir) {
-    const result = tmp.dirSync({keep: true, unsafeCleanup: false});
-    tmpDir = result.name;
-    console.log(result.name);
-  }
-  return tmpDir;
-};
+const BUILD_DIR = 'build';
 
 gulp.task('jekyll:serve', callback => {
   spawn('jekyll', ['serve', '--watch'], {stdio: 'inherit'})
@@ -28,7 +20,7 @@ gulp.task('jekyll:serve', callback => {
 });
 
 gulp.task('jekyll:build', callback => {
-  spawn('jekyll', ['build', '--destination', getTempDir()], {stdio: 'inherit'})
+  spawn('jekyll', ['build', '--destination', BUILD_DIR], {stdio: 'inherit'})
     .on('exit', callback);
 });
 
@@ -45,7 +37,7 @@ gulp.task('localhost', callback => {
 gulp.task('sass', () => {
   return gulp.src('_sass/main.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('css'));
+    .pipe(gulp.dest(`${BUILD_DIR}/css`));
 });
 
 gulp.task('site-metadata', callback => {
@@ -60,7 +52,7 @@ gulp.task('site-metadata', callback => {
     };
   }).sort((a, b) => a.date < b.date);
 
-  fs.writeFile('posts.json', JSON.stringify(posts), callback);
+  fs.writeFile(`${BUILD_DIR}/posts.json`, JSON.stringify(posts), callback);
 });
 
 const bundler = browserify({
@@ -73,12 +65,12 @@ gulp.task('browserify', () => {
     .on('error', console.error)
     .pipe(source('jekyll-behavior-import.js'))
     .pipe(buffer())
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('service-worker', ['browserify'], () => {
-  return swPrecache.write('service-worker.js', {
-    replacePrefix: 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/',//'http://localhost:8000/',
+  return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
+    replacePrefix: 'https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/work/',//'http://localhost:8000/',
     staticFileGlobs: [
       '_config.yml',
       'posts.json',
@@ -111,12 +103,23 @@ gulp.task('watch', ['browserify'], () => {
   return gulp.watch('src/**/*.js', ['browserify']);
 });
 
-gulp.task('html-min', () => {
-  return gulp.src(`${getTempDir()}/**/*.html`)
-    .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest('/tmp/b'));
+gulp.task('clean', () => {
+  return del(BUILD_DIR);
 });
 
 gulp.task('build', callback => {
-  runSequence('sass', 'jekyll:build', 'html-min', callback);
+  runSequence(
+    'clean',
+    'jekyll:build',
+    ['sass', 'site-metadata'],
+    'service-worker',
+    callback
+  );
+});
+
+gulp.task('deploy', ['build'], callback => {
+  ghPages.publish(BUILD_DIR, {
+    branch: 'test',
+    message: 'Automated build.'
+  }, callback);
 });
