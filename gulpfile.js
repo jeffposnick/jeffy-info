@@ -6,6 +6,7 @@ const fs = require('fs');
 const ghPages = require('gh-pages');
 const glob = require('glob');
 const gulp = require('gulp');
+const htmlMinifier = require('html-minifier').minify;
 const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
@@ -107,16 +108,6 @@ gulp.task('clean', () => {
   return del(BUILD_DIR);
 });
 
-gulp.task('build', callback => {
-  runSequence(
-    'clean',
-    'jekyll:build',
-    ['sass', 'site-metadata', 'copy-raw-files'],
-    'service-worker',
-    callback
-  );
-});
-
 gulp.task('copy-raw-files', () => {
   // See https://github.com/blog/572-bypassing-jekyll-on-github-pages
   fs.closeSync(fs.openSync(`${BUILD_DIR}/.nojekyll`, 'w'));
@@ -125,6 +116,29 @@ gulp.task('copy-raw-files', () => {
     '{_includes,_layouts,_posts}/**/*.{html,markdown}',
     '_config.yml'
   ]).pipe(gulp.dest(BUILD_DIR));
+});
+
+gulp.task('minify:html', () => {
+  glob.sync(`${BUILD_DIR}/**/*.html`)
+    .filter(file => !file.startsWith(`${BUILD_DIR}/_`))
+    .forEach(file => {
+      const originalHtml = fs.readFileSync(file, 'utf-8');
+      const minifiedHtml = htmlMinifier(originalHtml, {
+        collapseWhitespace: true,
+        decodeEntities: true,
+      });
+      fs.writeFileSync(file, minifiedHtml);
+    });
+});
+
+gulp.task('build', callback => {
+  runSequence(
+    'clean',
+    'jekyll:build',
+    ['sass', 'site-metadata', 'copy-raw-files', 'minify:html'],
+    'service-worker',
+    callback
+  );
 });
 
 gulp.task('deploy', ['build'], callback => {
