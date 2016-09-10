@@ -1,5 +1,6 @@
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
+const CleanCSS = require('clean-css');
 const del = require('del');
 const frontmatter = require('frontmatter');
 const fs = require('fs');
@@ -131,11 +132,20 @@ gulp.task('minify:html', () => {
     });
 });
 
+gulp.task('minify:css', () => {
+  glob.sync(`${BUILD_DIR}/**/*.css`).forEach(file => {
+    const originalCss = fs.readFileSync(file, 'utf-8');
+    const minifiedCss = new CleanCSS().minify(originalCss).styles;
+    fs.writeFileSync(file, minifiedCss);
+  });
+});
+
 gulp.task('build', callback => {
   runSequence(
     'clean',
     'jekyll:build',
     ['sass', 'site-metadata', 'copy-raw-files', 'minify:html'],
+    'minify:css',
     'service-worker',
     callback
   );
