@@ -16,9 +16,13 @@ const swPrecache = require('sw-precache');
 
 const BUILD_DIR = 'build';
 
-gulp.task('jekyll:serve', callback => {
-  spawn('jekyll', ['serve', '--watch'], {stdio: 'inherit'})
-    .on('exit', callback);
+gulp.task('localhost', callback => {
+  spawn('node_modules/.bin/http-server', [
+    BUILD_DIR,
+    '-p', '8000',
+    '-a', '127.0.0.1',
+    '-c', '-1'
+  ]).on('exit', callback);
 });
 
 gulp.task('jekyll:build', callback => {
@@ -26,15 +30,6 @@ gulp.task('jekyll:build', callback => {
     .on('exit', callback);
 });
 
-
-gulp.task('localhost', callback => {
-  spawn('node_modules/.bin/http-server', [
-    '-p', '8000',
-    '-a', '127.0.0.1',
-    '-c', '-1',
-    '--cors'
-  ]).on('exit', callback);
-});
 
 gulp.task('sass', () => {
   return gulp.src('_sass/main.scss')
