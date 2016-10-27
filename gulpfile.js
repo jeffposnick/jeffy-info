@@ -21,7 +21,7 @@ gulp.task('clean', () => {
 });
 
 gulp.task('jekyll:build', callback => {
-  spawn('jekyll', ['build', '--destination', BUILD_DIR], {stdio: 'inherit'})
+  spawn('bundle', ['exec', 'jekyll', 'build', '--destination', BUILD_DIR], {stdio: 'inherit'})
     .on('exit', callback);
 });
 
