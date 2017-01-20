@@ -1,11 +1,12 @@
-import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
 import Liquid from 'liquid-node';
+import MarkdownIt from 'markdown-it';
+import MarkdownItAnchor from 'markdown-it-anchor';
+import NetworkFileSystem from './network-file-system.js';
+import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
 import loadJson from './load-json.js';
 import loadYaml from './load-yaml.js';
-import MarkdownIt from 'markdown-it';
-import NetworkFileSystem from './network-file-system.js';
 
-const markdown = new MarkdownIt({html: true});
+const markdown = new MarkdownIt({html: true}).use(MarkdownItAnchor);
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
