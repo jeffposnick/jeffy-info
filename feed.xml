@@ -5,9 +5,9 @@
     <description>thirty-four is crafted with love in Brooklyn, by Jeff Posnick.</description>
     <link>https://jeffy.info</link>
     <atom:link href="https://jeffy.info/feed.xml" rel="self" type="application/atom+xml"/>
-    <pubDate>Wed, 02 Nov 2016 22:45:57 -0400</pubDate>
-    <lastBuildDate>Wed, 02 Nov 2016 22:45:57 -0400</lastBuildDate>
-    <generator>Jekyll v3.2.1</generator>
+    <pubDate>Fri, 20 Jan 2017 14:22:23 -0500</pubDate>
+    <lastBuildDate>Fri, 20 Jan 2017 14:22:23 -0500</lastBuildDate>
+    <generator>Jekyll v3.3.1</generator>
     
       <item>
         <title>Offline-first for Your Templated Site (Part One)</title>
