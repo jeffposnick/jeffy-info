@@ -24,7 +24,6 @@ body {
 /**
  * Set `margin-bottom` to maintain vertical rhythm
  */
-h1, h2, h3, h4, h5, h6,
 p, blockquote, pre,
 ul, ol, dl, figure,
 %vertical-rhythm {
@@ -68,7 +67,7 @@ li {
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 300;
+  font-weight: 500;
 }
 
 /**
@@ -113,7 +112,7 @@ code {
   font-size: 15px;
   border: 1px solid $grey-color-light;
   border-radius: 3px;
-  background-color: #B2EBF2;
+  background-color: #48fff8;
 }
 
 code {
