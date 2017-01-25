@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["_config.yml","c2bf084bf1df6146771afa4cb209b5ae"],["_includes/footer.html","ae60c551751e9e5181a44eb608e6bb00"],["_includes/google_analytics.html","f84dd6fe2ad94faf10c1f05f28db178d"],["_includes/head.html","b6dffa720ca2cc3b79929ec620398bca"],["_includes/header.html","80f2c30b46420445eaf5cbf3aefb7337"],["_includes/license.html","b25031cfab9ed709a74bbaadc1e2e42c"],["_includes/service_worker.html","19f7f1af781b1a77ebdb02e3627e08bb"],["_layouts/default.html","a59858dcdae55d413b9a0b5a84050122"],["_layouts/page.html","3b71e352e094532660745c1bcabacc25"],["_layouts/post.html","6bf1a4fcfd9210a07407eb959d03f41e"],["_posts/2014-11-28-hosting-setup.markdown","87acc466e933af019fa4c68da023a931"],["_posts/2014-11-28-thirty-four-on-the-web-again.markdown","50e5e90015a443921cccdc65661461a4"],["_posts/2016-08-20-create-react-pwa.markdown","80d6cac0f7d04bbec47cc0708fec7e57"],["_posts/2016-11-02-offline-first-for-your-templated-site-part-1.markdown","bc9c80b78911ea76390be6b5159b78bb"],["manifest.json","fe1a0ab97fbce7d9b084d1f3ba5b6042"],["posts.json","cddcc1c2758afd48fd907db92e550762"]];
+var precacheConfig = [["_config.yml","c2bf084bf1df6146771afa4cb209b5ae"],["_includes/footer.html","ae60c551751e9e5181a44eb608e6bb00"],["_includes/google_analytics.html","f84dd6fe2ad94faf10c1f05f28db178d"],["_includes/head.html","b6dffa720ca2cc3b79929ec620398bca"],["_includes/header.html","80f2c30b46420445eaf5cbf3aefb7337"],["_includes/license.html","b25031cfab9ed709a74bbaadc1e2e42c"],["_includes/service_worker.html","19f7f1af781b1a77ebdb02e3627e08bb"],["_layouts/default.html","a59858dcdae55d413b9a0b5a84050122"],["_layouts/page.html","3b71e352e094532660745c1bcabacc25"],["_layouts/post.html","6bf1a4fcfd9210a07407eb959d03f41e"],["_posts/2014-11-28-hosting-setup.markdown","87acc466e933af019fa4c68da023a931"],["_posts/2014-11-28-thirty-four-on-the-web-again.markdown","50e5e90015a443921cccdc65661461a4"],["_posts/2016-08-20-create-react-pwa.markdown","80d6cac0f7d04bbec47cc0708fec7e57"],["_posts/2016-11-02-offline-first-for-your-templated-site-part-1.markdown","bc9c80b78911ea76390be6b5159b78bb"],["_posts/2017-01-24-offline-first-for-your-templated-site-part-2.markdown","b85361268d8bf5136044dc296affdae9"],["manifest.json","fe1a0ab97fbce7d9b084d1f3ba5b6042"],["posts.json","f4f39bb8d07cdcb98bb6e09f8a2125ce"]];
 var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
 
 
@@ -134,7 +134,10 @@ self.addEventListener('install', function(event) {
           Array.from(urlsToCacheKeys.values()).map(function(cacheKey) {
             // If we don't have a key matching url in the cache already, add it.
             if (!cachedUrls.has(cacheKey)) {
-              return cache.add(new Request(cacheKey, {credentials: 'same-origin'}));
+              return cache.add(new Request(cacheKey, {
+                credentials: 'same-origin',
+                redirect: 'follow'
+              }));
             }
           })
         );

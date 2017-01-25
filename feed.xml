@@ -5,9 +5,235 @@
     <description>thirty-four is crafted with love in Brooklyn, by Jeff Posnick.</description>
     <link>https://jeffy.info</link>
     <atom:link href="https://jeffy.info/feed.xml" rel="self" type="application/atom+xml"/>
-    <pubDate>Fri, 20 Jan 2017 14:39:05 -0500</pubDate>
-    <lastBuildDate>Fri, 20 Jan 2017 14:39:05 -0500</lastBuildDate>
+    <pubDate>Tue, 24 Jan 2017 22:50:02 -0500</pubDate>
+    <lastBuildDate>Tue, 24 Jan 2017 22:50:02 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Offline-first for Your Templated Site (Part Two)</title>
+        <description>&lt;p&gt;&lt;em&gt;This is the second part of a planned three-part series.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Part &lt;a href=&quot;https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html&quot;&gt;one&lt;/a&gt; covered some basic terminology an setup that’s referenced throughout this post.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Part three will dive into a specific service worker implementation that can be
+used to provide an offline-first experience for a Jekyll-based site.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Folks who can’t wait for part three are welcome to check out the
+&lt;a href=&quot;https://jeffy.info&quot;&gt;https://jeffy.info&lt;/a&gt;
+service worker &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src&quot;&gt;implementation&lt;/a&gt;
+ahead of time.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;decisions-decisions&quot;&gt;Decisions, decisions&lt;/h1&gt;
+
+&lt;p&gt;With those preliminary definitions out of the way, we can focus on the question at hand: how do you provide an offline-first experience for your templated site?&lt;/p&gt;
+
+&lt;p&gt;I’m going to outline three different approaches, each with their own benefits and drawbacks. Choosing the right approach requires balancing various tradeoffs, and the aim of this post is to walk through the plusses and minuses of each strategies, so that you can make an informed decision about what works best for your site.&lt;/p&gt;
+
+&lt;h1 id=&quot;option-1-cache-entire-html-documents&quot;&gt;Option 1: Cache entire HTML documents&lt;/h1&gt;
+
+&lt;h2 id=&quot;how-it-works&quot;&gt;How it works&lt;/h2&gt;
+
+&lt;p&gt;This approach uses the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/CacheStorage&quot;&gt;Cache Storage API&lt;/a&gt; to keep a copy of the fully rendered HTML document that corresponds to each URL. The documents might be precached when the service worker is installed, or the caches might be populated via a runtime caching strategy that adds to the cache as users browse from page to page.&lt;/p&gt;
+
+&lt;h2 id=&quot;benefits&quot;&gt;Benefits&lt;/h2&gt;
+
+&lt;h3 id=&quot;service-worker-simplicity&quot;&gt;Service worker simplicity&lt;/h3&gt;
+
+&lt;p&gt;The service worker needed to implement this type of strategy is &lt;em&gt;relatively&lt;/em&gt; straightforward. The &lt;code class=&quot;highlighter-rouge&quot;&gt;fetch&lt;/code&gt; handler can check to see whether &lt;code class=&quot;highlighter-rouge&quot;&gt;event.request.mode === 'navigate'&lt;/code&gt;, and if so, use a &lt;a href=&quot;https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate&quot;&gt;stale-while-revalidate strategy&lt;/a&gt; to handle the request for the HTML document.&lt;/p&gt;
+
+&lt;h3 id=&quot;minimal-additional-maintenance&quot;&gt;Minimal additional maintenance&lt;/h3&gt;
+
+&lt;p&gt;While you need to create and deploy a service worker script, there isn’t anything additional that you need to deploy and maintain. The same HTML documents that you’ve previously generated and deployed can continue to be served the same way.&lt;/p&gt;
+
+&lt;h3 id=&quot;multiple-layout-template-flexibility&quot;&gt;Multiple layout template flexibility&lt;/h3&gt;
+
+&lt;p&gt;Instead of a single layout template, some sites might find themselves using multiple layouts to generate the final HTML. For example, all documents served from the URL prefix &lt;code class=&quot;highlighter-rouge&quot;&gt;/blog/&lt;/code&gt; might use &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt;, while all documents served from under &lt;code class=&quot;highlighter-rouge&quot;&gt;/news/&lt;/code&gt; might use &lt;code class=&quot;highlighter-rouge&quot;&gt;news_layout.tmpl&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Because the complete HTML documents are stored and retrieved from the cache, the service worker doesn’t need any special knowledge about which underlying layout was used to generate the page.&lt;/p&gt;
+
+&lt;p&gt;That also means that a subset of URLs that aren’t generated via templating at all—perhaps a site’s &lt;code class=&quot;highlighter-rouge&quot;&gt;about.html&lt;/code&gt; page, for instance—can be handled via the same logic used for all the other URLs.&lt;/p&gt;
+
+&lt;h2 id=&quot;drawbacks&quot;&gt;Drawbacks&lt;/h2&gt;
+
+&lt;h3 id=&quot;cache-overhead&quot;&gt;Cache overhead&lt;/h3&gt;
+
+&lt;p&gt;Let’s return to our diagram of the “&lt;a href=&quot;https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html#the-process-that-smushes-together-the-templates-and-the-contents-and-outputs-a-final-html-document&quot;&gt;smushening&lt;/a&gt;” process, which takes our template, combines it with each of our individual content files, and then results in a complete HTML document:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2016-11-02/smushening.svg&quot; alt=&quot;A layout + content = final pages&quot; class=&quot;half-width&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt; file is used to generate each of the final HTML documents, and that means that the size of each HTML file is roughly equal to the size of the template file plus the size of the page-specific content.&lt;/p&gt;
+
+&lt;p&gt;If your template file is &lt;code class=&quot;highlighter-rouge&quot;&gt;X&lt;/code&gt; bytes, and your have &lt;code class=&quot;highlighter-rouge&quot;&gt;N&lt;/code&gt; output HTML files, you’re incurring &lt;code class=&quot;highlighter-rouge&quot;&gt;X * N&lt;/code&gt; bytes of duplicated cache contents, due to size of the templated portion of each final HTML document.&lt;/p&gt;
+
+&lt;p&gt;If &lt;code class=&quot;highlighter-rouge&quot;&gt;X&lt;/code&gt; is a fairly small number (a template file of less than 1kb is common) and/or &lt;code class=&quot;highlighter-rouge&quot;&gt;N&lt;/code&gt; is small (say, only a few dozen unique HTML files), then the amount of cache storage used is negligible. However, if you’re using larger templates, or you know that you have hundreds or even thousands of HTML pages that a user might have cached, the overhead can start impacting those users who are storage constrained.&lt;/p&gt;
+
+&lt;h3 id=&quot;messy-updates&quot;&gt;Messy updates&lt;/h3&gt;
+
+&lt;p&gt;While the cache overhead isn’t a showstopper, the compromises involved in updating previously cached content is more of a concern. Let’s assume that we have &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.html&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.html&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;foo_bar.html&lt;/code&gt; HTML files stored in our cache.&lt;/p&gt;
+
+&lt;p&gt;If we were to make some updates to the &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.md&lt;/code&gt; content that’s used to populate &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.html&lt;/code&gt;, our update strategy is to ensure that &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.html&lt;/code&gt; eventually gets refetched from the network. This might happen via a normal &lt;a href=&quot;https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate&quot;&gt;stale-while-revalidate&lt;/a&gt; flow, in which case the new content will only be available the &lt;em&gt;second&lt;/em&gt; time a user revisits the page. Or it might happen by explicitly purging the existing &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.html&lt;/code&gt; entry from the cache ahead of time, making the new content available for the &lt;em&gt;next&lt;/em&gt; visit.&lt;/p&gt;
+
+&lt;p&gt;But what if we make an update to &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt;? Maybe we’ve changed our navigation bar, or updated some header text. The impact of this change ripples beyond a single cache entry—&lt;em&gt;all&lt;/em&gt; of our cached HTML files that depended on &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt; are now out of date.&lt;/p&gt;
+
+&lt;p&gt;We have the same options for dealing with this as before: let a stale-while-revalidate caching strategy gradually update the stale entries as users revisit pages, or proactively purge the out of date cache content, which in this case could mean invalidating our entire cache. There are serious downsides to each approach, though.&lt;/p&gt;
+
+&lt;p&gt;If we rely on a &lt;a href=&quot;https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate&quot;&gt;stale-while-revalidate&lt;/a&gt; runtime caching strategy to gradually update our cache, users will see inconsistencies across page navigations. The changes made to &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt; will only take effect after they revisit pages multiple times. If a user returns to a previously cached page months later, they’ll still see your old layout, which can be jarring after they’ve gotten accustomed to seeing layout changes on fresh pages.&lt;/p&gt;
+
+&lt;p&gt;To avoid jarring your users, proactively purging &lt;em&gt;all&lt;/em&gt; cached HTML that relies on a modified template is arguably the best approach. But now you’re faced with another tradeoff: the performance and offline benefits of caching are diminished if users’ caches are invalidated frequently. The effort that you put into implementing a caching strategy is wasted if you have to throw your entire cache away due to even small updates to your site’s layout.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-world-examples&quot;&gt;Real-world examples&lt;/h2&gt;
+
+&lt;p&gt;A number of my colleagues, including &lt;a href=&quot;https://gauntface.com/blog/&quot;&gt;Matt Gaunt&lt;/a&gt;, &lt;a href=&quot;https://paul.kinlan.me&quot;&gt;Paul Kinlan&lt;/a&gt;, and &lt;a href=&quot;https://sgom.es/&quot;&gt;Sérgio Gomes&lt;/a&gt;, are using this option for their blogs.&lt;/p&gt;
+
+&lt;h1 id=&quot;option-2-use-an-application-shell-architecture&quot;&gt;Option 2: Use an Application Shell architecture&lt;/h1&gt;
+
+&lt;h2 id=&quot;how-it-works-1&quot;&gt;How it works&lt;/h2&gt;
+
+&lt;p&gt;The Application Shell architecture is covered in great detail in &lt;a href=&quot;https://developers.google.com/web/fundamentals/architecture/app-shell&quot;&gt;this article&lt;/a&gt; by Addy Osmani and Matt Gaunt. My talk from the 2015 Chrome Dev Summit also covers similar ground, for those who prefer video:&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/jCKZDTtUA2A&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;While the Application Shell architecture is often talked about in reference to “web apps,” it’s definitely applicable to the types of templated “content sites” that we’re talking about here.&lt;/p&gt;
+
+&lt;p&gt;The general approach is to repurpose your existing page structure, i.e. what’s defined in your &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt; template, to serve as your Application Shell. This should be a valid, standalone HTML file (let’s call it &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;) that includes a placeholder element that the dynamic content gets inserted into at runtime, via client-side templating.&lt;/p&gt;
+
+&lt;p&gt;The dynamic content could be the same raw content sources—&lt;code class=&quot;highlighter-rouge&quot;&gt;foo.md&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;bar.md&lt;/code&gt;, etc.—in which case the Application Shell’s JavaScript would need to &lt;a href=&quot;https://github.com/markdown-it/markdown-it&quot;&gt;convert&lt;/a&gt; the content to HTML at runtime, prior to inserting it into the DOM. Or you might go through an additional step and convert the raw content into HTML snippets via a server-side process, in which case the content snippets can be inserted directly into the DOM at runtime.&lt;/p&gt;
+
+&lt;p&gt;You can use either a precaching or a runtime caching strategy like &lt;a href=&quot;https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate&quot;&gt;stale-while-revalidate&lt;/a&gt; to keep both &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; and the underlying content up to date, while still serving them cache-first.&lt;/p&gt;
+
+&lt;h2 id=&quot;benefits-1&quot;&gt;Benefits&lt;/h2&gt;
+
+&lt;h3 id=&quot;clean-updates&quot;&gt;Clean updates&lt;/h3&gt;
+
+&lt;p&gt;Your structural HTML (&lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;) and your content are cached independently, so when you make changes to a page’s content or to your site’s layout elements, cache invalidation is simple and efficient. The only cache entries that need to be updated is either the content itself, or the entry for &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;. If &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; does get updated, then the updates will immediately apply to all pages on your site that share that Application Shell, ensuring that your site looks the same as the user moves from page to page. You eliminate the risk of a months-old cached page being shown, jarring a user with an inconsistent layout.&lt;/p&gt;
+
+&lt;h3 id=&quot;low-overhead-precaching&quot;&gt;Low-overhead precaching&lt;/h3&gt;
+
+&lt;p&gt;Using this architecture opens the door to precaching more of your site’s content. Larger precache coverage means that pages a user hasn’t previously navigated to will still work offline and load quickly. There are two reasons why aggressive precaching is more viable:&lt;/p&gt;
+
+&lt;p&gt;First, each piece of content can be cached as-is, independent of the App Shell’s HTML. The &lt;a href=&quot;#cache-overhead&quot;&gt;cache overhead&lt;/a&gt; concerns with full-page caching don’t apply, and as a developer, you don’t have to worry about wasting as much bandwidth and space as you would if you were precaching full HTML documents.&lt;/p&gt;
+
+&lt;p&gt;Second, and more importantly, &lt;a href=&quot;#clean-updates&quot;&gt;clean updates&lt;/a&gt; mean that you’re much less likely to end up throwing away data once it’s been precached. The only time you’d have to expire and redownload precached content is if that specific content is updated. A substantial precache payload is makes much less sense if you know that it will all end up expired each time you tweak your site’s template.&lt;/p&gt;
+
+&lt;h2 id=&quot;drawbacks-1&quot;&gt;Drawbacks&lt;/h2&gt;
+
+&lt;h3 id=&quot;routing-logic-in-your-service-worker&quot;&gt;Routing logic in your service worker&lt;/h3&gt;
+
+&lt;p&gt;In the Application Shell model, your service worker needs to have special logic in place to handle &lt;a href=&quot;https://html.spec.whatwg.org/#navigating-across-documents&quot;&gt;navigation requests&lt;/a&gt;. While the incoming request might be for a URL like &lt;code class=&quot;highlighter-rouge&quot;&gt;https://example.com/2016/12/foo.html&lt;/code&gt;, your service worker needs to respond with your cached &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; document, not with &lt;code class=&quot;highlighter-rouge&quot;&gt;foo.html&lt;/code&gt; (which won’t be cached in this model). Your Application Shell is then responsible for performing client-side templating and inserting the correct content into the DOM, based on whatever the request URL is.&lt;/p&gt;
+
+&lt;p&gt;This works fine when you only have one common layout, defined in &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;, that’s shared by all the pages on your site. But if there’s a subset of pages on your site that use completely different layouts, like &lt;code class=&quot;highlighter-rouge&quot;&gt;https://example.com/about.html&lt;/code&gt;, your service worker needs to know &lt;em&gt;not&lt;/em&gt; to respond to those navigation requests with &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Your service worker is now an HTTP router, examining incoming navigations requests and serving the right type of response for each URL. If there’s a simple URL pattern that can be used to match all of the requests that can be handled with the &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; layout, then you’re in good shape—something like the following might suffice:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;self.addEventListener('fetch', event =&amp;gt; {
+  const yearMonthPrefix = new RegExp('/\d{4}/\d{2}/');
+  if (event.request.mode === 'navigation') {
+    if (event.request.url.matches(yearMonthPrefix)) {
+      // Use the Application Shell to handle requests like
+      // https://example.com/2016/12/foo.html
+      event.respondWith(caches.match('shell.html'));
+    } else {
+      // Use an appropriate runtime caching strategy, like
+      // stale-while-revalidate, to handle requests like
+      // https://example.com/about.html.
+    }
+  } else {
+    // Use an appropriate runtime caching strategy for
+    // non-navigation requests, like requests for
+    // images or other resources.
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But if you don’t have that level of consistency in your URL structure, of if there’s a subset of pages that fall under the &lt;code class=&quot;highlighter-rouge&quot;&gt;/year/month/&lt;/code&gt; prefix but use a completely different template, accurately reflecting that routing logic in your service worker gets much trickier and you need to construct a bespoke solution.&lt;/p&gt;
+
+&lt;h3 id=&quot;duplicated-effort&quot;&gt;Duplicated effort&lt;/h3&gt;
+
+&lt;p&gt;If you’ve already got a templated site, adopting the Application Shell architecture will usually mean duplicating pieces of your existing infrastructure. You need to take your &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt; and convert it into a &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; file, adding to it the necessary client-side templating logic to populate your shell.&lt;/p&gt;
+
+&lt;p&gt;You might also need to add in a build step that takes original Markdown sources and converts them to HTML snippets, in in lieu of having to perform that Markdown conversion inside your Application Shell.&lt;/p&gt;
+
+&lt;p&gt;Finally, if your site relies on any sort of custom routing or templating rules that are implemented server-side, that routing logic needs to be moved into your service worker, as explained in the &lt;a href=&quot;#routing-logic-in-your-service-worker&quot;&gt;previous section&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This duplication means that there are more opportunities for pieces of your site to get out of sync. If you make changes to your &lt;code class=&quot;highlighter-rouge&quot;&gt;blog_layout.tmpl&lt;/code&gt;, but the corresponding changes aren’t made to &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt;, then browsers which lack service worker support will see one thing, while browsers that have a service worker responding with your Application Shell will see something else. Similar issues could arise if your routing rules need tweaking—they could potentially need to be changed in &lt;em&gt;three&lt;/em&gt; places (server-side, client-side in &lt;a href=&quot;https://en.wikipedia.org/wiki/Single-page_application&quot;&gt;SPA-style&lt;/a&gt; JavaScript, and client-side in service worker JavaScript) depending on how complicated your routing needs are. Trisomorphic routing: it’s actually A Thing!&lt;/p&gt;
+
+&lt;blockquote class=&quot;twitter-tweet&quot; data-lang=&quot;en&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;a href=&quot;https://twitter.com/adactioJournal&quot;&gt;@adactioJournal&lt;/a&gt; Shows there are fantastic opportunities, though. I&amp;#39;ve yet to see someone nail &amp;quot;trisomorphic&amp;quot; routing (server + JS + SW).&lt;/p&gt;&amp;mdash; Nolan Lawson (@nolanlawson) &lt;a href=&quot;https://twitter.com/nolanlawson/status/735469605238509569&quot;&gt;May 25, 2016&lt;/a&gt;&lt;/blockquote&gt;
+
+&lt;script async=&quot;&quot; src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+
+&lt;p&gt;Proper automation of your build process can ensure that the overhead and risk of duplicated pieces getting out of sync is minimal, but that’s one more thing to keep track of.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-world-examples-1&quot;&gt;Real-world examples&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://ifixit-pwa.appspot.com/&quot;&gt;iFixit PWA&lt;/a&gt; sample (the &lt;a href=&quot;https://github.com/GoogleChrome/sw-precache/tree/master/app-shell-demo&quot;&gt;source&lt;/a&gt; of which is part of the &lt;a href=&quot;https://github.com/GoogleChrome/sw-precache&quot;&gt;sw-precache project&lt;/a&gt;) is an Application Shell populated with dynamic content from the &lt;a href=&quot;https://www.ifixit.com/api/2.0/doc/&quot;&gt;iFixit API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;option-3-service-worker-templating&quot;&gt;Option 3: Service worker templating&lt;/h1&gt;
+
+&lt;h2 id=&quot;how-it-works-2&quot;&gt;How it works&lt;/h2&gt;
+
+&lt;p&gt;With this approach, you take the logic needed to smush together your templates and content and implement it within your service worker.&lt;/p&gt;
+
+&lt;p&gt;This doesn’t mean that you’d do away with your site’s existing build process, though. You can’t assume that when a user visits your site there’s going to be an active service worker, so you still need to serve complete HTML pages via your normal web server. But when a user returns to your site using a browser that supports service workers, they no longer have to request those complete HTML pages in order to display your site. They should already have your site’s templates cached, and they may or may not have the page’s content cached as well. So, at worst, only a very minimal amount of page-specific content needs to be requested, and at best, your service worker can assemble the complete HTML immediately, without having to go to the network at all.&lt;/p&gt;
+
+&lt;h2 id=&quot;benefits-2&quot;&gt;Benefits&lt;/h2&gt;
+
+&lt;h3 id=&quot;clean-updates-and-low-overhead-precaching&quot;&gt;Clean updates and low-overhead precaching&lt;/h3&gt;
+
+&lt;p&gt;Both the &lt;a href=&quot;#clean-updates&quot;&gt;clean updates&lt;/a&gt; and &lt;a href=&quot;#low-overhead-precaching&quot;&gt;low-overhead precaching&lt;/a&gt; benefits of the App Shell model apply here, as well.&lt;/p&gt;
+
+&lt;h3 id=&quot;no-need-to-adopt-single-page-app-patterns&quot;&gt;No need to adopt Single Page App patterns&lt;/h3&gt;
+
+&lt;p&gt;While the App Shell approach might seem familiar to developers who are familiar with writing client-side JavaScript and using the &lt;a href=&quot;https://en.wikipedia.org/wiki/Single-page_application&quot;&gt;Single Page App&lt;/a&gt; (SPA) pattern, not every developer who manages a templated site with be comfortable with that model. You don’t have to write and deploy a SPA when you use the service worker templating option, but you end up with most of the same benefits.&lt;/p&gt;
+
+&lt;p&gt;(Of course, there’s a significant engineering effort required to properly implement service worker templating, but it’s a different kind of effort…)&lt;/p&gt;
+
+&lt;h2 id=&quot;drawbacks-2&quot;&gt;Drawbacks&lt;/h2&gt;
+
+&lt;h3 id=&quot;a-javascript-friendly-templating-system-is-a-must&quot;&gt;A JavaScript-friendly templating system is a must&lt;/h3&gt;
+
+&lt;p&gt;This approach is only viable if you’re using a templating system that has a JavaScript implementation. And because the code will be run inside of a service worker, JavaScript code that requires features specific to the node environment, like filesystem support, won’t work.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, the JavaScript ecosystem is vibrant, and there’s a decent chance that you’d &lt;a href=&quot;https://npms.io/search?q=template&quot;&gt;find&lt;/a&gt; a JavaScript implementation of many templating systems. Running the JavaScript code through &lt;a href=&quot;https://github.com/substack/node-browserify&quot;&gt;browserify&lt;/a&gt; can often smooth over the differences between the node and service worker runtime environments.&lt;/p&gt;
+
+&lt;h3 id=&quot;heavyweight-service-worker-code&quot;&gt;Heavyweight service worker code&lt;/h3&gt;
+
+&lt;p&gt;In order to get your templating system working inside of your service worker, you’ll almost certainly need to bundle in a number of external dependencies. Compared to a svelte service worker that implements a basic runtime caching strategy, you’ll need to transfer more bytes of JavaScript each time your service worker is fetched from the network.&lt;/p&gt;
+
+&lt;p&gt;Your service worker is almost certainly going to spend more time executing code, since the “&lt;a href=&quot;https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html#the-process-that-smushes-together-the-templates-and-the-contents-and-outputs-a-final-html-document&quot;&gt;smushening&lt;/a&gt;” process that would otherwise be done at build-time is effectively run within a user’s browser each time it display a page. The amount of overhead that this adds depends on how efficient your JavaScript templating system is and how powerful each of your users’ devices are.&lt;/p&gt;
+
+&lt;h3 id=&quot;routing-logic-in-your-service-worker-1&quot;&gt;Routing logic in your service worker&lt;/h3&gt;
+
+&lt;p&gt;This was covered in detail in the App Shell’s drawbacks section; the same routing considerations apply here. The main difference is that instead of serving a cached &lt;code class=&quot;highlighter-rouge&quot;&gt;shell.html&lt;/code&gt; file when the route matches, you need to kick off your templating logic when there’s a matching navigation request.&lt;/p&gt;
+
+&lt;h3 id=&quot;duplicated-effort-1&quot;&gt;Duplicated effort&lt;/h3&gt;
+
+&lt;p&gt;This is also similar to the drawback with using an App Shell. Using this approach requires that you continue to run the “&lt;a href=&quot;https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html#the-process-that-smushes-together-the-templates-and-the-contents-and-outputs-a-final-html-document&quot;&gt;smushening&lt;/a&gt;” process like you were previously doing, but then additionally start serving not only the final HTML documents, but also the unprocessed template and content files, since those pieces will need to be fetched and cached by the service worker. You’ll need to make sure that whenever a template or content is updated, both the final HTML as well as the raw files are updated on your server.&lt;/p&gt;
+
+&lt;p&gt;You’ll also probably end up duplicating some of the work that your current build process does to generate metadata about your site. For example, Jekyll maintains it own list of recent posts and uses it to populate the index page for a site. Your service worker needs similar data in order to construct the same page, so writing your own code to &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/blob/work/gulpfile.js#L34&quot;&gt;generate&lt;/a&gt; the metadata in a &lt;a href=&quot;https://raw.githubusercontent.com/jeffposnick/jeffposnick.github.io/master/posts.json&quot;&gt;format&lt;/a&gt; that your service worker could consume, and keeping that metadata in sync whenever you update your site, is now required.&lt;/p&gt;
+
+&lt;h2 id=&quot;real-world-examples-2&quot;&gt;Real-world examples&lt;/h2&gt;
+
+&lt;p&gt;My personal blog, &lt;a href=&quot;https://jeffy.info/&quot;&gt;https://jeffy.info/&lt;/a&gt;, is currently using &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src&quot;&gt;service worker templating&lt;/a&gt;. We’ll dive into the specifics of how that’s implemented in the next part of this series!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 24 Jan 2017 17:00:00 -0500</pubDate>
+        <link>https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html</link>
+        <guid isPermaLink="true">https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html</guid>
+        
+        <category>pwa</category>
+        
+        <category>offline</category>
+        
+        <category>service-worker</category>
+        
+        <category>jekyll</category>
+        
+        <category>app-shell</category>
+        
+        <category>caching</category>
+        
+        
+      </item>
     
       <item>
         <title>Offline-first for Your Templated Site (Part One)</title>
