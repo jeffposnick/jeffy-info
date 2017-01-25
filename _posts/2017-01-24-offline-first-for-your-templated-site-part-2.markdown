@@ -209,4 +209,4 @@ You'll also probably end up duplicating some of the work that your current build
 
 ## Real-world examples
 
-My personal blog, https://jeffy.info/, is currently using [service worker templating](https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src). We'll dive into the specifics of how that's implemented in the next part of this series!
+My personal blog, [https://jeffy.info/](https://jeffy.info/), is currently using [service worker templating](https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src). We'll dive into the specifics of how that's implemented in the next part of this series!
