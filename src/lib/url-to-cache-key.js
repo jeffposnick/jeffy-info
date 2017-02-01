@@ -3,4 +3,4 @@ export default url => {
   // This is a bit of a hack; urlsToCacheKeys is defined in the global scope
   // within sw-precache's top-level service worker.
   return self.urlsToCacheKeys.get(absoluteUrl);
-}
+};

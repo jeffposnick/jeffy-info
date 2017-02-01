@@ -6,19 +6,23 @@ import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
 import loadJson from './load-json.js';
 import loadYaml from './load-yaml.js';
 
-const markdown = new MarkdownIt({html: true}).use(MarkdownItAnchor);
+const markdown = new MarkdownIt({ html: true }).use(MarkdownItAnchor);
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
-export default async function jekyllBehavior(url, currentContent='', pageState={}) {
+export default (async function jekyllBehavior(
+  url,
+  currentContent = '',
+  pageState = {}
+) {
   const siteConfig = await loadYaml('_config.yml');
   siteConfig.posts = await loadJson('posts.json');
 
   const parsedFrontmatter = await getParsedFrontmatterForUrl(url);
 
-  const content = url.match(/\.(?:markdown|md)$/) ?
-    markdown.render(parsedFrontmatter.content) :
-    parsedFrontmatter.content;
+  const content = url.match(/\.(?:markdown|md)$/)
+    ? markdown.render(parsedFrontmatter.content)
+    : parsedFrontmatter.content;
 
   const parsedTemplate = await liquidEngine.parse(content);
 
@@ -35,6 +39,6 @@ export default async function jekyllBehavior(url, currentContent='', pageState={
   }
 
   return new Response(renderedTemplate, {
-    headers: {'content-type': 'text/html'}
+    headers: { 'content-type': 'text/html' }
   });
-}
+});
