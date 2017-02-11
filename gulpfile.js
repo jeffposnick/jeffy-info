@@ -106,6 +106,9 @@ gulp.task('minify:js', callback => {
 gulp.task('service-worker', () => {
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
     stripPrefix: `${BUILD_DIR}/`,
+    dynamicUrlToDependencies: {
+      'css/main.css': [...glob.sync('_sass/**/*.scss')]
+    },
     staticFileGlobs: [
       '_config.yml',
       'posts.json',
@@ -124,12 +127,6 @@ gulp.task('service-worker', () => {
           name: 'images'
         }
       }
-    }, {
-      urlPattern: /\/css\/.*\.css$/,
-      handler: 'fastest'
-    }, {
-      urlPattern: /\/\/fonts\./,
-      handler: 'fastest'
     }]
   });
 });
