@@ -1,14 +1,14 @@
-import Liquid from 'liquid-node';
-import MarkdownIt from 'markdown-it';
-import MarkdownItAnchor from 'markdown-it-anchor';
-import NetworkFileSystem from './network-file-system.js';
 import getParsedFrontmatterForUrl from './get-parsed-frontmatter-for-url.js';
+import Liquid from 'liquid-node';
 import loadJson from './load-json.js';
 import loadYaml from './load-yaml.js';
+import marked from 'marked';
+import NetworkFileSystem from './network-file-system.js';
 
-const markdown = new MarkdownIt({ html: true }).use(MarkdownItAnchor);
 let liquidEngine = new Liquid.Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
+
+marked.setOptions({gfm: true});
 
 export default (async function jekyllBehavior(
   url,
@@ -21,7 +21,7 @@ export default (async function jekyllBehavior(
   const parsedFrontmatter = await getParsedFrontmatterForUrl(url);
 
   const content = url.match(/\.(?:markdown|md)$/)
-    ? markdown.render(parsedFrontmatter.content)
+    ? marked(parsedFrontmatter.content)
     : parsedFrontmatter.content;
 
   const parsedTemplate = await liquidEngine.parse(content);
