@@ -14,4 +14,4 @@ logo: /assets/images/34.png
 markdown: kramdown
 kramdown:
   auto_ids: true
-exclude: ["node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "package.json", "README.md", "src", "gulpfile.js"]
+exclude: ["yarn.lock", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "package.json", "README.md", "src", "gulpfile.js"]
