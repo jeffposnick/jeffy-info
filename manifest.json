@@ -9,5 +9,7 @@
   ],
   "start_url": "./",
   "display": "browser",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "background_color": "#fdfdfd",
+  "theme_color": "#00bcd4"
 }
