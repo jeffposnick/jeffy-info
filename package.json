@@ -2,7 +2,7 @@
   "name": "thirty-four",
   "private": true,
   "engines": {
-    "node": ">= 5.0.0"
+    "node": ">= 6.0.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.22.0",
