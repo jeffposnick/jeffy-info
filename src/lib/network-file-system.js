@@ -1,7 +1,7 @@
-import Liquid from 'liquid-node';
+import {BlankFileSystem} from 'liquid-node';
 import urlToCacheKey from './url-to-cache-key.js';
 
-export default class NetworkFileSystem extends Liquid.BlankFileSystem {
+export default class NetworkFileSystem extends BlankFileSystem {
   readTemplateFile(path) {
     const url = `_includes/${path}.html`;
     return caches

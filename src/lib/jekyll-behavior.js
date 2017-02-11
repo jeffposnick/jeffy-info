@@ -1,4 +1,4 @@
-import Liquid from 'liquid-node';
+import {Engine} from 'liquid-node';
 import MarkdownIt from 'markdown-it';
 import MarkdownItAnchor from 'markdown-it-anchor';
 import NetworkFileSystem from './network-file-system.js';
@@ -7,10 +7,10 @@ import loadJson from './load-json.js';
 import loadYaml from './load-yaml.js';
 
 const markdown = new MarkdownIt({ html: true }).use(MarkdownItAnchor);
-let liquidEngine = new Liquid.Engine();
+let liquidEngine = new Engine();
 liquidEngine.fileSystem = new NetworkFileSystem();
 
-export default (async function jekyllBehavior(
+export default async function jekyllBehavior(
   url,
   currentContent = '',
   pageState = {}
@@ -41,4 +41,4 @@ export default (async function jekyllBehavior(
   return new Response(renderedTemplate, {
     headers: { 'content-type': 'text/html' }
   });
-});
+};
