@@ -118,8 +118,8 @@ gulp.task('build', callback => {
   runSequence(
     'clean',
     'jekyll:build',
-    ['site-metadata', 'copy-raw-files', 'minify:html', 'bundle'],
-    'minify:js',
+    ['site-metadata', 'copy-raw-files', 'bundle'],
+    ['minify:html', 'minify:js'],
     'service-worker',
     callback
   );
