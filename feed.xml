@@ -3,10 +3,10 @@
   <channel>
     <title>thirty-four, a blog</title>
     <description>thirty-four is crafted with love in Brooklyn, by Jeff Posnick.</description>
-    <link>https://jeffy.info</link>
-    <atom:link href="https://jeffy.info/feed.xml" rel="self" type="application/atom+xml"/>
-    <pubDate>Tue, 14 Feb 2017 00:26:08 -0500</pubDate>
-    <lastBuildDate>Tue, 14 Feb 2017 00:26:08 -0500</lastBuildDate>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml"/>
+    <pubDate>Tue, 14 Feb 2017 00:34:25 -0500</pubDate>
+    <lastBuildDate>Tue, 14 Feb 2017 00:34:25 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -217,8 +217,8 @@ ahead of time.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;My personal blog, &lt;a href=&quot;https://jeffy.info/&quot;&gt;https://jeffy.info/&lt;/a&gt;, is currently using &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src&quot;&gt;service worker templating&lt;/a&gt;. We’ll dive into the specifics of how that’s implemented in the next part of this series!&lt;/p&gt;
 </description>
         <pubDate>Tue, 24 Jan 2017 17:00:00 -0500</pubDate>
-        <link>https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html</link>
-        <guid isPermaLink="true">https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html</guid>
+        <link>http://localhost:4000/2017/01/24/offline-first-for-your-templated-site-part-2.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/24/offline-first-for-your-templated-site-part-2.html</guid>
         
         <category>pwa</category>
         
@@ -305,8 +305,8 @@ ahead of time.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The complete HTML documents are then displayed by the browser, blissfully unawares of all the behind-the-scenes architecture that was needed to get to this point.&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 Nov 2016 13:00:00 -0400</pubDate>
-        <link>https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html</link>
-        <guid isPermaLink="true">https://jeffy.info/2016/11/02/offline-first-for-your-templated-site-part-1.html</guid>
+        <link>http://localhost:4000/2016/11/02/offline-first-for-your-templated-site-part-1.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/11/02/offline-first-for-your-templated-site-part-1.html</guid>
         
         <category>pwa</category>
         
@@ -380,8 +380,8 @@ ahead of time.&lt;/em&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Sat, 20 Aug 2016 08:00:00 -0400</pubDate>
-        <link>https://jeffy.info/2016/08/20/create-react-pwa.html</link>
-        <guid isPermaLink="true">https://jeffy.info/2016/08/20/create-react-pwa.html</guid>
+        <link>http://localhost:4000/2016/08/20/create-react-pwa.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/08/20/create-react-pwa.html</guid>
         
         <category>pwa</category>
         
@@ -450,8 +450,8 @@ I’m sure there will be lots of twiddling with that to come.
 I’m also not particularly familiar with the best practices for a build workflow. I’ve got a basic &lt;a href=&quot;https://github.com/jeffposnick/jeffposnick.github.io/blob/master/gulpfile.js&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;gulpfile.js&lt;/code&gt;&lt;/a&gt; that I’m sure will grow over time.&lt;/p&gt;
 </description>
         <pubDate>Fri, 28 Nov 2014 08:34:34 -0500</pubDate>
-        <link>https://jeffy.info/2014/11/28/hosting-setup.html</link>
-        <guid isPermaLink="true">https://jeffy.info/2014/11/28/hosting-setup.html</guid>
+        <link>http://localhost:4000/2014/11/28/hosting-setup.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2014/11/28/hosting-setup.html</guid>
         
         <category>meta</category>
         
@@ -486,8 +486,8 @@ Serving it via HTTPS, and having full control over the HTML/JavaScript/CSS, mean
 &lt;p&gt;Stay tuned for a post detailing this blog’s setup (spoiler alert: it’s a &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; site hosted on &lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;GitHub pages&lt;/a&gt;, with the &lt;a href=&quot;https://www.cloudflare.com/&quot;&gt;CloudFlare CDN&lt;/a&gt; providing &lt;a href=&quot;http://blog.cloudflare.com/easiest-ssl-ever-now-included-automatically-w/&quot;&gt;HTTPS support&lt;/a&gt;.)&lt;/p&gt;
 </description>
         <pubDate>Fri, 28 Nov 2014 05:34:34 -0500</pubDate>
-        <link>https://jeffy.info/2014/11/28/thirty-four-on-the-web-again.html</link>
-        <guid isPermaLink="true">https://jeffy.info/2014/11/28/thirty-four-on-the-web-again.html</guid>
+        <link>http://localhost:4000/2014/11/28/thirty-four-on-the-web-again.html</link>
+        <guid isPermaLink="true">http://localhost:4000/2014/11/28/thirty-four-on-the-web-again.html</guid>
         
         <category>meta</category>
         
