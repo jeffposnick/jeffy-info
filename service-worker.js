@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["manifest.json","5e5bf3c915641ecd26d742e91daaf28c"]];
+var precacheConfig = [["_config.yml","23879f17e9589553a5eb3491e36403b0"],["_includes/footer.html","ad95f78a9323eba7bbf0a8f47b8b3acf"],["_includes/google_analytics.html","f84dd6fe2ad94faf10c1f05f28db178d"],["_includes/head.html","4f3ac52f79aee1993118c8bc072d2903"],["_includes/header.html","18a3a4bea765592e144f7bec0c89bef2"],["_includes/license.html","259d4c2694bfc05ef12f096bd54e605d"],["_includes/service_worker.html","e0259b92fa80056150f5d4b4b3418fc5"],["_includes/styles.html","d7c63cda57c0a24aa4c179cb1d253e46"],["_layouts/default.html","a59858dcdae55d413b9a0b5a84050122"],["_layouts/post.html","54c2ed4c5b4e115d69888364b619a1e6"],["_posts/2014-11-28-hosting-setup.markdown","d3d7063c410cf9672a0c270d95dd958c"],["_posts/2014-11-28-thirty-four-on-the-web-again.markdown","50e5e90015a443921cccdc65661461a4"],["_posts/2016-08-20-create-react-pwa.markdown","6d7af2db349a603d427571598cb51bf8"],["_posts/2016-11-02-offline-first-for-your-templated-site-part-1.markdown","8bd56e32ce2895b0f949108d067afd79"],["_posts/2017-01-24-offline-first-for-your-templated-site-part-2.markdown","5034845d6e1904aba2f2fe29c0a86bc9"],["manifest.json","5e5bf3c915641ecd26d742e91daaf28c"],["posts.json","f4f39bb8d07cdcb98bb6e09f8a2125ce"]];
 var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
 
 
