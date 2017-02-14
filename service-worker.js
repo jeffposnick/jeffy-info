@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["_config.yml","89927bfe1b477da4ed5fced360943e97"],["_includes/footer.html","5cc7ed75bd5488db3ed379db60975d23"],["_includes/google_analytics.html","f84dd6fe2ad94faf10c1f05f28db178d"],["_includes/head.html","2b3a445c9bd3cab1f1b487405d80da9b"],["_includes/header.html","80f2c30b46420445eaf5cbf3aefb7337"],["_includes/license.html","b25031cfab9ed709a74bbaadc1e2e42c"],["_includes/service_worker.html","19f7f1af781b1a77ebdb02e3627e08bb"],["_layouts/default.html","a59858dcdae55d413b9a0b5a84050122"],["_layouts/page.html","3b71e352e094532660745c1bcabacc25"],["_layouts/post.html","6bf1a4fcfd9210a07407eb959d03f41e"],["_posts/2014-11-28-hosting-setup.markdown","87acc466e933af019fa4c68da023a931"],["_posts/2014-11-28-thirty-four-on-the-web-again.markdown","50e5e90015a443921cccdc65661461a4"],["_posts/2016-08-20-create-react-pwa.markdown","80d6cac0f7d04bbec47cc0708fec7e57"],["_posts/2016-11-02-offline-first-for-your-templated-site-part-1.markdown","8bd56e32ce2895b0f949108d067afd79"],["_posts/2017-01-24-offline-first-for-your-templated-site-part-2.markdown","b85361268d8bf5136044dc296affdae9"],["css/main.css","69367023c609b2c86c8e6f7a89267f35"],["manifest.json","5e5bf3c915641ecd26d742e91daaf28c"],["posts.json","f4f39bb8d07cdcb98bb6e09f8a2125ce"]];
+var precacheConfig = [["manifest.json","5e5bf3c915641ecd26d742e91daaf28c"]];
 var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
 
 
