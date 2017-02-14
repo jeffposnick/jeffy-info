@@ -25,12 +25,6 @@ gulp.task('jekyll:build', callback => {
     .on('exit', callback);
 });
 
-gulp.task('sass', () => {
-  return gulp.src('_sass/main.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(`${BUILD_DIR}/css`));
-});
-
 gulp.task('site-metadata', callback => {
   const posts = glob.sync('_posts/**/*.markdown').map(post => {
     const markdown = fs.readFileSync(post, 'utf-8');
@@ -69,14 +63,6 @@ gulp.task('minify:html', () => {
     });
 });
 
-gulp.task('minify:css', () => {
-  glob.sync(`${BUILD_DIR}/**/*.css`).forEach(file => {
-    const originalCss = fs.readFileSync(file, 'utf-8');
-    const minifiedCss = new CleanCSS().minify(originalCss).styles;
-    fs.writeFileSync(file, minifiedCss);
-  });
-});
-
 const bundler = browserify({
   entries: 'src/jekyll-behavior-import.js',
 }).transform('babelify', {
@@ -106,9 +92,6 @@ gulp.task('minify:js', callback => {
 gulp.task('service-worker', () => {
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
     stripPrefix: `${BUILD_DIR}/`,
-    dynamicUrlToDependencies: {
-      'css/main.css': [...glob.sync('_sass/**/*.scss')]
-    },
     staticFileGlobs: [
       '_config.yml',
       'posts.json',
@@ -135,8 +118,8 @@ gulp.task('build', callback => {
   runSequence(
     'clean',
     'jekyll:build',
-    ['sass', 'site-metadata', 'copy-raw-files', 'minify:html', 'bundle'],
-    ['minify:css', 'minify:js'],
+    ['site-metadata', 'copy-raw-files', 'minify:html', 'bundle'],
+    'minify:js',
     'service-worker',
     callback
   );

@@ -27,11 +27,13 @@ As per the [instructions](https://help.github.com/articles/adding-a-cname-file-t
 This was my first time using CloudFlare, so I needed to set up a (free) account.
 I told CloudFlare that I wanted it to take control over the "jeffy.info" domain, and I set up two `A` records for the bare ("apex") domain "jeffy.info" to resolve to the [two published IP addresses](https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/) for GitHub's servers.
 I also set up a `CNAME` record for "www" as an alias of "jeffposnick.github.io", so that "www.jeffy.info" will resolve.
+
 ![CloudFlare settings screenshot](/assets/images/cloudflare_dns_settings.png)
 
 # Changing the Google Domains DNS Settings
 In order for CloudFlare to start serving traffic for "jeffy.info", I needed to change the authoritative DNS settings for the domain to point to CloudFlare's severs.
 This was straight forward with the Google Domains UI (refer to your registrar's online help if you're using something else):
+
 ![Google Domains custom DNS settings](/assets/images/google_domains_custom_dns.png)
 
 # HTTPS-only Setup
@@ -40,10 +42,12 @@ Make sure you use the "Flexible SSL" option, which is required to work with a Gi
 Using "Flexible SSL" means that the GitHub Pages ⇔ CloudFlare traffic isn't encrypted, but the CloudFlare ⇔ user's browser traffic is.
 That's sufficient for my goal of enabling web functionality that requires HTTPS to the end user's browser, but it's probably not a good idea if you're concerned about traffic vulnerabilities in the GitHub Pages ⇔ CloudFlare hop.
 I want to make sure that my blog is HTTPS-only, and [CloudFlare's page rules](https://support.cloudflare.com/hc/en-us/sections/200038236-Page-Rules) interface allowed me to set that up:
+
 ![HTTPS-only via CloudFlare's page rules](/assets/images/cloudflare_page_rules.png)
 
 # Optimizing Content
 Since CloudFlare is a full-fledged CDN, they offer a number of content optimization options. In general, I turned off most of the settings, but I did enable HTML + JS + CSS minification:
+
 ![CloudFlare's web optimization settings](/assets/images/cloudflare_auto_minify.png)
 
 Since I'm relying on GitHub Pages to do my Jekyll's `_site` build, it seemed easiest to just let CloudFlare handle the minification rather than trying to work out a scripted solution.
