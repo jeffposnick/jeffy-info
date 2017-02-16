@@ -23,7 +23,7 @@
     "liquid-node": "https://github.com/jeffposnick/liquid-node#master",
     "marked": "^0.3.6",
     "run-sequence": "^1.2.2",
-    "sw-precache": "^4.3.0",
+    "sw-precache": "^5.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
