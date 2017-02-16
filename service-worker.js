@@ -38,7 +38,7 @@
 'use strict';
 
 var precacheConfig = [["_config.yml","89927bfe1b477da4ed5fced360943e97"],["_includes/footer.html","ad95f78a9323eba7bbf0a8f47b8b3acf"],["_includes/google_analytics.html","f84dd6fe2ad94faf10c1f05f28db178d"],["_includes/head.html","4f3ac52f79aee1993118c8bc072d2903"],["_includes/header.html","18a3a4bea765592e144f7bec0c89bef2"],["_includes/license.html","259d4c2694bfc05ef12f096bd54e605d"],["_includes/service_worker.html","e0259b92fa80056150f5d4b4b3418fc5"],["_includes/styles.html","1b46c08c733b4976e28d08add0ab011e"],["_layouts/default.html","a59858dcdae55d413b9a0b5a84050122"],["_layouts/post.html","54c2ed4c5b4e115d69888364b619a1e6"],["_posts/2014-11-28-hosting-setup.markdown","d3d7063c410cf9672a0c270d95dd958c"],["_posts/2014-11-28-thirty-four-on-the-web-again.markdown","50e5e90015a443921cccdc65661461a4"],["_posts/2016-08-20-create-react-pwa.markdown","6d7af2db349a603d427571598cb51bf8"],["_posts/2016-11-02-offline-first-for-your-templated-site-part-1.markdown","8bd56e32ce2895b0f949108d067afd79"],["_posts/2017-01-24-offline-first-for-your-templated-site-part-2.markdown","5034845d6e1904aba2f2fe29c0a86bc9"],["manifest.json","5e5bf3c915641ecd26d742e91daaf28c"],["posts.json","f4f39bb8d07cdcb98bb6e09f8a2125ce"]];
-var cacheName = 'sw-precache-v2--' + (self.registration ? self.registration.scope : '');
+var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 
 var ignoreUrlParametersMatching = [/^utm_/];
@@ -53,6 +53,28 @@ var addDirectoryIndex = function (originalUrl, index) {
     return url.toString();
   };
 
+var cleanResponse = function (originalResponse) {
+    // If this is not a redirected response, then we don't have to do anything.
+    if (!originalResponse.redirected) {
+      return Promise.resolve(originalResponse);
+    }
+
+    // Firefox 50 and below doesn't support the Response.body stream, so we may
+    // need to read the entire body to memory as a Blob.
+    var bodyPromise = 'body' in originalResponse ?
+      Promise.resolve(originalResponse.body) :
+      originalResponse.blob();
+
+    return bodyPromise.then(function(body) {
+      // new Response() is happy when passed either a stream or a Blob.
+      return new Response(body, {
+        headers: originalResponse.headers,
+        status: originalResponse.status,
+        statusText: originalResponse.statusText
+      });
+    });
+  };
+
 var createCacheKey = function (originalUrl, paramName, paramValue,
                            dontCacheBustUrlsMatching) {
     // Create a new URL object to avoid modifying originalUrl.
@@ -61,7 +83,7 @@ var createCacheKey = function (originalUrl, paramName, paramValue,
     // If dontCacheBustUrlsMatching is not set, or if we don't have a match,
     // then add in the extra cache-busting URL parameter.
     if (!dontCacheBustUrlsMatching ||
-        !(url.toString().match(dontCacheBustUrlsMatching))) {
+        !(url.pathname.match(dontCacheBustUrlsMatching))) {
       url.search += (url.search ? '&' : '') +
         encodeURIComponent(paramName) + '=' + encodeURIComponent(paramValue);
     }
@@ -134,10 +156,19 @@ self.addEventListener('install', function(event) {
           Array.from(urlsToCacheKeys.values()).map(function(cacheKey) {
             // If we don't have a key matching url in the cache already, add it.
             if (!cachedUrls.has(cacheKey)) {
-              return cache.add(new Request(cacheKey, {
-                credentials: 'same-origin',
-                redirect: 'follow'
-              }));
+              var request = new Request(cacheKey, {credentials: 'same-origin'});
+              return fetch(request).then(function(response) {
+                // Bail out of installation unless we get back a 200 OK for
+                // every request.
+                if (!response.ok) {
+                  throw new Error('Request for ' + cacheKey + ' returned a ' +
+                    'response with status ' + response.status);
+                }
+
+                return cleanResponse(response).then(function(responseToCache) {
+                  return cache.put(cacheKey, responseToCache);
+                });
+              });
             }
           })
         );
