@@ -5,8 +5,8 @@
     <description>thirty-four is crafted with love in Brooklyn, by Jeff Posnick.</description>
     <link>https://jeffy.info</link>
     <atom:link href="https://jeffy.info/feed.xml" rel="self" type="application/atom+xml"/>
-    <pubDate>Thu, 16 Feb 2017 12:50:47 -0500</pubDate>
-    <lastBuildDate>Thu, 16 Feb 2017 12:50:47 -0500</lastBuildDate>
+    <pubDate>Wed, 22 Feb 2017 13:33:09 -0500</pubDate>
+    <lastBuildDate>Wed, 22 Feb 2017 13:33:09 -0500</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -239,7 +239,7 @@ ahead of time.&lt;/em&gt;&lt;/p&gt;
         <title>Offline-first for Your Templated Site (Part One)</title>
         <description>&lt;p&gt;&lt;em&gt;This is the first part of a planned three-part series.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Part two will cover different strategies for caching and serving templated sites.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html&quot;&gt;Part two covers&lt;/a&gt; different strategies for caching and serving templated sites.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Part three will dive into a specific service worker implementation that can be
 used to provide an offline-first experience for a Jekyll-based site.&lt;/em&gt;&lt;/p&gt;
