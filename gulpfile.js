@@ -1,10 +1,8 @@
 const browserify = require('browserify');
 const buffer = require('vinyl-buffer');
-const CleanCSS = require('clean-css');
 const del = require('del');
 const frontmatter = require('frontmatter');
 const fs = require('fs');
-const ghPages = require('gh-pages');
 const glob = require('glob');
 const gulp = require('gulp');
 const htmlMinifier = require('html-minifier').minify;
@@ -126,11 +124,8 @@ gulp.task('build', callback => {
 });
 
 gulp.task('deploy', ['build'], callback => {
-  ghPages.publish(BUILD_DIR, {
-    branch: 'master',
-    message: 'Automated build.',
-    dotfiles: true
-  }, callback);
+  spawn('node_modules/.bin/firebase', ['deploy'])
+    .on('exit', callback);
 });
 
 gulp.task('localhost', callback => {
