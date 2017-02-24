@@ -38,9 +38,6 @@ gulp.task('site-metadata', callback => {
 });
 
 gulp.task('copy-raw-files', () => {
-  // See https://github.com/blog/572-bypassing-jekyll-on-github-pages
-  fs.closeSync(fs.openSync(`${BUILD_DIR}/.nojekyll`, 'w'));
-
   return gulp.src([
     '{_includes,_layouts,_posts}/**/*.{html,markdown}',
     '_config.yml'
