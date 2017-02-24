@@ -8,7 +8,7 @@ tags: pwa offline service-worker jekyll
 
 _This is the first part of a planned three-part series._
 
-_Part two will cover different strategies for caching and serving templated sites._
+_[Part two covers](https://jeffy.info/2017/01/24/offline-first-for-your-templated-site-part-2.html) different strategies for caching and serving templated sites._
 
 _Part three will dive into a specific service worker implementation that can be
 used to provide an offline-first experience for a Jekyll-based site._
