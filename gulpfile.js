@@ -7,7 +7,6 @@ const glob = require('glob');
 const gulp = require('gulp');
 const htmlMinifier = require('html-minifier').minify;
 const runSequence = require('run-sequence');
-const sass = require('gulp-sass');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
 const swPrecache = require('sw-precache');
@@ -129,10 +128,7 @@ gulp.task('deploy', ['build'], callback => {
 });
 
 gulp.task('localhost', callback => {
-  spawn('node_modules/.bin/http-server', [
-    BUILD_DIR,
-    '-p', '8000',
-    '-a', '127.0.0.1',
-    '-c', '-1'
-  ]).on('exit', callback);
+  // The server is on http://localhost:5000
+  spawn('node_modules/.bin/firebase', ['serve'])
+    .on('exit', callback);
 });
