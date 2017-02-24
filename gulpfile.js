@@ -121,11 +121,11 @@ gulp.task('build', callback => {
 
 gulp.task('localhost', callback => {
   // The server is on http://localhost:5000
-  spawn('node_modules/.bin/firebase', ['serve'])
+  spawn('node_modules/.bin/firebase', ['serve'], {stdio: 'inherit'})
     .on('exit', callback);
 });
 
 gulp.task('deploy', ['build'], callback => {
-  spawn('node_modules/.bin/firebase', ['deploy'])
+  spawn('node_modules/.bin/firebase', ['deploy'], {stdio: 'inherit'})
     .on('exit', callback);
 });
