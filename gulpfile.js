@@ -119,13 +119,13 @@ gulp.task('build', callback => {
   );
 });
 
-gulp.task('deploy', ['build'], callback => {
-  spawn('node_modules/.bin/firebase', ['deploy'])
-    .on('exit', callback);
-});
-
 gulp.task('localhost', callback => {
   // The server is on http://localhost:5000
   spawn('node_modules/.bin/firebase', ['serve'])
+    .on('exit', callback);
+});
+
+gulp.task('deploy', ['build'], callback => {
+  spawn('node_modules/.bin/firebase', ['deploy'])
     .on('exit', callback);
 });
