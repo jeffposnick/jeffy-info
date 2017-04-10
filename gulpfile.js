@@ -90,6 +90,7 @@ gulp.task('service-worker', () => {
       '_config.yml',
       'posts.json',
       'manifest.json',
+      'index.html',
       '_layouts/**/*.html',
       '_includes/**/*.html',
       '_posts/**/*.markdown'
