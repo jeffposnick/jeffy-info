@@ -18,6 +18,11 @@ _Folks who can't wait for part three are welcome to check out the
 service worker [implementation](https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src)
 ahead of time._
 
+_I also covered the material in this blog post in a presentation at the
+[{static is} The New Dynamic Meetup](https://www.meetup.com/JAMstack-nyc/events/236530076/):_
+
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/_kJMjJ1tm6o" allowfullscreen frameborder="0"></iframe>
+
 # Decisions, decisions
 
 With those preliminary definitions out of the way, we can focus on the question at hand: how do you provide an offline-first experience for your templated site?
