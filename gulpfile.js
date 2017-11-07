@@ -10,6 +10,7 @@ const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
 const swPrecache = require('sw-precache');
+const uglify = require('gulp-uglify-es').default;
 
 const BUILD_DIR = 'build';
 
@@ -68,19 +69,12 @@ gulp.task('bundle', () => {
     .on('error', console.error)
     .pipe(source('jekyll-behavior-import.js'))
     .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('bundle:watch', ['bundle'], () => {
   return gulp.watch('src/**/*.js', ['bundle']);
-});
-
-gulp.task('minify:js', callback => {
-  spawn('node_modules/.bin/babili', [
-    `${BUILD_DIR}/jekyll-behavior-import.js`,
-    '-d', '.',
-    '--no-comments'
-  ]).on('exit', callback);
 });
 
 gulp.task('service-worker', () => {
@@ -114,7 +108,7 @@ gulp.task('build', callback => {
     'clean',
     'jekyll:build',
     ['site-metadata', 'copy-raw-files', 'bundle'],
-    ['minify:html', 'minify:js'],
+    'minify:html',
     'service-worker',
     callback
   );
