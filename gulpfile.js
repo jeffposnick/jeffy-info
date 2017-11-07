@@ -6,6 +6,7 @@ const fs = require('fs');
 const glob = require('glob');
 const gulp = require('gulp');
 const htmlMinifier = require('html-minifier').minify;
+const rev = require('gulp-rev');
 const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const spawn = require('child_process').spawn;
@@ -70,6 +71,7 @@ gulp.task('bundle', () => {
     .pipe(source('jekyll-behavior-import.js'))
     .pipe(buffer())
     .pipe(uglify())
+    .pipe(rev())
     .pipe(gulp.dest(BUILD_DIR));
 });
 
@@ -78,6 +80,12 @@ gulp.task('bundle:watch', ['bundle'], () => {
 });
 
 gulp.task('service-worker', () => {
+  const jekyllBehaviorScript = glob.sync('jekyll-behavior-import-*.js',
+    {cwd: BUILD_DIR})[0];
+  if (!jekyllBehaviorScript) {
+    throw Error('Unable to find revisioned jekyll-behavior-import.');
+  }
+
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
     stripPrefix: `${BUILD_DIR}/`,
     staticFileGlobs: [
@@ -89,7 +97,7 @@ gulp.task('service-worker', () => {
       '_includes/**/*.html',
       '_posts/**/*.markdown'
     ].map(glob => `${BUILD_DIR}/${glob}`),
-    importScripts: ['jekyll-behavior-import.js'],
+    importScripts: [jekyllBehaviorScript],
     runtimeCaching: [{
       urlPattern: /\/assets\/images\//,
       handler: 'cacheFirst',
