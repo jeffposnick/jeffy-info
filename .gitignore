@@ -2,7 +2,6 @@
 .sass-cache/
 /bundled/
 _site/
-Gemfile.lock
 node_modules/
 build/
 firebase-debug.log
