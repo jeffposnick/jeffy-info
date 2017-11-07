@@ -80,10 +80,11 @@ gulp.task('bundle:watch', ['bundle'], () => {
 });
 
 gulp.task('service-worker', () => {
-  const jekyllBehaviorScript = glob.sync('jekyll-behavior-import-*.js',
-    {cwd: BUILD_DIR})[0];
-  if (!jekyllBehaviorScript) {
-    throw Error('Unable to find revisioned jekyll-behavior-import.');
+  const jekyllBehaviorScripts = glob.sync('jekyll-behavior-import-*.js',
+    {cwd: BUILD_DIR});
+  if (jekyllBehaviorScripts.length !== 1) {
+    throw Error('Unexepected glob result for jekyll-behavior-import: ' +
+      JSON.stringify(jekyllBehaviorScripts));
   }
 
   return swPrecache.write(`${BUILD_DIR}/service-worker.js`, {
@@ -97,7 +98,7 @@ gulp.task('service-worker', () => {
       '_includes/**/*.html',
       '_posts/**/*.markdown'
     ].map(glob => `${BUILD_DIR}/${glob}`),
-    importScripts: [jekyllBehaviorScript],
+    importScripts: [jekyllBehaviorScripts[0]],
     runtimeCaching: [{
       urlPattern: /\/assets\/images\//,
       handler: 'cacheFirst',
