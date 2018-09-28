@@ -1,9 +1,17 @@
 ---
-layout: post
+layout: post.liquid
 title: "Offline-first for Your Templated Site (Part Two)"
 date: 2017-01-24 22:00:00
 excerpt: "Full-page caching vs. App Shell vs. service worker rendering."
-tags: pwa offline service-worker jekyll app-shell caching
+tags:
+  - app-shell
+  - caching
+  - jekyll
+  - offline
+  - post
+  - pwa
+  - service-worker
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 _This is the second part of a planned three-part series._

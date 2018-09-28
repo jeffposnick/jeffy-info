@@ -1,9 +1,12 @@
 ---
-layout: post
+layout: post.liquid
 title: "thirty-four on the Web (Again)"
 date: 2014-11-28 10:34:34
 excerpt: "But first, some administrivia."
-tags: meta
+tags:
+  - meta
+  - post
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # About Me

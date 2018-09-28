@@ -1,9 +1,15 @@
 ---
-layout: post
+layout: post.liquid
 title: "Hosting Setup, Revisited"
 date: 2017-02-24 22:00:00
 excerpt: "Goodbye gh-pages + Cloudflare, hello Firebase Hosting."
-tags: hosting firebase cloudflare github
+tags:
+  - cloudflare
+  - firebase
+  - github
+  - hosting
+  - post
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # Background

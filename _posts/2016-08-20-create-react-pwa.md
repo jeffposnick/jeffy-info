@@ -1,9 +1,15 @@
 ---
-layout: post
+layout: post.liquid
 title: "create-react-pwa"
 date: 2016-08-20 12:00:00
 excerpt: "What's it take to turn a create-react-app project into a Progressive Web App?"
-tags: pwa sw service-worker react
+tags:
+  - post
+  - pwa
+  - react
+  - service-worker
+  - sw
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # tl;dr

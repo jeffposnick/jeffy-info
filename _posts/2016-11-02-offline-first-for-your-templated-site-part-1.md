@@ -1,9 +1,15 @@
 ---
-layout: post
+layout: post.liquid
 title: "Offline-first for Your Templated Site (Part One)"
 date: 2016-11-02 17:00:00
 excerpt: "Terminology and an exploring the architecture."
-tags: pwa offline service-worker jekyll
+tags:
+  - jekyll
+  - offline
+  - post
+  - pwa
+  - service-worker
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 _This is the first part of a planned three-part series._

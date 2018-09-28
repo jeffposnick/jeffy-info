@@ -1,9 +1,15 @@
 ---
-layout: post
+layout: post.liquid
 title: "CDS Perf Review Clinic Takeaways"
 date: 2017-11-10 12:00:00
 excerpt: "A linkdump by any other name...."
-tags: web performance workbox cds
+tags:
+  - cds
+  - performance
+  - post
+  - web
+  - workbox
+permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # CDS '17 Retrospective
