@@ -1,5 +1,5 @@
 ---
-layout: post.liquid
+layout: post.njk
 title: "Offline-first for Your Templated Site (Part One)"
 date: 2016-11-02 17:00:00
 excerpt: "Terminology and an exploring the architecture."

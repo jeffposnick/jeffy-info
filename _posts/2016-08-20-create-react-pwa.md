@@ -1,5 +1,5 @@
 ---
-layout: post.liquid
+layout: post.njk
 title: "create-react-pwa"
 date: 2016-08-20 12:00:00
 excerpt: "What's it take to turn a create-react-app project into a Progressive Web App?"

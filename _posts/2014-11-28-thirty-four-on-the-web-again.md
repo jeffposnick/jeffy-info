@@ -1,5 +1,5 @@
 ---
-layout: post.liquid
+layout: post.njk
 title: "thirty-four on the Web (Again)"
 date: 2014-11-28 10:34:34
 excerpt: "But first, some administrivia."

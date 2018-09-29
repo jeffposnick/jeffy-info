@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en" itemscope itemtype="http://schema.org/Blog">
-  {% include head.liquid %}
+  {% include 'head.njk' %}
   <body>
-    {% include header.liquid %}
+    {% include 'header.njk' %}
     <div class="page-content">
       <div class="wrapper">
-        {{ content }}
+        {{ content| safe }}
       </div>
     </div>
-    {% include footer.liquid %}
-    {% include service_worker.liquid %}
+    {% include 'footer.njk' %}
+    {% include 'service_worker.njk' %}
   </body>
 </html>

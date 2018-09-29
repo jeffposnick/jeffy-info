@@ -1,5 +1,5 @@
 ---
-layout: post.liquid
+layout: post.njk
 title: "CDS Perf Review Clinic Takeaways"
 date: 2017-11-10 12:00:00
 excerpt: "A linkdump by any other name...."
