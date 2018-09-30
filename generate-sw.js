@@ -28,8 +28,10 @@ async function generateJson() {
 async function generateSW() {
   const {warnings} = await workboxBuild.injectManifest({
     globDirectory: BUILD_DIR,
-    globPatterns: ['**/*.{json,njk}'],
-    injectionPointRegexp: /(\.precache\()\[](\))/,
+    globPatterns: [
+      '**/*.{json,njk}',
+      'index.html',
+    ],
     swDest: path.join(BUILD_DIR, 'sw.js'),
     swSrc: path.join('src', 'sw.js'),
   });
