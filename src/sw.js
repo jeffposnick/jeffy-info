@@ -8,7 +8,7 @@ const CacheStorageLoader = nunjucks.Loader.extend({
 
   getSource: async function(name, callback) {
     try {
-      const path = `_includes/${name}`;
+      const path = `/_posts/_includes/${name}`;
       const cachedResponse = await caches.match(path, {
         cacheName: workbox.core.cacheNames.precache,
       });
@@ -27,7 +27,7 @@ const nunjucksEnv = new nunjucks.Environment(
 let _site;
 async function initSiteData() {
   if (!_site) {
-    const siteDataResponse = await caches.match('_data/site.json', {
+    const siteDataResponse = await caches.match('/_posts/_data/site.json', {
       cacheName: workbox.core.cacheNames.precache,
     });
     _site = await siteDataResponse.json();
@@ -39,7 +39,7 @@ async function initSiteData() {
 const postHandler = async ({params}) => {
   const site = await initSiteData();
 
-  const cachedResponse = await caches.match(`/${params.join('-')}.json`, {
+  const cachedResponse = await caches.match(`/_posts/${params.join('-')}.json`, {
     cacheName: workbox.core.cacheNames.precache,
   });
   const json = await cachedResponse.json();
