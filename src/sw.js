@@ -1,5 +1,5 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
-importScripts('https://mozilla.github.io/nunjucks/files/nunjucks.min.js');
+importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.1.3/browser/nunjucks.min.js');
 
 workbox.precaching.precacheAndRoute([]);
 
@@ -23,8 +23,6 @@ const CacheStorageLoader = nunjucks.Loader.extend({
 const nunjucksEnv = new nunjucks.Environment(
   new CacheStorageLoader()
 );
-
-const postRegExp = new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html');
 
 let _site;
 async function initSiteData() {
@@ -71,7 +69,10 @@ const postHandler = async ({params}) => {
   return new Response(html, {headers});
 };
 
-workbox.routing.registerRoute(postRegExp, postHandler);
+workbox.routing.registerRoute(
+  new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
+  postHandler
+);
 
 workbox.routing.registerRoute(
   new RegExp('/assets/images/'),
