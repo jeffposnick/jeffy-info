@@ -4,7 +4,7 @@ layout: default.njk
 
 <div class="home">
   <ul class="post-list">
-    {% for post in collections.post %}
+    {% for post in collections.post | reverse %}
       <li>
         <span class="post-meta">{{ post.date }}</span>
         <h2>
