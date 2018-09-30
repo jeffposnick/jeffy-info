@@ -1,5 +1,5 @@
 ---
-layout: post.njk
+layout: default.njk
 title: "Offline-first for Your Templated Site (Part Two)"
 date: 2017-01-24 22:00:00
 excerpt: "Full-page caching vs. App Shell vs. service worker rendering."

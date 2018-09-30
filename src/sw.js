@@ -42,17 +42,14 @@ const postHandler = async ({params}) => {
   const cachedResponse = await caches.match(`/_posts/${params.join('-')}.json`, {
     cacheName: workbox.core.cacheNames.precache,
   });
-  const json = await cachedResponse.json();
 
-  const context = {
-    site,
-    page: json,
-    content: json.html,
-  };
+  const context = await cachedResponse.json();
+  context.site = site;
+  context.content = context.html;
 
   const html = await new Promise((resolve, reject) => {
     nunjucksEnv.render(
-      json.layout,
+      context.layout,
       context,
       (error, html) => {
         if (error) {

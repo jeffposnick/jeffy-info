@@ -8,7 +8,7 @@
   <meta property="og:url" content="{{ page.url }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/feed.xml">
 
-  <title>{{ page.title if page.title else site.title}}</title>
+  <title>{{ title if title else site.title}}</title>
 
   <meta name="theme-color" content="#00bcd4">
   {% include 'styles.njk' %}

@@ -5,6 +5,12 @@
     {% include 'header.njk' %}
     <div class="page-content">
       <div class="wrapper">
+        {% if title %}
+        <h1 class="post-header"><a href="">{{ title }}</a></h1>
+        {% endif %}
+        {% if date %}
+          <p class="post-meta">{{ date | string }}</p>
+        {% endif %}
         {{ content | safe }}
       </div>
     </div>

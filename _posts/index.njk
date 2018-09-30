@@ -6,7 +6,7 @@ layout: default.njk
   <ul class="post-list">
     {% for post in collections.post | reverse %}
       <li>
-        <span class="post-meta">{{ post.date }}</span>
+        <span class="post-meta">{{ post.date | string }}</span>
         <h2>
           <a class="post-link" href="{{ post.url }}">{{ post.data.title }}</a>
         </h2>
