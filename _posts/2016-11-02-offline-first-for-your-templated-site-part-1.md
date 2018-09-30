@@ -29,7 +29,7 @@ ahead of time._
 Let's see if I can get away with just embedding a tweet:
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">…&quot;Offline first&quot; is a serving strategy. Get as far as you can with local data before going to the network.<br><br>(serve-)offline-(content-)first.</p>&mdash; Jake Archibald (@jaffathecake) <a href="https://twitter.com/jaffathecake/status/788289680735436800">October 18, 2016</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 That's offline-first.
 

@@ -8,7 +8,9 @@ const workboxBuild = require('workbox-build');
 const POST_DIR = '_posts';
 const BUILD_DIR = 'build';
 
-const markdown = new MarkdownIt();
+const markdown = new MarkdownIt({
+  html: true,
+});
 
 async function generateJson() {
   const files = glob.sync(`${POST_DIR}/*.md`);
