@@ -1,7 +1,5 @@
-.DS_Store
-.sass-cache/
-/bundled/
 _site/
-node_modules/
+.firebase
 build/
 firebase-debug.log
+node_modules/

@@ -30,7 +30,7 @@ async function generateJson() {
 }
 
 async function generateSW() {
-  const swDest = path.join(BUILD_DIR, 'sw.js');
+  const swDest = path.join(BUILD_DIR, 'service-worker.js');
   const {count, size, warnings} = await workboxBuild.injectManifest({
     globDirectory: BUILD_DIR,
     globPatterns: [
@@ -38,7 +38,7 @@ async function generateSW() {
       'index.html',
     ],
     swDest,
-    swSrc: path.join('src', 'sw.js'),
+    swSrc: path.join('src', 'service-worker.js'),
   });
 
   for (const warning of warnings) {
