@@ -7,6 +7,12 @@
         "key" : "Cache-Control",
         "value" : "no-cache"
       }]
+    }, {
+      "source" : "**/*.@(svg|png)",
+      "headers" : [{
+        "key" : "Cache-Control",
+        "value" : "max-age=2592000"
+      }]
     }]
   }
 }
