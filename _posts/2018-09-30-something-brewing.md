@@ -68,8 +68,6 @@ All of the site metadata, templates and content (a whole 8 blog posts!) are prec
 
 I've got a cache-first strategy set up for the few images that I use on this blog.
 
-I've also got [Workbox's offline Google Analytics](https://developers.google.com/web/tools/workbox/guides/enable-offline-analytics) support set up, just because.
-
 # The future
 
 I'd love to get some of the logic that I've put into the custom build scripts into the core of the 11ty project, if that makes sense, or at least packaged up into a standalone set of helpers.

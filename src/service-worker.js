@@ -83,6 +83,4 @@ workbox.routing.registerRoute(
   })
 );
 
-workbox.googleAnalytics.initialize();
-
 workbox.skipWaiting();
