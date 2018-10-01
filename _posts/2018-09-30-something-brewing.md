@@ -1,7 +1,7 @@
 ---
 layout: default.njk
 title: "Something Brewing"
-date: 2018-09-30 18:00:00
+date: 2018-09-30 22:00:00
 excerpt: "Apparently, the whole point of this blog is to blog about blogging architecture."
 tags:
   - 11ty
@@ -67,6 +67,8 @@ workbox.routing.registerRoute(
 All of the site metadata, templates and content (a whole 8 blog posts!) are precached, which adds up to only ~77kb for my blog. If I were working on a larger site, I'd consider only precaching the site metadata and templates, and using a runtime caching strategy for the posts' JSON.
 
 I've got a cache-first strategy set up for the few images that I use on this blog.
+
+After the service worker's installed, subsequent navigations should be fulfilled entirely from the cache, making the site work fully offline and, more importantly, load reliably fast. (The fact that it's all just some ugly static HTML and CSS helps with the speed, too.)
 
 # The future
 
