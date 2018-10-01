@@ -45,13 +45,13 @@ const postHandler = async ({params}) => {
   context.site = site;
   context.content = context.html;
   const html = await new Promise((resolve, reject) => {
-    nunjucksEnv.render(context.layout,context, (error, html) => {
+    nunjucksEnv.render(context.layout, context, (error, html) => {
       if (error) {
         return reject(error);
       }
       return resolve(html);
     });
-  }); 
+  });
   const headers = {'content-type': 'text/html'};
   return new Response(html, {headers});
 };
