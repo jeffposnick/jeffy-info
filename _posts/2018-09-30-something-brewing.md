@@ -33,7 +33,7 @@ The service worker itself, not surprisingly, uses [Workbox](https://developers.g
 
 Nunjucks rendering worked very well—there's an official build of Nunjucks which runs in the [browser](https://mozilla.github.io/nunjucks/api.html#browser-usage) (including in a service worker), and that really made it much easier to set this up. I've struggled in the past to implement service worker templating using [libraries](https://github.com/sirlantis/liquid-node) that weren't really meant to run in the browser, or did not have [pluggable loaders](https://mozilla.github.io/nunjucks/api.html#writing-a-loader) (to pull in templates using the Cache Storage API). Wrapping callback-style asynchronicity with promises meant that everything played nicely. I would love to see if, in the future, Nunjucks could be replaced by something a bit more lightweight—perhaps [native JavaScript template literals](https://twitter.com/jeffposnick/status/1046093468341276673).
 
-Check out the [latest deployed version](/sw.js) of this site's service worker if you want to learn more—I'm expecting to clean it up quite a bit as I find some more time. One pretty neat bit worth excerpting is:
+Check out the [latest deployed version](/service-worker.js) of this site's service worker if you want to learn more—I'm expecting to clean it up quite a bit as I find some more time. One pretty neat bit worth excerpting is:
 
 ```js
 const postHandler = async ({params}) => {
