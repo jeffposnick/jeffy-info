@@ -1,9 +1,7 @@
 const path = require('path');
 
-const BUILD_DIR = 'build';
-
 module.exports = {
-  globDirectory: 'build',
+  globDirectory: BUILD_DIR,
   globPatterns: [
     '**/*.{json,njk}',
     'index.html',
