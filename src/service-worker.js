@@ -39,7 +39,8 @@ async function initSiteData() {
 const postHandler = async ({params}) => {
   const site = await initSiteData();
 
-  const cachedResponse = await caches.match(`/_posts/${params.join('-')}.json`, {
+  // params[3] corresponds to post.fileSlug in 11ty.
+  const cachedResponse = await caches.match(`/_posts/${params[3]}.json`, {
     cacheName: workbox.core.cacheNames.precache,
   });
 
