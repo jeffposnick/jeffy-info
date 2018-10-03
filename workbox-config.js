@@ -1,5 +1,7 @@
 const path = require('path');
 
+const BUILD_DIR = 'build';
+
 module.exports = {
   globDirectory: BUILD_DIR,
   globPatterns: [
