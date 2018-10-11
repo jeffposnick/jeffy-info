@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-alpha.0/workbox-sw.js');
 importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.1.3/browser/nunjucks.min.js');
 
 workbox.precaching.precacheAndRoute([]);
@@ -83,5 +83,8 @@ workbox.routing.registerRoute(
     ],
   })
 );
+
+// If anything goes wrong when handling a route, return the network response.
+workbox.routing.setCatchHandler(workbox.strategies.networkOnly());
 
 workbox.skipWaiting();
