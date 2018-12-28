@@ -1,13 +1,14 @@
 const path = require('path');
 
 const BUILD_DIR = 'build';
+const SRC_DIR = 'src';
 
 module.exports = {
   globDirectory: BUILD_DIR,
   globPatterns: [
-    '**/*.{json,njk}',
-    'index.html',
+    'assets/**/*.{css,json}',
+    '_sw/**/*.json',
   ],
   swDest: path.join(BUILD_DIR, 'service-worker.js'),
-  swSrc: path.join('src', 'service-worker.js'),
+  swSrc: path.join(SRC_DIR, 'service-worker.js'),
 };

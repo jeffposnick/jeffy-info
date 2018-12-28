@@ -1,5 +1,4 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.0/workbox-sw.js');
-importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.1.3/browser/nunjucks.min.js');
 
 workbox.precaching.precacheAndRoute([]);
 

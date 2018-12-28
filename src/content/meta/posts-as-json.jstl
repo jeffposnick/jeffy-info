@@ -1,0 +1,15 @@
+---
+pagination:
+  data: collections.post
+  size: 1
+  alias: post
+permalink: /_sw/posts/${post.date.getFullYear().toString()}/${post.date.getMonth().toString().padStart(2, 0)}/${post.date.getDate().toString().padStart(2, 0)}/${post.fileSlug}.json
+---
+${JSON.stringify({
+  date: post.date,
+  excerpt: post.data.excerpt,
+  html: post.templateContent,
+  layout: post.data.layout,
+  tags: post.data.tags,
+  title: post.data.title,
+}, null, 2)}

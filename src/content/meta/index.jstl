@@ -1,0 +1,12 @@
+---
+layout: base.jstl
+title: ''
+permalink: /index.html
+---
+<div class="home">
+  <ul class="post-list">
+    ${collections.post.reverse().map((post) => {
+      return '<li><span class="post-meta">' + post.date.toDateString() + '</span><h2><a class="post-link" href=' + JSON.stringify(post.url) + '>' + post.data.title + '</a></h2>' + post.data.excerpt + '</li>';
+    }).join('\n')}
+  </ul>
+</div>

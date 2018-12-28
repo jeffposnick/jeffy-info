@@ -1,0 +1,10 @@
+---
+layout: base.jstl
+---
+<div class="page-content">
+  <div class="wrapper">
+    <h1 class="post-header"><a href="">${title}</a></h1>
+    <p class="post-meta">${date.toDateString()}</p>
+    ${content}
+  </div>
+</div>

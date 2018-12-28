@@ -1,0 +1,13 @@
+---
+permalink: /_sw/_data/collections.json
+---
+${JSON.stringify(collections.post.map((post) => {
+  return {
+    date: post.date,
+    url: post.url,
+    data: {
+      title: post.data.title,
+      excerpt: post.data.excerpt,
+    },
+  };
+}), null, 2)}
