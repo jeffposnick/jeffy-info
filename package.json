@@ -5,12 +5,12 @@
     "node": ">= 8.0.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.5.4",
-    "@11ty/eleventy-plugin-rss": "^1.0.3",
-    "firebase-tools": "^4.2.1",
+    "@11ty/eleventy": "^0.6.0",
+    "@11ty/eleventy-plugin-rss": "^1.0.5",
+    "firebase-tools": "^6.2.2",
     "fsbin": "^1.0.7",
     "pretty-bytes": "^5.1.0",
-    "workbox-cli": "^4.0.0-alpha.0"
+    "workbox-cli": "^4.0.0-beta.0"
   },
   "scripts": {
     "build": "npm run clean && eleventy && npm run copy-static && workbox injectManifest",

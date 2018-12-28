@@ -1,14 +1,16 @@
 {
-  "title": "thirty-four",
-  "email": "blog@posnick.org",
-  "description": "thirty-four is crafted with love in Brooklyn, by Jeff Posnick.",
-  "baseurl": "",
-  "url": "https://jeffy.info",
-  "github": {
-     "username": "jeffposnick"
-  },
-  "twitter": {
-     "username": "jeffposnick"
-  },
-  "logo": "/assets/images/34.png"
+  "site": {
+    "title": "thirty-four",
+    "email": "blog@posnick.org",
+    "description": "thirty-four is crafted with love in Brooklyn, by Jeff Posnick.",
+    "baseurl": "",
+    "url": "https://jeffy.info",
+    "github": {
+      "username": "jeffposnick"
+    },
+    "twitter": {
+      "username": "jeffposnick"
+    },
+    "logo": "/assets/images/34.png"
+  }
 }
