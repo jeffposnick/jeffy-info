@@ -1,75 +1,72 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0-beta.0/workbox-sw.js');
 
 workbox.precaching.precacheAndRoute([]);
+workbox.skipWaiting();
+
+// Adapted from https://github.com/11ty/eleventy/blob/512842d025af195fdd4631675dad465919220a34/src/Engines/JavaScriptTemplateLiteral.js#L31-L55
+async function evaluate({context, templateString}) {
+  let dataStr = "";
+  for (const [key, value] of Object.entries(context)) {
+    dataStr += `let ${key} = ${JSON.stringify(value)};\n`;
+  }
+
+  return eval(`${dataStr}\n${templateString};`);
+}
 
 const _data = {};
 async function loadData(symbol) {
   if (!(symbol in _data)) {
-    const response = await caches.match(`/_posts/_data/${symbol}.json`, {
+    const jsonUrl = `_sw/_data/${symbol}.json`;
+    const response = await caches.match(jsonUrl, {
       cacheName: workbox.core.cacheNames.precache,
     });
-    _data[symbol] = await response.json();
+
+    if (response) {
+      _data[symbol] = await response.json();
+    } else {
+      throw new Error(`Unable to load JSON data from cache: ${jsonUrl}`);
+    }
   }
 
   return _data[symbol];
 }
 
-const CacheStorageLoader = nunjucks.Loader.extend({
-  async: true,
-
-  getSource: async function(name, callback) {
-    try {
-      const path = `/_posts/_includes/${name}`;
-      const cachedResponse = await caches.match(path, {
-        cacheName: workbox.core.cacheNames.precache,
-      });
-      const src = await cachedResponse.text();
-      callback(null, {src, path, noCache: false});
-    } catch(error) {
-      callback(error);
-    }
-  }
-});
-
-const nunjucksEnv = new nunjucks.Environment(
-  new CacheStorageLoader()
-);
+async function renderLayout({context, layout}) {
+  
+}
 
 async function postHandler({params}) {
+  // Load the site-wide configuration.
   const site = await loadData('site');
 
-  // params[3] corresponds to post.fileSlug in 11ty.
-  const cachedResponse = await caches.match(`/_posts/${params[3]}.json`, {
+  // Load the post-specific configuration.
+  const cachedResponse = await caches.match(`_sw/posts/${params[0]}.json`, {
     cacheName: workbox.core.cacheNames.precache,
   });
+  const post = await cachedResponse.json();
 
-  const context = await cachedResponse.json();
-  context.site = site;
-  context.content = context.html;
+  const context = {
+    site,
+    content: post.html,
+  };
 
-  const html = await new Promise((resolve, reject) => {
-    nunjucksEnv.render(
-      context.layout,
-      context,
-      (error, html) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(html);
-      }
-    );
-  }); 
+  const html = await renderLayout({
+    context,
+    layout: post.layout,
+  });
 
   const headers = {
     'content-type': 'text/html',
   };
 
-  return new Response(html, {headers});
+  return new Response(html, {
+    headers,
+  });
 };
 
 // Register a route for posts.
 workbox.routing.registerRoute(
-  new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
+  new RegExp('/(\\d{4}/\\d{2}/\\d{2}/.+)\\.html'),
   postHandler
 );
 
@@ -87,5 +84,3 @@ workbox.routing.registerRoute(
 
 // If anything goes wrong when handling a route, return the network response.
 workbox.routing.setCatchHandler(workbox.strategies.networkOnly());
-
-workbox.skipWaiting();
