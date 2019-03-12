@@ -2,6 +2,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.1.0/workbox
 importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js');
 
 workbox.precaching.precacheAndRoute([]);
+workbox.precaching.cleanupOutdatedCaches();
 
 const CacheStorageLoader = nunjucks.Loader.extend({
   async: true,
