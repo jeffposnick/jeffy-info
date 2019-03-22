@@ -81,7 +81,7 @@ const urlVariations = [
   generateVariation1,
   generateVariation2,
   // etc.
-].map(originalUrl);
+].map((generateVariation) => generateVariation(originalUrl));
 
 for (const urlVariation of urlVariations) {
   if (urlToMatch === urlVariation) {
