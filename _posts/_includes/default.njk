@@ -9,7 +9,7 @@
         <h1 class="post-header"><a href="">{{ title }}</a></h1>
         {% endif %}
         {% if date %}
-          <p class="post-meta">{{ date.toLocaleDateString() }}</p>
+          <p class="post-meta">{{ date | string }}</p>
         {% endif %}
         {{ content | safe }}
       </div>
