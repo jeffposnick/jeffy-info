@@ -5,11 +5,21 @@
   <link rel="manifest" href="/assets/manifest.json">
   <link rel="icon" sizes="192x192" href="{{ site.logo }}">
 
-  <meta property="og:url" content="{{ page.url }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/feed.xml">
 
-  <title>{{ title if title else site.title}}</title>
+  <title>{{ title if title else site.title }}</title>
 
   <meta name="theme-color" content="#00bcd4">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ (title if title else site.title) | escape}}">
+  <meta name="twitter:image" content="{{ site.logo }}">
+  {% if site.twitter.username %}
+  <meta name="twitter:site" content="@{{ site.twitter.username }}">
+  {% endif %}
+  {% if excerpt %}
+  <meta name="twitter:description" content="{{ excerpt | escape }}">
+  {% endif %}
+
   {% include 'styles.njk' %}
 </head>

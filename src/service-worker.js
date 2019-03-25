@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.1.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.1.1/workbox-sw.js');
 importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js');
 
 workbox.precaching.precacheAndRoute([]);
@@ -91,7 +91,14 @@ workbox.routing.registerRoute(
   })
 );
 
+workbox.routing.registerRoute(
+  new RegExp('https://storage\\.googleapis\\.com/workbox-cdn/releases/.+/workbox-window\\.prod\\.mjs'),
+  new workbox.strategies.CacheFirst()
+);
+
 // If anything goes wrong when handling a route, return the network response.
 workbox.routing.setCatchHandler(new workbox.strategies.NetworkOnly());
+
+workbox.googleAnalytics.initialize();
 
 workbox.core.skipWaiting();

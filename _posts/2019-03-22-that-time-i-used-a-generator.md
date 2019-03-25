@@ -20,7 +20,7 @@ look back on, so I won't link to many here, but one of the first I put together
 covered
 [generators](https://developers.google.com/web/updates/2014/10/Generators-the-Gnarly-Bits).
 I didn't have a huge amount to say about generators, so the general approach
-used in thethe article was to link to some more
+used in the article was to link to some more
 [canonical resources](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*),
 while calling out a couple of interesting "gotchas" that I thought could add
 some value.
@@ -67,7 +67,7 @@ return false;
 
 I'm not a huge fan of a repeated sequence of `if(...) { return ... }` statements
 aesthetically, and structuring code like that can make it harder to understand
-the each test case is effectively doing the same thing.
+that each test case is effectively doing the same thing.
 
 ## Refactoring without generators
 

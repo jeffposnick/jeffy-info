@@ -1,7 +1,13 @@
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/service-worker.js');
-    });
-  }
+<script type="module">
+import {Workbox} from 'https://storage.googleapis.com/workbox-cdn/releases/4.1.1/workbox-window.prod.mjs';
+
+if ('serviceWorker' in navigator) {
+  const wb = new Workbox('/service-worker.js');
+
+  wb.addEventListener('controlling', () => {
+    window.location.reload();
+  });
+
+  wb.register();
+}
 </script>

@@ -5,11 +5,13 @@ layout: default.njk
   <ul class="post-list">
     {% for post in collections.post | reverse %}
       <li>
-        <span class="post-meta">{{ post.date | string }}</span>
         <h2>
           <a class="post-link" href="{{ post.url }}">{{ post.data.title }}</a>
         </h2>
-        {{ post.data.excerpt if post.data.excerpt }}
+        <span class="post-meta">{{ post.date.toLocaleDateString() }}</span>
+        {% if post.data.excerpt %}
+          <p>{{ post.data.excerpt }}</p>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
