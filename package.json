@@ -10,7 +10,7 @@
     "firebase-tools": "^6.5.0",
     "fsbin": "^1.0.7",
     "pretty-bytes": "^5.1.0",
-    "workbox-cli": "^4.1.0"
+    "workbox-cli": "^5.0.0-alpha.0"
   },
   "scripts": {
     "build": "npm run clean && eleventy && npm run copy-static && workbox injectManifest",
