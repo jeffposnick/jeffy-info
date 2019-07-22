@@ -40,11 +40,11 @@ The workaround, as with so many things related to CORS, involves fiddling with H
 
 Setting [`Access-Control-Expose-Headers: Date`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers) will permit the `Date` response header to be visible to your web app's code, and you could include any additional headers there in a comma-separated list.
 
-If you're using your own Express-based web server, the [`corser` middleware](https://www.npmjs.com/package/corser) looks pretty reasonable for setting up a working configu ration. Their docs include a [recipe](https://www.npmjs.com/package/corser#getting-a-response-header-returns-refused-to-get-unsafe-header-x) for configuring the exposed response headers.
+If you're using your own Express-based web server, the [`corser` middleware](https://www.npmjs.com/package/corser) looks pretty reasonable for setting up a working configuration. Their docs include a [recipe](https://www.npmjs.com/package/corser#getting-a-response-header-returns-refused-to-get-unsafe-header-x) for configuring the exposed response headers.
 
 ## Live demo
 
-Here's a quick demonstration, separate from service workers, and using the fantastic [https://httpbin.org](https://httpbin.org) service to control the `Access-Control-Expose-Headers` response header that's returned in a simulated API response. (They support CORS by default, so nothing need to be done to enable that.)
+Here's a quick demonstration, separate from service workers, and using the fantastic [https://httpbin.org](https://httpbin.org) service to control the `Access-Control-Expose-Headers` response header that's returned in a simulated API response. (They support CORS by default, so nothing needs to be done to enable that.)
 
 Check out the log messages in the JavaScript console to see which headers are visible in the response.
 
