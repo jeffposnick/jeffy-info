@@ -9,5 +9,5 @@ module.exports = {
     'index.html',
   ],
   swDest: path.join(BUILD_DIR, 'service-worker.js'),
-  swSrc: path.join('src', 'service-worker.js'),
+  swSrc: path.join(BUILD_DIR, 'service-worker.js'),
 };
