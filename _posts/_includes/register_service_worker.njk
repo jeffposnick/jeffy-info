@@ -1,13 +1,13 @@
-<script type="module">
-import {Workbox} from 'https://storage.googleapis.com/workbox-cdn/releases/4.1.1/workbox-window.prod.mjs';
+<script>
+  if ('serviceWorker' in navigator) {
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.addEventListener('controllerchange', function() {
+        window.location.reload();
+      });
+    }
 
-if ('serviceWorker' in navigator) {
-  const wb = new Workbox('/service-worker.js');
-
-  wb.addEventListener('controlling', () => {
-    window.location.reload();
-  });
-
-  wb.register();
-}
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
 </script>
