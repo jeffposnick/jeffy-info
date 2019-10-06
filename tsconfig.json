@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "lib": ["es2017", "webworker"],
+    "strict": true,
+    "target": "esnext"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+}
