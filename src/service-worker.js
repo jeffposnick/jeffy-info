@@ -1,8 +1,14 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0-alpha.1/workbox-sw.js');
-importScripts('https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js');
+import {CacheFirst, NetworkOnly} from 'workbox-strategies';
+import {cacheNames} from 'workbox-core';
+import {cleanupOutdatedCaches, getCacheKeyForURL, precacheAndRoute} from 'workbox-precaching';
+import {ExpirationPlugin} from 'workbox-expiration';
+import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
+import {registerRoute, setCatchHandler} from 'workbox-routing';
+import {skipWaiting} from 'workbox-core';
+import nunjucks from 'nunjucks/browser/nunjucks';
 
-workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
-workbox.precaching.cleanupOutdatedCaches();
+precacheAndRoute(self.__WB_MANIFEST);
+cleanupOutdatedCaches();
 
 const CacheStorageLoader = nunjucks.Loader.extend({
   async: true,
@@ -11,8 +17,8 @@ const CacheStorageLoader = nunjucks.Loader.extend({
     try {
       const path = `/_posts/_includes/${name}`;
       const cachedResponse = await caches.match(
-        workbox.precaching.getCacheKeyForURL(path), {
-          cacheName: workbox.core.cacheNames.precache,
+        getCacheKeyForURL(path), {
+          cacheName: cacheNames.precache,
         }
       );
       const src = await cachedResponse.text();
@@ -31,8 +37,8 @@ let _site;
 async function initSiteData() {
   if (!_site) {
     const siteDataResponse = await caches.match(
-      workbox.precaching.getCacheKeyForURL('/_posts/_data/site.json'), {
-        cacheName: workbox.core.cacheNames.precache,
+      getCacheKeyForURL('/_posts/_data/site.json'), {
+        cacheName: cacheNames.precache,
       }
     );
     _site = await siteDataResponse.json();
@@ -46,8 +52,8 @@ const postHandler = async ({params}) => {
 
   // params[3] corresponds to post.fileSlug in 11ty.
   const cachedResponse = await caches.match(
-    workbox.precaching.getCacheKeyForURL(`/_posts/${params[3]}.json`), {
-      cacheName: workbox.core.cacheNames.precache,
+    getCacheKeyForURL(`/_posts/${params[3]}.json`), {
+      cacheName: cacheNames.precache,
     }
   );
 
@@ -74,31 +80,26 @@ const postHandler = async ({params}) => {
   return new Response(html, {headers});
 };
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
   postHandler
 );
 
-workbox.routing.registerRoute(
+registerRoute(
   new RegExp('/assets/images/'),
-  new workbox.strategies.CacheFirst({
+  new CacheFirst({
     cacheName: 'images',
     plugins: [
-      new workbox.expiration.Plugin({
+      new ExpirationPlugin({
         maxEntries: 20,
       }),
     ],
   })
 );
 
-workbox.routing.registerRoute(
-  new RegExp('https://storage\\.googleapis\\.com/workbox-cdn/releases/.+/workbox-window\\.prod\\.mjs'),
-  new workbox.strategies.CacheFirst()
-);
-
 // If anything goes wrong when handling a route, return the network response.
-workbox.routing.setCatchHandler(new workbox.strategies.NetworkOnly());
+setCatchHandler(new NetworkOnly());
 
-workbox.googleAnalytics.initialize();
+initializeOfflineAnalytics();
 
-workbox.core.skipWaiting();
+skipWaiting();

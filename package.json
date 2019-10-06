@@ -5,18 +5,34 @@
     "node": ">= 8.0.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.7.1",
-    "@11ty/eleventy-plugin-rss": "^1.0.6",
-    "firebase-tools": "^6.5.0",
-    "fsbin": "^1.0.7",
-    "pretty-bytes": "^5.1.0",
-    "workbox-cli": "^5.0.0-alpha.1"
+    "@11ty/eleventy": "^0.9.0",
+    "@11ty/eleventy-plugin-rss": "^1.0.7",
+    "@surma/rollup-plugin-off-main-thread": "^1.1.1",
+    "firebase-tools": "^7.4.0",
+    "fsbin": "^1.0.9",
+    "npm-run-all": "^4.1.5",
+    "nunjucks": "^3.2.0",
+    "rollup": "^1.23.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "workbox-cli": "^5.0.0-beta.1",
+    "workbox-core": "^5.0.0-beta.1",
+    "workbox-expiration": "^5.0.0-beta.1",
+    "workbox-google-analytics": "^5.0.0-beta.1",
+    "workbox-precaching": "^5.0.0-beta.1",
+    "workbox-routing": "^5.0.0-beta.1",
+    "workbox-strategies": "^5.0.0-beta.1"
   },
   "scripts": {
-    "build": "npm run clean && eleventy && npm run copy-static && workbox injectManifest",
+    "11ty": "eleventy",
+    "build": "run-s clean 11ty copy-static bundle-sw inject-manifest",
+    "bundle-sw": "rollup -c",
     "clean": "fsbin remove build",
     "copy-static": "fsbin copy assets build/assets && fsbin copy _posts/_data build/_posts/_data && fsbin copy _posts/_includes build/_posts/_includes",
-    "deploy": "npm run build && firebase deploy --only=hosting",
+    "deploy": "firebase deploy --only=hosting",
+    "inject-manifest": "workbox injectManifest",
     "serve": "firebase serve --only=hosting"
   }
 }
