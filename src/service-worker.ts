@@ -1,6 +1,6 @@
 import {CacheFirst, NetworkOnly} from 'workbox-strategies';
 import {cacheNames} from 'workbox-core';
-import {cleanupOutdatedCaches, getCacheKeyForURL, precacheAndRoute} from 'workbox-precaching';
+import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute} from 'workbox-precaching';
 import {ExpirationPlugin} from 'workbox-expiration';
 import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
 import {registerRoute, setCatchHandler} from 'workbox-routing';
@@ -11,28 +11,16 @@ import nunjucks from 'nunjucks/browser/nunjucks';
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
-async function getPrecachedResponse(url: string) {
-  const cacheKey = getCacheKeyForURL(url);
-  if (!cacheKey) {
-    throw new Error(`${url} is not in the precache manifest.`);
-  }
-
-  const cache = await caches.open(cacheNames.precache);
-  const cachedResponse = await cache.match(cacheKey);
-  if (!cachedResponse) {
-    throw new Error(`${url} is not precached.`);
-  }
-
-  return cachedResponse;
-}
-
 const CacheStorageLoader = nunjucks.Loader.extend({
   async: true,
 
   getSource: async function(name: string, callback: Function) {
     try {
       const path = `/_posts/_includes/${name}`;
-      const cachedResponse = await getPrecachedResponse(path);
+      const cachedResponse = await matchPrecache(path);
+      if (!cachedResponse) {
+        throw new Error(`Unable to find precacahed response for ${path}.`);
+      }
       const src = await cachedResponse.text();
       callback(null, {src, path, noCache: false});
     } catch(error) {
@@ -48,7 +36,11 @@ const nunjucksEnv = new nunjucks.Environment(
 let _site: {string: any};
 async function getSiteData() {
   if (!_site) {
-    const siteDataResponse = await getPrecachedResponse('/_posts/_data/site.json');
+    const cacheKey = '/_posts/_data/site.json';
+    const siteDataResponse = await matchPrecache(cacheKey);
+    if (!siteDataResponse) {
+      throw new Error(`Unable to find precacahed response for ${cacheKey}.`);
+    }
     _site = await siteDataResponse.json();
   }
 
@@ -64,7 +56,11 @@ const postHandler = async (options: RouteHandlerCallbackOptions) => {
   const site = await getSiteData();
 
   // params[3] corresponds to post.fileSlug in 11ty.
-  const cachedResponse = await getPrecachedResponse(`/_posts/${params[3]}.json`);
+  const cacheKey = `/_posts/${params[3]}.json`;
+  const cachedResponse = await matchPrecache(cacheKey);
+  if (!cachedResponse) {
+    throw new Error(`Unable to find precacahed response for ${cacheKey}.`);
+  }
 
   const context = await cachedResponse.json();
   context.site = site;
