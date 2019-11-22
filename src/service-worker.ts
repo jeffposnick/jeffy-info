@@ -1,5 +1,4 @@
 import {CacheFirst, NetworkOnly} from 'workbox-strategies';
-import {cacheNames} from 'workbox-core';
 import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute} from 'workbox-precaching';
 import {ExpirationPlugin} from 'workbox-expiration';
 import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
