@@ -34,7 +34,8 @@
     "bundle-sw": "rollup -c",
     "clean": "fsbin remove build",
     "copy-static": "fsbin copy assets build/assets && fsbin copy _posts/_data build/_posts/_data && fsbin copy _posts/_includes build/_posts/_includes",
-    "deploy": "firebase deploy --only=hosting",
+    "deploy": "run-s build firebase-hosting",
+    "firebase-hosting": "firebase deploy --only=hosting",
     "inject-manifest": "workbox injectManifest",
     "serve": "firebase serve --only=hosting"
   }
