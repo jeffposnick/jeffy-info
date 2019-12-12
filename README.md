@@ -1,4 +1,1 @@
-thirty-four
-==========
-
-Interested in sophisticated fun?
+The source and build steps for https://jeffy.info
