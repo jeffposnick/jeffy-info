@@ -3,9 +3,8 @@ import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute} from 'workbox-pr
 import {ExpirationPlugin} from 'workbox-expiration';
 import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
 import {registerRoute, setCatchHandler} from 'workbox-routing';
-import {setCacheNameDetails} from 'workbox-core';
 import {RouteHandlerCallbackOptions} from 'workbox-core/types';
-import {skipWaiting} from 'workbox-core';
+import {setCacheNameDetails, skipWaiting} from 'workbox-core';
 import nunjucks from 'nunjucks/browser/nunjucks';
 
 setCacheNameDetails({precache: 'precache-bug-fix'});
