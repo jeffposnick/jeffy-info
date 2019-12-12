@@ -3,10 +3,12 @@ import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute} from 'workbox-pr
 import {ExpirationPlugin} from 'workbox-expiration';
 import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
 import {registerRoute, setCatchHandler} from 'workbox-routing';
+import {setCacheNameDetails} from 'workbox-core';
 import {RouteHandlerCallbackOptions} from 'workbox-core/types';
 import {skipWaiting} from 'workbox-core';
 import nunjucks from 'nunjucks/browser/nunjucks';
 
+setCacheNameDetails({precache: 'precache-bug-fix'});
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
@@ -65,23 +67,24 @@ const postHandler = async (options: RouteHandlerCallbackOptions) => {
   context.site = site;
   context.content = context.html;
 
-  const html: string = await new Promise((resolve, reject) => {
+  const renderedTemplate: string = await new Promise((resolve, reject) => {
     nunjucksEnv.render(
       context.layout,
       context,
-      (error: Error | undefined, html: string) => {
+      (error: Error | undefined, result: string) => {
         if (error) {
-          return reject(error);
+          reject(error);
+        } else {
+          resolve(result);
         }
-        return resolve(html);
       }
     );
-  }); 
+  });
 
   const headers = {
     'content-type': 'text/html',
   };
-  return new Response(html, {headers});
+  return new Response(renderedTemplate, {headers});
 };
 
 registerRoute(
