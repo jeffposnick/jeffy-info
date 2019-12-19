@@ -1,3 +1,7 @@
+declare const self: ServiceWorkerGlobalScope;
+
+import {indexOfflineContent} from './content-indexing';
+
 import {CacheFirst, NetworkOnly} from 'workbox-strategies';
 import {cleanupOutdatedCaches, matchPrecache, precacheAndRoute} from 'workbox-precaching';
 import {ExpirationPlugin} from 'workbox-expiration';
@@ -109,3 +113,11 @@ setCatchHandler(new NetworkOnly());
 initializeOfflineAnalytics();
 
 skipWaiting();
+
+if ('index' in self.registration) {
+  // Our service worker caches all pages on installation; add those pages to the
+  // content index in a separate install handler.
+  self.addEventListener('activate', (event) => {
+    event.waitUntil(indexOfflineContent());
+  });
+}
