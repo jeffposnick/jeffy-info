@@ -116,7 +116,7 @@ skipWaiting();
 
 if ('index' in self.registration) {
   // Our service worker caches all pages on installation; add those pages to the
-  // content index in a separate install handler.
+  // content index in an activate handler, after installation is complete.
   self.addEventListener('activate', (event) => {
     event.waitUntil(indexOfflineContent());
   });
