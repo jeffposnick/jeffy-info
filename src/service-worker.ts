@@ -23,7 +23,7 @@ const CacheStorageLoader = nunjucks.Loader.extend({
       const path = `/_posts/_includes/${name}`;
       const cachedResponse = await matchPrecache(path);
       if (!cachedResponse) {
-        throw new Error(`Unable to find precacahed response for ${path}.`);
+        throw new Error(`Unable to find precached response for ${path}.`);
       }
       const src = await cachedResponse.text();
       callback(null, {src, path, noCache: false});
@@ -43,7 +43,7 @@ async function getSiteData() {
     const cacheKey = '/_posts/_data/site.json';
     const siteDataResponse = await matchPrecache(cacheKey);
     if (!siteDataResponse) {
-      throw new Error(`Unable to find precacahed response for ${cacheKey}.`);
+      throw new Error(`Unable to find precached response for ${cacheKey}.`);
     }
     _site = await siteDataResponse.json();
   }
@@ -63,7 +63,7 @@ const postHandler = async (options: RouteHandlerCallbackOptions) => {
   const cacheKey = `/_posts/${params[3]}.json`;
   const cachedResponse = await matchPrecache(cacheKey);
   if (!cachedResponse) {
-    throw new Error(`Unable to find precacahed response for ${cacheKey}.`);
+    throw new Error(`Unable to find precached response for ${cacheKey}.`);
   }
 
   const context = await cachedResponse.json();
