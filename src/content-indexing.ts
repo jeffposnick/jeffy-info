@@ -42,6 +42,7 @@ export async function indexOfflineContent() {
         // from the cached JSON entry.
         await self.registration.index.add({
           launchUrl,
+          url: launchUrl,
           category: 'article',
           description: post.excerpt,
           icons: [{

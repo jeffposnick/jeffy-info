@@ -14,6 +14,7 @@ declare type ContentCategory = 'homepage' | 'article' | 'video' | 'audio' | ''
 
 interface ContentDescription {
   id: string;
+  url: string;
   launchUrl: string;
   title: string;
   description: string;
