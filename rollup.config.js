@@ -1,28 +1,24 @@
 import {terser} from 'rollup-plugin-terser';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
 import OMT from '@surma/rollup-plugin-off-main-thread';
-import replace from 'rollup-plugin-replace';
-import resolve from 'rollup-plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript';
+import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 
 export default {
   input: 'src/service-worker.ts',
-  output: {
-    sourcemap: true,
-    format: 'amd',
-    name: 'workbox',
-    dir: 'build'
-  },
   manualChunks: (id) => {
-    const chunkNames = ['workbox', 'nunjucks'];
-    for (const chunkName of chunkNames) {
-      if (id.includes(chunkName)) {
-        return chunkName;
-      }
+    if (!id.includes('/node_modules/')) {
+      return undefined;
     }
+
+    const chunkNames = ['workbox', 'nunjucks'];
+    return chunkNames.find((chunkName) => id.includes(chunkName)) || 'misc';
   },
   plugins: [
-    resolve(),
+    resolve({
+      browser: true,
+    }),
     commonjs(),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
@@ -31,4 +27,9 @@ export default {
     OMT(),
     terser(),
   ],
+  output: {
+    sourcemap: true,
+    format: 'amd',
+    dir: 'build',
+  },
 };
