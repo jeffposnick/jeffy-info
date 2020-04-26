@@ -8,7 +8,7 @@
         "value" : "no-cache"
       }]
     }, {
-      "source" : "**/*.@(svg|png)",
+      "source" : "**/*.@(js|svg|png)",
       "headers" : [{
         "key" : "Cache-Control",
         "value" : "max-age=2592000"

@@ -3,8 +3,8 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     margin: 1em 15% 1em 15%;
     padding: 0;
-    color: #2d2d2d;
-    background-color: #f9f9f9;
+    color: #2d334a;
+    background-color: #fffffe;
   }
 
   @media (max-width: 600px) {
@@ -18,13 +18,14 @@
   }
 
   pre {
-    border: 2px dotted #cecece;
+    border: 2px dotted #272343;
+    border-radius: 0.5em;
     overflow-x: auto;
     padding: 1em;
   }
 
   a {
-    color: #00659d;
+    color: #272343;
     text-decoration: none;
   }
 
@@ -36,10 +37,6 @@
     text-align: right;
   }
 
-  .site-header > a {
-    color: #2d2d2d;
-  }
-
   .post-list {
     list-style: none;
     margin: 0;
@@ -47,7 +44,7 @@
   }
 
   .post-list > li {
-    border: 2px dotted #cecece;
+    border: 2px dotted #272343;
     border-radius: 0.5em;
     margin: 1em;
     padding: 1em;
@@ -57,8 +54,8 @@
     margin-bottom: 0;
   }
 
-  .post-header > a {
-    color: #2d2d2d;
+  .post-list > li > h2 > a {
+    border-bottom: none !important;
   }
 
   .post-meta {
@@ -68,16 +65,12 @@
     margin-bottom: 3em;
   }
 
-  article > p a {
+  #content {
+    line-height: 1.4em;
+  }
+
+  #content a {
     border-bottom: 1px dotted #00659d;
-  }
-
-  article > p > img {
-    max-width: 534px;
-  }
-
-  article > h2 {
-    font-size: 1.2em;
   }
 
   .youtube-embed {

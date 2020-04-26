@@ -11,7 +11,9 @@
         {% if date %}
           <p class="post-meta">{{ date | string }}</p>
         {% endif %}
-        {{ content | safe }}
+        <div id="content">
+          {{ content | safe }}
+        </div>
       </div>
     </div>
     {% include 'footer.njk' %}
