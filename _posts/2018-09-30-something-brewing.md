@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "Something Brewing"
-date: 2018-09-30 22:00:00
 excerpt: "Apparently, the whole point of this blog is to blog about blogging architecture."
 tags:
   - 11ty

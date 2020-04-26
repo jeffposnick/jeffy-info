@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "That time I used a generator"
-date: 2019-03-22 12:00:00
 excerpt: "They're there for a reason!"
 tags:
   - generator

@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "Hosting Setup, Revisited"
-date: 2017-02-24 22:00:00
 excerpt: "Goodbye gh-pages + Cloudflare, hello Firebase Hosting."
 tags:
   - cloudflare

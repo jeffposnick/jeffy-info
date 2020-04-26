@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "Hosting Setup"
-date: 2014-11-28 13:34:34
 excerpt: "A step-by-step guide to hosting a blog on HTTPS-enabled custom domain."
 tags:
   - cloudflare

@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "Styling inline scripts"
-date: 2019-03-14 12:00:00
 excerpt: "Show what you run when demoing JavaScript."
 tags:
   - css

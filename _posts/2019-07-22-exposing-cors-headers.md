@@ -1,7 +1,6 @@
 ---
 layout: default.njk
 title: "Exposing headers on CORS responses"
-date: 2019-07-22 12:00:00
 excerpt: "Access-Control-Expose-Headers is your friend."
 tags:
   - cors
