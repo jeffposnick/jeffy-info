@@ -6,10 +6,12 @@ pagination:
 permalink: /_posts/{{ post.fileSlug }}.json
 ---
 {
-  "date": "{{ post.date.toISOString() }}",
   "excerpt": {{ post.data.excerpt | dump | safe }},
   "html": {{ post.templateContent | dump | safe }},
   "layout": "{{ post.data.layout }}",
   "tags": {{ post.data.tags | dump | safe }},
-  "title": {{ post.data.title | dump | safe}}
+  "title": {{ post.data.title | dump | safe}},
+  "page": {
+    "date": "{{ post.date.toDateString() }}"
+  }
 }

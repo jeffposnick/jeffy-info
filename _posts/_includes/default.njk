@@ -6,10 +6,10 @@
     <div class="page-content">
       <div class="wrapper">
         {% if title %}
-        <h1 class="post-header"><a href="">{{ title }}</a></h1>
-        {% endif %}
-        {% if date %}
-          <p class="post-meta">{{ date | string }}</p>
+          <h1 class="post-header"><a href="">{{ title }}</a></h1>
+          {% if page.date %}
+            <p class="post-meta">{{ page.date }}</p>
+          {% endif %}
         {% endif %}
         <div id="content">
           {{ content | safe }}
