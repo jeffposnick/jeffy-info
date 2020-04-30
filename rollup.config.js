@@ -4,7 +4,7 @@ import OMT from '@surma/rollup-plugin-off-main-thread';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-const workboxInjectManifest = require('rollup-plugin-workbox-inject');
+import workboxInjectManifest from 'rollup-plugin-workbox-inject';
 
 const SRC_DIR = 'src';
 const BUILD_DIR = 'build';
@@ -30,8 +30,6 @@ export default {
     typescript(),
     OMT(),
     workboxInjectManifest({
-      swSrc: `${SRC_DIR}/service-worker.ts`,
-      swDest: `${BUILD_DIR}/service-worker.js`,
       globDirectory: BUILD_DIR,
       globPatterns: [
         '**/*.{json,njk}',
