@@ -8,20 +8,13 @@
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/feed.xml">
 
   <title>{{ title if title else site.title }}</title>
-
-  <!-- Content Indexing API: https://web.dev/content-indexing-api/ -->
-  <meta http-equiv="origin-trial" content="Ahi6RIub7i4UbvPpFRbJQC5ybwI+GLIDeLGtZrsrvmLCggsxJmbFPPgDPo2AnKMeTGhMr8mIu6PDQOB4p0VYqgEAAABQeyJvcmlnaW4iOiJodHRwczovL2plZmZ5LmluZm86NDQzIiwiZmVhdHVyZSI6IkNvbnRlbnRJbmRleCIsImV4cGlyeSI6MTU5MDU5MDQyMX0=">
-
+  <meta name="description" content="{{ excerpt if excerpt else site.description | escape }}">
   <meta name="theme-color" content="#00bcd4">
-
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{ (title if title else site.title) | escape}}">
   <meta name="twitter:image" content="{{ site.logo }}">
   {% if site.twitter.username %}
   <meta name="twitter:site" content="@{{ site.twitter.username }}">
-  {% endif %}
-  {% if excerpt %}
-  <meta name="twitter:description" content="{{ excerpt | escape }}">
   {% endif %}
 
   {% include 'styles.njk' %}
