@@ -27,3 +27,18 @@ interface ContentIndex {
   delete(id: string): Promise<void>;
   getAll(): Promise<Array<ContentDescription>>;
 }
+
+interface Site {
+  baseurl: string;
+  description: string;
+  email: string;
+  github: SocialAccount;
+  logo: string;
+  title: string;
+  twitter: SocialAccount;
+  url: string;
+}
+
+interface SocialAccount {
+  username: string;
+}
