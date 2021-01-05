@@ -32,7 +32,7 @@ export async function indexOfflineContent() {
       // Modify the cache key to correspond to the actual URLs.
       const htmlPath = url.pathname.replace('json', 'html').replace('/_posts/', '');
       const date = new Date(post.page.date);
-      const launchUrl = `/${date.getUTCFullYear()}/${new String(date.getUTCMonth() + 1).padStart(2, '0')}/${date.getUTCDate()}/${htmlPath}?utm_source=content-index-api`;
+      const launchUrl = `/${date.getUTCFullYear()}/${new String(date.getUTCMonth() + 1).padStart(2, '0')}/${new String(date.getUTCDate()).padStart(2, '0')}/${htmlPath}?utm_source=content-index-api`;
 
       if (ids.has(launchUrl)) {
         // If it's already indexed, remove the id from the set.
