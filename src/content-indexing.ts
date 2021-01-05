@@ -27,11 +27,11 @@ export async function indexOfflineContent() {
     // Check each cache entry to see if it's a blog post.
     if (url.pathname.startsWith('/_posts/') && !url.pathname.startsWith('/_posts/_')) {
       const response = await cache.match(request);
-      const post = await response!.json();
+      const post = await response!.json() as Post;
 
       // Modify the cache key to correspond to the actual URLs.
       const htmlPath = url.pathname.replace('json', 'html').replace('/_posts/', '');
-      const date = new Date(post.date);
+      const date = new Date(post.page.date);
       const launchUrl = `/${date.getUTCFullYear()}/${new String(date.getUTCMonth() + 1).padStart(2, '0')}/${date.getUTCDate()}/${htmlPath}?utm_source=content-index-api`;
 
       if (ids.has(launchUrl)) {

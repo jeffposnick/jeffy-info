@@ -42,3 +42,14 @@ interface Site {
 interface SocialAccount {
   username: string;
 }
+
+interface Post {
+  excerpt: string;
+  html: string;
+  layout: string;
+  tags?: Array<string> | null;
+  title: string;
+  page: {
+    date: string;
+  };
+}
