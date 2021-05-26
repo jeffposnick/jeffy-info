@@ -25,7 +25,7 @@ registerRoute(
 registerRoute(
   ({request}) => new URLPattern({
     pathname: '/assets/images/(.*)',
-  }).exec(request.url),
+  }).test(request.url),
   new CacheFirst({
     cacheName: 'images',
     plugins: [
