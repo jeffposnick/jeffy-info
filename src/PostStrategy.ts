@@ -1,5 +1,6 @@
 import {matchPrecache} from 'workbox-precaching';
 import {Strategy, StrategyHandler} from 'workbox-strategies';
+import {URLPatternResult} from 'urlpattern-polyfill/dist/url-pattern.interfaces';
 import nunjucks from 'nunjucks/browser/nunjucks';
 
 export class PostStrategy extends Strategy {
@@ -47,13 +48,15 @@ export class PostStrategy extends Strategy {
     return this._site;
   }
 
-  async _handle(request: Request, handler: StrategyHandler): Promise<Response> {
-    if (!(handler.params && Array.isArray(handler.params))) {
+  async _handle(_: Request, handler: StrategyHandler): Promise<Response> {
+    if (!(handler.params)) {
       throw new Error(`Couldn't get parameters from router.`);
     }
+
+    // We only care about the slug value from the match groups.
+    const {slug} = (handler.params as URLPatternResult).pathname.groups;
   
-    // handler.params[3] corresponds to post.fileSlug in 11ty.
-    const cacheKey = `/_posts/${handler.params[3]}.json`;
+    const cacheKey = `/_posts/${slug}.json`;
     const cachedResponse = await matchPrecache(cacheKey);
     if (!cachedResponse) {
       throw new Error(`Unable to find precached response for ${cacheKey}.`);

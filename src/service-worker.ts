@@ -9,18 +9,23 @@ import {ExpirationPlugin} from 'workbox-expiration';
 import {initialize as initializeOfflineAnalytics} from 'workbox-google-analytics';
 import {registerRoute, setCatchHandler} from 'workbox-routing';
 import {setCacheNameDetails, skipWaiting} from 'workbox-core';
+import {URLPattern} from 'urlpattern-polyfill';
 
 setCacheNameDetails({precache: 'precache-bug-fix'});
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 registerRoute(
-  new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
+  ({request}) => new URLPattern({
+    pathname: '/(\d{4})/(\d{2})/(\d{2})/:slug.html',
+  }).exec(request.url),
   new PostStrategy()
 );
 
 registerRoute(
-  ({url}) => url.pathname.startsWith('/assets/images/'),
+  ({request}) => new URLPattern({
+    pathname: '/assets/images/(.*)',
+  }).exec(request.url),
   new CacheFirst({
     cacheName: 'images',
     plugins: [
