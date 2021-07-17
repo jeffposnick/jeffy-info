@@ -1,0 +1,113 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  margin: 1em 15% 1em 15%;
+  padding: 0;
+  color: #2d334a;
+  background-color: #fffffe;
+}
+
+@media (max-width: 600px) {
+  body {
+    margin: 1em;
+  }
+}
+
+code {
+  font-family: "Source Code Pro", Monaco, monospace;
+}
+
+pre {
+  border: 2px dotted #272343;
+  border-radius: 0.5em;
+  overflow-x: auto;
+  padding: 1em;
+}
+
+a {
+  color: #272343;
+  text-decoration: none;
+}
+
+.site-header {
+  font-family: "Source Code Pro", Monaco, monospace;
+  font-size: 2em;
+  font-style: italic;
+  margin: 1em;
+  text-align: right;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-list > li {
+  border: 2px dotted #272343;
+  border-radius: 0.5em;
+  margin: 1em;
+  padding: 1em;
+}
+
+.post-list > li > h2 {
+  margin-bottom: 0;
+}
+
+.post-list > li > h2 > a {
+  border-bottom: none !important;
+}
+
+.post-meta {
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: -1em;
+  margin-bottom: 3em;
+}
+
+#content {
+  line-height: 1.4em;
+}
+
+#content a {
+  border-bottom: 1px dotted #00659d;
+}
+
+.youtube-embed {
+  height: 300px;
+  max-width: 100%;
+  width: 534px;
+}
+
+.site-footer {
+  margin-top: 3em;
+  border-top: 1px dotted #cecece;
+  display: flex;
+  flex-direction: row;
+}
+
+.site-footer > div {
+  margin: 1em;
+}
+
+.site-footer > div > div {
+  margin-bottom: 1em;
+}
+
+.site-footer > .links {
+  flex-basis: 30%;
+}
+
+.site-footer > .text {
+  flex-basis: 70%;
+}
+
+.icon > svg {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+img {
+  max-width: 100%;
+}

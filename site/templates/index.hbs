@@ -1,0 +1,14 @@
+{{#expect collections}}
+    <div class="home">
+      <ul class="post-list">
+        {{#each collections.posts as post}}
+        <li>
+          <h2>
+            <a class="post-link" href="{{{ post.url }}}">{{{ post.title }}}</a>
+          </h2>
+          <span class="post-meta">{{{ post.date }}}</span>
+          <p>{{{ post.excerpt }}}</p>
+        </li>
+        {{/each}}
+      </ul>
+    </div>

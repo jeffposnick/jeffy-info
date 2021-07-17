@@ -1,0 +1,14 @@
+{{#expect content, page, site}}
+    <div class="page-content" role="main">
+      <div class="wrapper">
+        <h1 class="post-header"><a href="">{{{ page.title }}}</a></h1>
+        <p class="post-meta">{{{ page.date }}}</p>
+        <div id="content">
+          {{{ content }}}
+        </div>
+      </div>
+    </div>
+    <script src="/static/set-metadata.js"></script>
+    <script>
+      setMetadata({{{ JSON.stringify(site) }}}, {{{ JSON.stringify(page) }}});
+    </script>
