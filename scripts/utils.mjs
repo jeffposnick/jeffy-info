@@ -97,7 +97,7 @@ export async function bundle(swFileName) {
 export async function injectWorkboxManifest(file) {
   const { count, size, warnings } = await injectManifest({
     globDirectory: path.join(BUILD_DIR),
-    globPatterns: [`${STATIC_DIR}/**/*`],
+    globPatterns: [`${STATIC_DIR}/**/*.{css,js,json}`],
     swDest: file,
     swSrc: file,
   });
