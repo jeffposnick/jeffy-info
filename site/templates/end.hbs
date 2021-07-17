@@ -32,10 +32,9 @@
       </div>
     </footer>
     <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-57130145-1', 'auto');
-      ga('send', 'pageview');
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/browser-sw.js');
+      }
     </script>
-    <script src='https://www.google-analytics.com/analytics.js'></script>
   </body>
 </html>
