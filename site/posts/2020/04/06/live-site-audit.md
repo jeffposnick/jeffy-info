@@ -1,6 +1,6 @@
 ---
 layout: default.njk
-title: "Performance auditing an eCommerce site"
+title: 'Performance auditing an eCommerce site'
 excerpt: "...let's do it live!"
 tags:
   - performance
@@ -30,6 +30,7 @@ _Lightly edited from the notes I took during the review._
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse)
 
 ### Observations
+
 - 11 seconds for main content to load — what's loaded beforehand?
 - How many of the widgets/analytics tools can be [lazily-loaded](https://web.dev/native-lazy-loading/) (or potentially removed, if appropriate)?
 - HTTP cache expiration [best practices](https://web.dev/reliable/).

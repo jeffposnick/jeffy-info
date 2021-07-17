@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "CDS Perf Review Clinic Takeaways"
-excerpt: "A linkdump by any other name...."
+title: 'CDS Perf Review Clinic Takeaways'
+excerpt: 'A linkdump by any other name....'
 tags:
   - cds
   - performance
@@ -38,30 +38,35 @@ Huge thanks go out to all the authors, many of whom I'm lucky enough to work
 with.
 
 ## Overall Migration/End to End Case Study
+
 - [A React And Preact Progressive Web App Performance Case Study: Treebo](https://medium.com/dev-channel/treebo-a-react-and-preact-progressive-web-app-performance-case-study-5e4f450d5299)
 
 ## Loading and Prioritization
+
 - [Introduction to HTTP/2](https://developers.google.com/web/fundamentals/performance/http2/)
 - [Resource Prioritization – Getting the Browser to Help You](https://developers.google.com/web/fundamentals/performance/resource-prioritization)
 - [Deep dive into the murky waters of script loading](https://www.html5rocks.com/en/tutorials/speed/script-loading/)
 
-
 ## JavaScript
+
 - [Can You Afford It?: Real-world Web Performance Budgets](https://infrequently.org/2017/10/can-you-afford-it-real-world-web-performance-budgets/)
 - [JavaScript Start-up Performance](https://medium.com/reloading/javascript-start-up-performance-69200f43b201)
 
 ## CSS
+
 - [`critical`: Extract & Inline Critical-path CSS in HTML pages](https://github.com/addyosmani/critical)
 - [The future of loading CSS](https://jakearchibald.com/2016/link-in-body/)
 - [`loadCss`: A function for loading CSS asynchronously](https://github.com/filamentgroup/loadCSS/)
 
 ## Caching
+
 - [HTTP Caching](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching)
 - [Caching best practices & max-age gotchas](https://jakearchibald.com/2016/caching-best-practices/)
 - [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers/)
 - [Workbox: JavaScript libraries for Progressive Web Apps](https://developers.google.com/web/tools/workbox/)
 
 ## Images/Multimedia Content
+
 - [Essential Image Optimization](https://images.guide/)
 - [Lazy Loading Images Using Intersection Observer](https://deanhume.com/home/blogpost/lazy-loading-images-using-intersection-observer/10163)
 - [Inline SVG vs Icon Fonts [CAGEMATCH]](https://css-tricks.com/icon-fonts-vs-svg/)

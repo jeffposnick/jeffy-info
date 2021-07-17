@@ -1,5 +1,5 @@
-import {injectManifest} from 'workbox-build';
-import {transform as tempuraTransform} from 'tempura/esbuild';
+import { injectManifest } from 'workbox-build';
+import { transform as tempuraTransform } from 'tempura/esbuild';
 import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
 import fse from 'fs-extra';
@@ -32,13 +32,13 @@ export async function copyStatic() {
 }
 
 export function postToJSONFileName(file) {
-  const {dir, name} = path.parse(file);
+  const { dir, name } = path.parse(file);
   const jsonDir = path.relative(PAGES_DIR, dir);
   return path.join(BUILD_DIR, STATIC_DIR, jsonDir, `${name}.json`);
 }
 
 export function jsonFilenameToURL(file) {
-  const {dir, name} = path.parse(file);
+  const { dir, name } = path.parse(file);
   const relativeDir = path.relative(path.join(BUILD_DIR, STATIC_DIR), dir);
   return `/${relativeDir}/${name}.html`;
 }
@@ -51,8 +51,8 @@ function parseDateFromFilename(file) {
 }
 
 export async function processMarkdown(file) {
-  const rawContents = await fse.readFile(file, {encoding: 'utf8'});
-  const {data, content} = frontmatter(rawContents);
+  const rawContents = await fse.readFile(file, { encoding: 'utf8' });
+  const { data, content } = frontmatter(rawContents);
   const html = md.render(content);
 
   const jsonFile = postToJSONFileName(file);
@@ -66,7 +66,7 @@ export async function processMarkdown(file) {
     page: data,
   });
 
-  return {data, jsonFile};
+  return { data, jsonFile };
 }
 
 export async function writeCollections(posts) {
@@ -85,26 +85,22 @@ export async function bundle(swFileName) {
     define: {
       'process.env.NODE_ENV': '"production"',
     },
-    entryPoints: [
-      `${SRC_DIR}/${swFileName}.ts`,
-    ],
+    entryPoints: [`${SRC_DIR}/${swFileName}.ts`],
     format: 'iife',
     minify: true,
-    plugins: [
-      tempuraTransform(),
-    ],
+    plugins: [tempuraTransform()],
   });
 
   return outfile;
 }
 
 export async function injectWorkboxManifest(file) {
-  const {count, size, warnings} = await injectManifest({
+  const { count, size, warnings } = await injectManifest({
     globDirectory: path.join(BUILD_DIR),
     globPatterns: [`${STATIC_DIR}/**/*.{js,css,json}`],
     swDest: file,
     swSrc: file,
   });
 
-  return {count, size, warnings};
+  return { count, size, warnings };
 }

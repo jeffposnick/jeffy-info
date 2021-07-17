@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Service workers in create-react-app v2"
-excerpt: "There are many alternatives, and something has to be the default."
+title: 'Service workers in create-react-app v2'
+excerpt: 'There are many alternatives, and something has to be the default.'
 tags:
   - cra
   - post

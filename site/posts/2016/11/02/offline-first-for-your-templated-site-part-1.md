@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Offline-first for Your Templated Site (Part One)"
-excerpt: "Terminology and an exploring the architecture."
+title: 'Offline-first for Your Templated Site (Part One)'
+excerpt: 'Terminology and an exploring the architecture.'
 tags:
   - jekyll
   - offline
@@ -34,11 +34,11 @@ That's offline-first.
 
 # What's a templated site?
 
-What I'm calling a *templated site* is built using multiple templates, combined with the actual text, images and other resources that make up the site's content, spread across multiple pages. The site's URLs uniquely identify the content specific to a page. The templates provide a structural layout shared across the pages.
+What I'm calling a _templated site_ is built using multiple templates, combined with the actual text, images and other resources that make up the site's content, spread across multiple pages. The site's URLs uniquely identify the content specific to a page. The templates provide a structural layout shared across the pages.
 
 This is all a convoluted way of describing what's otherwise known as a "content site", but that's deliberate: I want to avoid all the baggage that comes along with the "content site" label, especially the implication of what it's not—a "web app". What I'm describing are considerations for a particular architectural equation: templates + content = your site. If you've got templates, and some source of content, and you mix them together (either ahead of time during a build process, or at runtime on a server), then you've got a templated site! If you want to also call it a web app, cool; if you want to call it a content site, or a blog, or a CMS-powered site, that's totally cool too.
 
-Since it's always fun to draw contrasts, if I did have to hold up something in opposition to a templated site, it would be a [single page application](https://en.wikipedia.org/wiki/Single-page_application). There's a meaningful difference between the way SPAs handle navigations (using the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) to rewrite URLs, and swapping content out of an "[application shell](https://developers.google.com/web/updates/2015/11/app-shell)" container), and how templated sites handle navigations (as actual *[navigations](https://html.spec.whatwg.org/multipage/browsers.html#navigate)*, in which the current DOM is torn down, and built up again based on the new HTML). SPAs fill an important role in the web's ecosystem, and they are the right architecture to use for certain types of projects, but they're different beasts than templated sites.
+Since it's always fun to draw contrasts, if I did have to hold up something in opposition to a templated site, it would be a [single page application](https://en.wikipedia.org/wiki/Single-page_application). There's a meaningful difference between the way SPAs handle navigations (using the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) to rewrite URLs, and swapping content out of an "[application shell](https://developers.google.com/web/updates/2015/11/app-shell)" container), and how templated sites handle navigations (as actual _[navigations](https://html.spec.whatwg.org/multipage/browsers.html#navigate)_, in which the current DOM is torn down, and built up again based on the new HTML). SPAs fill an important role in the web's ecosystem, and they are the right architecture to use for certain types of projects, but they're different beasts than templated sites.
 
 In case it's not clear from that preamble, what you're reading now, assuming it's being read on https://jeffy.info/, is part of a templated site. Blogs, newspapers, and whole host of sites driven drive by a backend [content management system](https://en.wikipedia.org/wiki/Content_management_system) are traditionally deployed as templated sites. If you're reading the syndicated copy of this on https://medium.com/, then I'm going to hazard a guess that the "templated site" label is also appropriate, but I'm not as familiar with how they implement things. `¯\_(ツ)_/¯`
 

@@ -1,6 +1,6 @@
 ---
 layout: default.njk
-title: "That time I used a generator"
+title: 'That time I used a generator'
 excerpt: "They're there for a reason!"
 tags:
   - generator

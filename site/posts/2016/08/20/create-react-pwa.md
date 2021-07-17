@@ -1,6 +1,6 @@
 ---
 layout: default.njk
-title: "create-react-pwa"
+title: 'create-react-pwa'
 excerpt: "What's it take to turn a create-react-app project into a Progressive Web App?"
 tags:
   - post
@@ -43,7 +43,7 @@ This is just a [standard](https://developer.mozilla.org/en-US/docs/Web/Manifest)
 
 ## Adding a Service Worker
 
-To handle the service worker, I (not surprisingly) turned to the [`sw-precache`](https://github.com/GoogleChrome/sw-precache) project. When added to a build process, it generates a service worker JavaScript file that will automatically version and keep all local static files—HTML, JavaScript, CSS, images, etc.—up to date. Because *all* of the `create-react-app` output is local static files (there's no server-side rendering or remote API calls by default, for example), `sw-precache` can handle everything we need with little configuration needed.
+To handle the service worker, I (not surprisingly) turned to the [`sw-precache`](https://github.com/GoogleChrome/sw-precache) project. When added to a build process, it generates a service worker JavaScript file that will automatically version and keep all local static files—HTML, JavaScript, CSS, images, etc.—up to date. Because _all_ of the `create-react-app` output is local static files (there's no server-side rendering or remote API calls by default, for example), `sw-precache` can handle everything we need with little configuration needed.
 
 While I've traditionally used `sw-precache` as a JavaScript module inside of a [`gulp` build](http://gulpjs.com/) process, it also sports a [command-line interface](https://github.com/GoogleChrome/sw-precache#command-line-interface), and it's simple to add in the `sw-precache` command to the end of the `npm run build` script chain.
 
@@ -61,8 +61,7 @@ Take "final" with a grain of salt, because while you will end up with a build pr
 
 # Beyond create-react-app
 
-If you're looking for examples of PWAs build with React that go a bit beyond what  `create-react-app` offers—for instance, that take advantage of server-side rendering or are built on third-party APIs—there are a few examples I could recommend:
+If you're looking for examples of PWAs build with React that go a bit beyond what `create-react-app` offers—for instance, that take advantage of server-side rendering or are built on third-party APIs—there are a few examples I could recommend:
 
 - [iFixit PWA](https://github.com/GoogleChrome/sw-precache/tree/master/app-shell-demo) ([live deployment](https://ifixit-pwa.appspot.com/))
 - [Hacker News PWA](https://github.com/insin/react-hn) ([live deployment](https://react-hn.appspot.com/))
-

@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Debugging a specific service worker request"
-excerpt: "The power of DevTools conditional breakpoints."
+title: 'Debugging a specific service worker request'
+excerpt: 'The power of DevTools conditional breakpoints.'
 tags:
   - post
   - debugging

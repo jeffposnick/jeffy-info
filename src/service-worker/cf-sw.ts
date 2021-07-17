@@ -1,11 +1,7 @@
 /// <reference lib="webworker"/>
 
 import '@worker-tools/location-polyfill';
-import {
-  getAssetFromKV,
-  mapRequestToAsset,
-  NotFoundError,
-} from '@cloudflare/kv-asset-handler';
+import { getAssetFromKV, mapRequestToAsset, NotFoundError } from '@cloudflare/kv-asset-handler';
 
 import { registerRoutes, StaticLoader } from './common';
 

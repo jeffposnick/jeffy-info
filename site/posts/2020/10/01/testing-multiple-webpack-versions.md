@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Testing multiple versions of a module dependency"
-excerpt: "module-alias ftw"
+title: 'Testing multiple versions of a module dependency'
+excerpt: 'module-alias ftw'
 tags:
   - post
   - webpack
@@ -13,7 +13,7 @@ permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 
 `webpack` is preparing its [v5.0.0 release](https://webpack.js.org/migrate/5/), and as the maintainer of the [`workbox-webpack-plugin`](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), I want to make sure we work well with the new version. But at the same time, we can't abandon compatibility with `webpack` v4.x.
 
-We've got an [extensive test suite](https://github.com/GoogleChrome/workbox/tree/v6/test/workbox-webpack-plugin) that previously assumed there would be a single version of `webpack` that we tested against, so how can we make sure that we can run our individual tests against multiple versions of `webpack`, without modifying any of the `require('webpack')` statements in `workbox-webpack-plugin`? (The same applies  other plugins that are exercised alongside `workbox-webpack-plugin` in our test suite, like `html-webpack-plugin`.)
+We've got an [extensive test suite](https://github.com/GoogleChrome/workbox/tree/v6/test/workbox-webpack-plugin) that previously assumed there would be a single version of `webpack` that we tested against, so how can we make sure that we can run our individual tests against multiple versions of `webpack`, without modifying any of the `require('webpack')` statements in `workbox-webpack-plugin`? (The same applies other plugins that are exercised alongside `workbox-webpack-plugin` in our test suite, like `html-webpack-plugin`.)
 
 ## The solution
 

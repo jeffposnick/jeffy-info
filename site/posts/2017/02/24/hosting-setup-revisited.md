@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Hosting Setup, Revisited"
-excerpt: "Goodbye gh-pages + Cloudflare, hello Firebase Hosting."
+title: 'Hosting Setup, Revisited'
+excerpt: 'Goodbye gh-pages + Cloudflare, hello Firebase Hosting.'
 tags:
   - cloudflare
   - firebase
@@ -35,13 +35,17 @@ The first step was getting my site deployed to a subdomain under `firebaseapp.co
 {
   "hosting": {
     "public": "build",
-    "headers": [{
-      "source" : "/service-worker.js",
-      "headers" : [{
-        "key" : "Cache-Control",
-        "value" : "no-cache"
-      }]
-    }]
+    "headers": [
+      {
+        "source": "/service-worker.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ]
   }
 }
 ```

@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "wrangler dev",
-    "format": "prettier --write \"{pages,src}/**/*.{ts,md}\"",
+    "format": "prettier --write \"{site,src,scripts,static}/**/*.{ts,md,json,mjs,js}\"",
     "publish": "wrangler publish",
     "watch": "node scripts/watch.mjs"
   },

@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Offline-first for Your Templated Site (Part Two)"
-excerpt: "Full-page caching vs. App Shell vs. service worker rendering."
+title: 'Offline-first for Your Templated Site (Part Two)'
+excerpt: 'Full-page caching vs. App Shell vs. service worker rendering.'
 tags:
   - app-shell
   - caching
@@ -46,7 +46,7 @@ This approach uses the [Cache Storage API](https://developer.mozilla.org/en-US/d
 
 ### Service worker simplicity
 
-The service worker needed to implement this type of strategy is *relatively* straightforward. The `fetch` handler can check to see whether `event.request.mode === 'navigate'`, and if so, use a [stale-while-revalidate strategy](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate) to handle the request for the HTML document.
+The service worker needed to implement this type of strategy is _relatively_ straightforward. The `fetch` handler can check to see whether `event.request.mode === 'navigate'`, and if so, use a [stale-while-revalidate strategy](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate) to handle the request for the HTML document.
 
 ### Minimal additional maintenance
 
@@ -78,15 +78,15 @@ If `X` is a fairly small number (a template file of less than 1kb is common) and
 
 While the cache overhead isn't a showstopper, the compromises involved in updating previously cached content is more of a concern. Let's assume that we have `foo.html`, `bar.html`, and `foo_bar.html` HTML files stored in our cache.
 
-If we were to make some updates to the `foo.md` content that's used to populate `foo.html`, our update strategy is to ensure that `foo.html` eventually gets refetched from the network. This might happen via a normal [stale-while-revalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate) flow, in which case the new content will only be available the *second* time a user revisits the page. Or it might happen by explicitly purging the existing `foo.html` entry from the cache ahead of time, making the new content available for the *next* visit.
+If we were to make some updates to the `foo.md` content that's used to populate `foo.html`, our update strategy is to ensure that `foo.html` eventually gets refetched from the network. This might happen via a normal [stale-while-revalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate) flow, in which case the new content will only be available the _second_ time a user revisits the page. Or it might happen by explicitly purging the existing `foo.html` entry from the cache ahead of time, making the new content available for the _next_ visit.
 
-But what if we make an update to `blog_layout.tmpl`? Maybe we've changed our navigation bar, or updated some header text. The impact of this change ripples beyond a single cache entry—*all* of our cached HTML files that depended on `blog_layout.tmpl` are now out of date.
+But what if we make an update to `blog_layout.tmpl`? Maybe we've changed our navigation bar, or updated some header text. The impact of this change ripples beyond a single cache entry—_all_ of our cached HTML files that depended on `blog_layout.tmpl` are now out of date.
 
 We have the same options for dealing with this as before: let a stale-while-revalidate caching strategy gradually update the stale entries as users revisit pages, or proactively purge the out of date cache content, which in this case could mean invalidating our entire cache. There are serious downsides to each approach, though.
 
 If we rely on a [stale-while-revalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate) runtime caching strategy to gradually update our cache, users will see inconsistencies across page navigations. The changes made to `blog_layout.tmpl` will only take effect after they revisit pages multiple times. If a user returns to a previously cached page months later, they'll still see your old layout, which can be jarring after they've gotten accustomed to seeing layout changes on fresh pages.
 
-To avoid jarring your users, proactively purging *all* cached HTML that relies on a modified template is arguably the best approach. But now you're faced with another tradeoff: the performance and offline benefits of caching are diminished if users' caches are invalidated frequently. The effort that you put into implementing a caching strategy is wasted if you have to throw your entire cache away due to even small updates to your site's layout.
+To avoid jarring your users, proactively purging _all_ cached HTML that relies on a modified template is arguably the best approach. But now you're faced with another tradeoff: the performance and offline benefits of caching are diminished if users' caches are invalidated frequently. The effort that you put into implementing a caching strategy is wasted if you have to throw your entire cache away due to even small updates to your site's layout.
 
 ## Real-world examples
 
@@ -128,7 +128,7 @@ Second, and more importantly, [clean updates](#clean-updates) mean that you're m
 
 In the Application Shell model, your service worker needs to have special logic in place to handle [navigation requests](https://html.spec.whatwg.org/#navigating-across-documents). While the incoming request might be for a URL like `https://example.com/2016/12/foo.html`, your service worker needs to respond with your cached `shell.html` document, not with `foo.html` (which won't be cached in this model). Your Application Shell is then responsible for performing client-side templating and inserting the correct content into the DOM, based on whatever the request URL is.
 
-This works fine when you only have one common layout, defined in `shell.html`, that's shared by all the pages on your site. But if there's a subset of pages on your site that use completely different layouts, like `https://example.com/about.html`, your service worker needs to know *not* to respond to those navigation requests with `shell.html`.
+This works fine when you only have one common layout, defined in `shell.html`, that's shared by all the pages on your site. But if there's a subset of pages on your site that use completely different layouts, like `https://example.com/about.html`, your service worker needs to know _not_ to respond to those navigation requests with `shell.html`.
 
 Your service worker is now an HTTP router, examining incoming navigations requests and serving the right type of response for each URL. If there's a simple URL pattern that can be used to match all of the requests that can be handled with the `shell.html` layout, then you're in good shape—something like the following might suffice:
 
@@ -163,7 +163,7 @@ You might also need to add in a build step that takes original Markdown sources 
 
 Finally, if your site relies on any sort of custom routing or templating rules that are implemented server-side, that routing logic needs to be moved into your service worker, as explained in the [previous section](#routing-logic-in-your-service-worker).
 
-This duplication means that there are more opportunities for pieces of your site to get out of sync. If you make changes to your `blog_layout.tmpl`, but the corresponding changes aren't made to `shell.html`, then browsers which lack service worker support will see one thing, while browsers that have a service worker responding with your Application Shell will see something else. Similar issues could arise if your routing rules need tweaking—they could potentially need to be changed in *three* places (server-side, client-side in [SPA-style](https://en.wikipedia.org/wiki/Single-page_application) JavaScript, and client-side in service worker JavaScript) depending on how complicated your routing needs are. Trisomorphic routing: it's actually A Thing!
+This duplication means that there are more opportunities for pieces of your site to get out of sync. If you make changes to your `blog_layout.tmpl`, but the corresponding changes aren't made to `shell.html`, then browsers which lack service worker support will see one thing, while browsers that have a service worker responding with your Application Shell will see something else. Similar issues could arise if your routing rules need tweaking—they could potentially need to be changed in _three_ places (server-side, client-side in [SPA-style](https://en.wikipedia.org/wiki/Single-page_application) JavaScript, and client-side in service worker JavaScript) depending on how complicated your routing needs are. Trisomorphic routing: it's actually A Thing!
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr"><a href="https://twitter.com/adactioJournal">@adactioJournal</a> Shows there are fantastic opportunities, though. I&#39;ve yet to see someone nail &quot;trisomorphic&quot; routing (server + JS + SW).</p>&mdash; Nolan Lawson (@nolanlawson) <a href="https://twitter.com/nolanlawson/status/735469605238509569">May 25, 2016</a></blockquote>
 

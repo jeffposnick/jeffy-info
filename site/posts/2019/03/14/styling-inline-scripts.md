@@ -1,7 +1,7 @@
 ---
 layout: default.njk
-title: "Styling inline scripts"
-excerpt: "Show what you run when demoing JavaScript."
+title: 'Styling inline scripts'
+excerpt: 'Show what you run when demoing JavaScript.'
 tags:
   - css
   - javascript
