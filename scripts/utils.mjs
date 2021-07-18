@@ -68,13 +68,18 @@ export async function processMarkdown(file) {
     page: data,
   });
 
-  return { data, jsonFile };
+  return { html, data, jsonFile };
 }
 
 export async function writeCollections(posts) {
   const file = path.join(BUILD_DIR, STATIC_DIR, 'collections.json');
   await fse.writeJSON(file, {
-    posts: posts.sort((a, b) => b.date.localeCompare(a.date)),
+    // Remove the html field, which was used for the RSS feed, before we
+    // serialize it.
+    posts: posts.sort((a, b) => b.date.localeCompare(a.date)).map((post) => {
+      delete post.html;
+      return post;
+    }),
   });
 }
 
@@ -136,6 +141,7 @@ export async function generateRSS(posts) {
       link: post.url,
       description: post.description,
       date: new Date(post.date),
+      content: post.html,
       author: [
         {
           name: site.author,

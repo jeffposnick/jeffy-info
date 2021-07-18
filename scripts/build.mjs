@@ -25,18 +25,18 @@ async function main() {
   const posts = [];
   const pages = await globby([`${PAGES_DIR}/**/*.md`]);
   for (const page of pages) {
-    const { data, jsonFile } = await processMarkdown(page);
+    const { html, data, jsonFile } = await processMarkdown(page);
     log(`Wrote ${jsonFile}.`);
 
     const { date, excerpt, title, url } = data;
-    posts.push({ date, excerpt, title, url });
+    posts.push({ html, date, excerpt, title, url });
   }
-
-  await writeCollections(posts);
-  log(`Wrote metadata about ${posts.length} posts in the collection.`);
 
   const rssFile = await generateRSS(posts);
   log(`Wrote RSS feed to ${rssFile}.`);
+
+  await writeCollections(posts);
+  log(`Wrote metadata about ${posts.length} posts in the collection.`);
 
   const windowTSFiles = await globby([`${WINDOW_SRC_DIR}/*.ts`]);
   for (const windowTSFile of windowTSFiles) {
