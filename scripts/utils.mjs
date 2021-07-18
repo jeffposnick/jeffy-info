@@ -6,6 +6,7 @@ import fse from 'fs-extra';
 import MarkdownIt from 'markdown-it';
 import path from 'path';
 import tinydate from 'tinydate';
+import { Feed } from 'feed';
 
 export const CF_SW = 'cf-sw';
 export const PAGES_DIR = path.join('site', 'posts');
@@ -13,6 +14,7 @@ export const BROWSER_SW = 'service-worker';
 
 const BUILD_DIR = 'dist';
 const SRC_DIR = path.join('src', 'service-worker');
+const SITE_JSON = path.join('site', 'site.json');
 const STATIC_DIR = 'static';
 
 const md = new MarkdownIt();
@@ -107,4 +109,42 @@ export async function injectWorkboxManifest(file) {
   });
 
   return { count, size, warnings };
+}
+
+export async function generateRSS(posts) {
+  const site = await fse.readJSON(SITE_JSON);
+
+  const feed = new Feed({
+    title: site.title,
+    description: site.description,
+    id: site.url,
+    link: site.url,
+    language: 'en',
+    image: `${site.url}${site.logo}`,
+    favicon: `${site.url}${site.logo}`,
+    author: {
+      name: site.author,
+      email: site.email,
+    },
+  });
+
+  for (const post of posts) {
+    feed.addItem({
+      title: post.title,
+      id: post.url,
+      link: post.url,
+      description: post.description,
+      date: new Date(post.date),
+      author: [
+        {
+          name: site.author,
+          email: site.email,
+        },
+      ],
+    });
+  }
+
+  const file = path.join(BUILD_DIR, STATIC_DIR, 'feed.xml');
+  await fse.writeFile(file, feed.rss2());
+  return file;
 }

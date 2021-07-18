@@ -8,6 +8,7 @@ import {
   CF_SW,
   clean,
   injectWorkboxManifest,
+  generateRSS,
   log,
   PAGES_DIR,
   processMarkdown,
@@ -33,6 +34,9 @@ async function main() {
 
   await writeCollections(posts);
   log(`Wrote metadata about ${posts.length} posts in the collection.`);
+
+  const rssFile = await generateRSS(posts);
+  log(`Wrote RSS feed to ${rssFile}.`);
 
   for (const swFileName of [CF_SW, BROWSER_SW]) {
     const file = await bundle(swFileName);
