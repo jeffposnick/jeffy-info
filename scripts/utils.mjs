@@ -9,7 +9,7 @@ import tinydate from 'tinydate';
 
 export const CF_SW = 'cf-sw';
 export const PAGES_DIR = path.join('site', 'posts');
-export const BROWSER_SW = 'browser-sw';
+export const BROWSER_SW = 'service-worker';
 
 const BUILD_DIR = 'dist';
 const SRC_DIR = path.join('src', 'service-worker');
