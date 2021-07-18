@@ -53,7 +53,7 @@ Most of the magic takes place in the [shared service worker code](https://github
 
 Each matching route triggers a sequence of [Tempura templates](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/site/templates), with each rendered template streaming its partial HTML immediately in environments that support constructing [`ReadableStream`s](https://developer.mozilla.org/en-US/docs/Web/API/Streams_API/Using_readable_streams), courtesy of the [`workbox-streams` library](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-streams).
 
-Here's an [adapted](https://github.com/jeffposnick/jeffy-info/blob/3af1650a414c09c4fc92e66b26e4d66622af70e6/src/service-worker/shared/common.ts#L36-L61) snippet of code:
+Here's an [adapted](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/common.ts) snippet of code:
 
 ```js
 registerRoute(
