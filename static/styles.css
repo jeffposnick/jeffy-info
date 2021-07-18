@@ -111,3 +111,7 @@ a {
 img {
   max-width: 100%;
 }
+
+.uncached {
+  opacity: 50%;
+}

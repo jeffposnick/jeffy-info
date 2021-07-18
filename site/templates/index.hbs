@@ -2,7 +2,7 @@
     <div class="home">
       <ul class="post-list">
         {{#each collections.posts as post}}
-        <li>
+        <li data-json-file="/static{{{ post.url.replace('.html', '.json') }}}">
           <h2>
             <a class="post-link" href="{{{ post.url }}}">{{{ post.title }}}</a>
           </h2>
@@ -12,3 +12,8 @@
         {{/each}}
       </ul>
     </div>
+    <script type="module">
+      import {setupOfflineListeners} from '/static/index.js';
+
+      setupOfflineListeners();
+    </script>
