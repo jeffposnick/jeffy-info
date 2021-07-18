@@ -7,7 +7,7 @@ import { URLPatternMatcher } from './URLPatternMatcher';
 import * as Templates from './templates';
 import site from '../../site/site.json';
 
-export type StaticLoader = (event: ExtendableEvent, urlOverride?: string) => Promise<Response>;
+export type StaticLoader = (event: FetchEvent, urlOverride?: string) => Promise<Response>;
 
 export function registerRoutes(loadStatic: StaticLoader) {
   registerRoute(
@@ -16,7 +16,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
       [
         () => Templates.Start({ site }),
         async ({ event }: { event: ExtendableEvent }) => {
-          const response = await loadStatic(event, `/static/collections.json`);
+          const response = await loadStatic(event as FetchEvent, `/static/collections.json`);
 
           if (response?.ok) {
             const collections = await response.json();
@@ -40,7 +40,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
         () => Templates.Start({ site }),
         async ({ event, params }: { event: ExtendableEvent; params?: Record<string, any> }) => {
           const post = params.pathname.groups[0];
-          const response = await loadStatic(event, `/static/${post}.json`);
+          const response = await loadStatic(event as FetchEvent, `/static/${post}.json`);
 
           if (response?.ok) {
             const json = await response.json();
@@ -60,5 +60,5 @@ export function registerRoutes(loadStatic: StaticLoader) {
     ),
   );
 
-  setDefaultHandler(({ event }) => loadStatic(event));
+  setDefaultHandler(({ event }) => loadStatic(event as FetchEvent));
 }

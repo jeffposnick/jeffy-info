@@ -1,4 +1,3 @@
-import { injectManifest } from 'workbox-build';
 import { transform as tempuraTransform } from 'tempura/esbuild';
 import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
@@ -94,21 +93,6 @@ export async function bundle(swFileName) {
   });
 
   return outfile;
-}
-
-export async function injectWorkboxManifest(file) {
-  const { count, size, warnings } = await injectManifest({
-    globDirectory: path.join(BUILD_DIR),
-    globPatterns: [
-      `${STATIC_DIR}/**/*.{css,js}`,
-      // Precache our favicon.
-      `${STATIC_DIR}/34.png`,
-    ],
-    swDest: file,
-    swSrc: file,
-  });
-
-  return { count, size, warnings };
 }
 
 export async function generateRSS(posts) {

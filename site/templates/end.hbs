@@ -33,11 +33,17 @@
     </footer>
     <script>
       if ('serviceWorker' in navigator) {
-        if (navigator.serviceWorker.controller) {
-          navigator.serviceWorker.addEventListener('controllerchange', function() {
-            window.location.reload();
-          });
-        }
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data.meta === 'workbox-broadcast-update') {
+            const {updatedUrl} = event.data;
+            if (updatedUrl.endsWith('.json')) {
+              // Unconditionally reload when the page's JSON content is updated.
+              // Alternatively, you could display a "toast" message prompting
+              // the user to reload if they want.
+              window.location.reload();
+            }
+          }
+        });
 
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('/service-worker.js');

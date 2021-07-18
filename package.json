@@ -28,8 +28,7 @@
     "tempura": "^0.2.0",
     "tinydate": "^1.3.0",
     "urlpattern-polyfill": "^1.0.0-rc1",
-    "workbox-build": "^6.1.5",
-    "workbox-precaching": "^6.1.5",
+    "workbox-broadcast-update": "^6.1.5",
     "workbox-routing": "^6.1.5",
     "workbox-strategies": "^6.1.5",
     "workbox-streams": "^6.1.5"

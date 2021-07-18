@@ -7,7 +7,6 @@ import {
   copyStatic,
   CF_SW,
   clean,
-  injectWorkboxManifest,
   generateRSS,
   log,
   PAGES_DIR,
@@ -41,14 +40,6 @@ async function main() {
   for (const swFileName of [CF_SW, BROWSER_SW]) {
     const file = await bundle(swFileName);
     log(`Wrote ${file}.`);
-
-    if (swFileName === BROWSER_SW) {
-      const { count, size, warnings } = await injectWorkboxManifest(file);
-      if (warnings.length) {
-        log(warnings);
-      }
-      log(`${count} files will be precached, totaling ${prettyBytes(size)}.`);
-    }
   }
 }
 

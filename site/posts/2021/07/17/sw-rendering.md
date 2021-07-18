@@ -11,7 +11,7 @@ tags:
 
 This site is now rendered entirely on-demand via service workers!
 
-The first time you visit, you'll get HTML rendered in the cloud using [CloudFlare Workers](https://workers.cloudflare.com/). For each subsequent page you visit, a local in-browser service worker generates equivalent HTML, using locally cached data.
+The first time you visit, you'll get HTML rendered in the cloud using [CloudFlare Workers](https://workers.cloudflare.com/). For each subsequent page you visit, a local in-browser service worker generates equivalent HTML, taking advantage of local caching to render as much HTML as possible without blocking on the network.
 
 Both service worker environments share the majority of the same [Workbox](https://developers.google.com/web/tools/workbox/) code for routing and streaming response generation.
 
@@ -61,11 +61,11 @@ The one place where the CloudFlare and browser logic differs is the logic used t
 
 The CloudFlare Workers runtime supports loading static assets via a [`kv-asset-handler` helper library](https://github.com/cloudflare/kv-asset-handler).
 
-The browser runtime relies on Workbox's caching and routing to load those assets. Most of the site's assets are [precached](https://developers.google.com/web/tools/workbox/modules/workbox-precaching), with an asset manifest generated at [build time](https://github.com/jeffposnick/jeffy-info/blob/239d278c07a9fdde273e9337056a4d04dcc321f4/scripts/utils.mjs#L97-L106). Anything precached can be loaded by the browser's service worker via Workbox's [`matchPrecache()` method](https://github.com/jeffposnick/jeffy-info/blob/239d278c07a9fdde273e9337056a4d04dcc321f4/src/service-worker/browser-sw.ts#L17-L26).
+The browser runtime relies on Workbox's caching and routing to load those assets. A [stale-while-revalidate strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies#stale-while-revalidate) ensures that the service worker can render all the content quickly if you've previously visited the same page.
 
-Some of the pages on this blog have images, though, and it seems a bit wasteful to precache those unconditionally. Instead, I have a [browser-only route](https://github.com/jeffposnick/jeffy-info/blob/239d278c07a9fdde273e9337056a4d04dcc321f4/src/service-worker/browser-sw.ts#L30-L35) set up to match `/images/` requests, along with a [stale-while-revalidate strategy](https://developers.google.com/web/tools/workbox/modules/workbox-strategies#stale-while-revalidate) for keeping those cached and updated.
+Workbox's [`BroadcastUpdatePlugin`](https://developers.google.com/web/tools/workbox/modules/workbox-broadcast-update) will notify any open `window` clients when an update is found for cached content during the revalidate step. I took the blunt-force approach of reloading the entire page when this happens, but a more nuance approach would involve showing a message on the screen, prompting the user to reload if they would like to see new content.
 
-If you're offline and visit a page that has an image you haven't previously seen, then the page's content will load, but the images won't be available. That seems like a reasonable compromise!
+An alternative approach would be to use [Workbox's build tools](https://developers.google.com/web/tools/workbox/modules/workbox-build) to generate a precache manifest of all the JSON files needed to render every page on the site. (This is what I've done with previous iterations of this blog.) I decided to go with runtime caching approach instead, in the interest of minimizing the amount of data transferred during service worker installation. This means that you can navigate to every page on this blog while offline—only to the pages you've previously visited. If making the entirety of your site work offline after the first visit is important to your use case, precaching everything will let you do that!
 
 ## What's next?
 

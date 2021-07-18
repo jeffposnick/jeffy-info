@@ -16,7 +16,7 @@ const loadStatic: StaticLoader = async (event, urlOverride) => {
     : {};
 
   try {
-    return await getAssetFromKV(event as FetchEvent, options);
+    return await getAssetFromKV(event, options);
   } catch (err) {
     if (err instanceof NotFoundError) {
       return new Response('', {
