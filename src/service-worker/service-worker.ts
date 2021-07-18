@@ -18,11 +18,10 @@ const swrStrategy = new StaleWhileRevalidate({
   plugins: [new BroadcastUpdatePlugin()],
 });
 const loadStatic: StaticLoader = async (event, urlOverride) => {
-  const response = await swrStrategy.handle({
+  return await swrStrategy.handle({
     event,
     request: urlOverride || event.request.url,
   });
-  return response;
 };
 
 registerRoutes(loadStatic);
