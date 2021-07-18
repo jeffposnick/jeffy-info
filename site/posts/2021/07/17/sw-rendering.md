@@ -57,20 +57,23 @@ Here's an [adapted](https://github.com/jeffposnick/jeffy-info/blob/3af1650a414c0
 
 ```js
 registerRoute(
-  new URLPatternMatcher({pathname: '/(.*).html'}).matcher,
-  streamingStrategy([
-    () => Templates.Start({site}),
-    async ({event, params}) => {
-      const post = params.pathname.groups[0];
-      const response = await loadStatic(event, `/static/${post}.json`);
-      if (response?.ok) {
-        const json = await response.json();
-        return Templates.Page({site, ...json});
-      }
-      return Templates.Error({site});
-    },
-    () => Templates.End({site}),
-  ], {'content-type': 'text/html'}),
+  new URLPatternMatcher({ pathname: '/(.*).html' }).matcher,
+  streamingStrategy(
+    [
+      () => Templates.Start({ site }),
+      async ({ event, params }) => {
+        const post = params.pathname.groups[0];
+        const response = await loadStatic(event, `/static/${post}.json`);
+        if (response?.ok) {
+          const json = await response.json();
+          return Templates.Page({ site, ...json });
+        }
+        return Templates.Error({ site });
+      },
+      () => Templates.End({ site }),
+    ],
+    { 'content-type': 'text/html' },
+  ),
 );
 ```
 
@@ -88,12 +91,14 @@ Here's an abbreviated snippet of [that code](https://github.com/jeffposnick/jeff
 
 ```ts
 const loadStatic = async (event, urlOverride) => {
-  const options = urlOverride ? {
-    mapRequestToAsset: (request: Request) => {
-      const absoluteURLString = new URL(urlOverride, request.url).href;
-      return mapRequestToAsset(new Request(absoluteURLString, request));
-    }
-  } : {};
+  const options = urlOverride
+    ? {
+        mapRequestToAsset: (request: Request) => {
+          const absoluteURLString = new URL(urlOverride, request.url).href;
+          return mapRequestToAsset(new Request(absoluteURLString, request));
+        },
+      }
+    : {};
 
   return await getAssetFromKV(event, options);
 };
