@@ -11,5 +11,6 @@
   "twitter": {
     "username": "jeffposnick"
   },
-  "logo": "/static/34.png"
+  "logo": "/static/34.png",
+  "rssFeed": "/feed.xml"
 }

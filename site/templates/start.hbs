@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>{{{ site.title }}}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+
     <link rel="manifest" href="/static/manifest.json">
     <link rel="icon" sizes="192x192" href="{{{ site.logo }}}">
 
-    <title>{{{ site.title }}}</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="alternate" type="application/rss+xml" title="thirty-four" href="{{{ site.rssFeed }}}">
   </head>
   <body>
     <div class="site-header" role="banner">

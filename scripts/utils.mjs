@@ -144,7 +144,7 @@ export async function generateRSS(posts) {
     });
   }
 
-  const file = path.join(BUILD_DIR, STATIC_DIR, 'feed.xml');
+  const file = path.join(BUILD_DIR, site.rssFeed);
   await fse.writeFile(file, feed.rss2());
   return file;
 }
