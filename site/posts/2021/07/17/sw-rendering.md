@@ -73,4 +73,4 @@ Unlike some of my [previous efforts](https://developers.google.com/web/updates/2
 
 Moreover, while I implemented this architecture on blog site with Markdown files, this same approach could apply equally well to a site that relied on database or API calls to populate each page's content. The only thing that needs to change is the logic that retrieves data to populate each page's template. And because that logic only needs to be written in one place, inside the shared service worker code, you don't have to worry about it getting out of sync between the cloud and browser.
 
-I'm excited to see if more folks use [my current setup](https://github.com/jeffposnick/jeffy-info/tree/627e88f1ce0a583d08bd5a31638da1f60bec74d6) as inspiration, and am happy to chat with anyone interested in turning this into a  reusable started kit!
+I'm excited to see if more folks use [my current setup](https://github.com/jeffposnick/jeffy-info/tree/627e88f1ce0a583d08bd5a31638da1f60bec74d6) as inspiration, and am happy to chat with anyone interested in turning this into a reusable started kit!
