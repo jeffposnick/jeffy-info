@@ -34,4 +34,12 @@ registerRoute(
   }),
 );
 
+// The browser service worker doesn't precache all JSON files either.
+registerRoute(
+  new URLPatternMatcher({ pathname: '/*.json' }).matcher,
+  new StaleWhileRevalidate({
+    cacheName: 'json',
+  }),
+);
+
 registerRoutes(loadStatic);
