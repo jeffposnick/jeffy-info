@@ -97,7 +97,11 @@ export async function bundle(swFileName) {
 export async function injectWorkboxManifest(file) {
   const { count, size, warnings } = await injectManifest({
     globDirectory: path.join(BUILD_DIR),
-    globPatterns: [`${STATIC_DIR}/**/*.{css,js,json}`],
+    globPatterns: [
+      `${STATIC_DIR}/**/*.{css,js,json}`,
+      // Precache our favicon.
+      `${STATIC_DIR}/34.png`,
+    ],
     swDest: file,
     swSrc: file,
   });

@@ -2,7 +2,7 @@
   "name": "thirty-four",
   "icons": [
     {
-      "src": "/static/images/34.png",
+      "src": "/static/34.png",
       "sizes": "192x192",
       "type": "image/png"
     }
