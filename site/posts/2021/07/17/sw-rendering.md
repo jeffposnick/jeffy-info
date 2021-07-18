@@ -61,6 +61,7 @@ registerRoute(
   streamingStrategy(
     [
       () => Templates.Start({ site }),
+
       async ({ event, params }) => {
         const post = params.pathname.groups[0];
         const response = await loadStatic(event, `/static/${post}.json`);
@@ -70,6 +71,7 @@ registerRoute(
         }
         return Templates.Error({ site });
       },
+
       () => Templates.End({ site }),
     ],
     { 'content-type': 'text/html' },
@@ -115,6 +117,7 @@ const swrStrategy = new StaleWhileRevalidate({
   cacheName: 'static',
   plugins: [new BroadcastUpdatePlugin()],
 });
+
 const loadStatic = async (event, urlOverride) => {
   return await swrStrategy.handle({
     event,
