@@ -3,7 +3,7 @@
 import '@worker-tools/location-polyfill';
 import { getAssetFromKV, mapRequestToAsset, NotFoundError } from '@cloudflare/kv-asset-handler';
 
-import { registerRoutes, StaticLoader } from './common';
+import { registerRoutes, StaticLoader } from './shared/common';
 
 const loadStatic: StaticLoader = async (event, urlOverride) => {
   const options = urlOverride

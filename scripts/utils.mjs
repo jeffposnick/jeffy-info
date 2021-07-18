@@ -7,12 +7,13 @@ import path from 'path';
 import tinydate from 'tinydate';
 import { Feed } from 'feed';
 
+export const BROWSER_SW = 'service-worker';
 export const CF_SW = 'cf-sw';
 export const PAGES_DIR = path.join('site', 'posts');
-export const BROWSER_SW = 'service-worker';
+export const SW_SRC_DIR = 'src/service-worker';
+export const WINDOW_SRC_DIR = 'src/window';
 
 const BUILD_DIR = 'dist';
-const SRC_DIR = path.join('src', 'service-worker');
 const SITE_JSON = path.join('site', 'site.json');
 const STATIC_DIR = 'static';
 
@@ -77,8 +78,9 @@ export async function writeCollections(posts) {
   });
 }
 
-export async function bundle(swFileName) {
-  const outfile = path.join(BUILD_DIR, `${swFileName}.js`);
+export async function bundleSWJS(file) {
+  const {name} = path.parse(file);
+  const outfile = path.join(BUILD_DIR, `${name}.js`);
 
   await esbuild.build({
     outfile,
@@ -86,10 +88,25 @@ export async function bundle(swFileName) {
     define: {
       'process.env.NODE_ENV': '"production"',
     },
-    entryPoints: [`${SRC_DIR}/${swFileName}.ts`],
+    entryPoints: [file],
     format: 'iife',
     minify: true,
     plugins: [tempuraTransform()],
+  });
+
+  return outfile;
+}
+
+export async function bundleWindowJS(file) {
+  const {name} = path.parse(file);
+  const outfile = path.join(BUILD_DIR, STATIC_DIR, `${name}.js`);
+
+  await esbuild.build({
+    outfile,
+    bundle: true,
+    entryPoints: [file],
+    format: 'esm',
+    minify: true,
   });
 
   return outfile;

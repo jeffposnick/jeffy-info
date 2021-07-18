@@ -5,7 +5,7 @@ import { strategy as streamingStrategy } from 'workbox-streams';
 
 import { URLPatternMatcher } from './URLPatternMatcher';
 import * as Templates from './templates';
-import site from '../../site/site.json';
+import site from '../../../site/site.json';
 
 export type StaticLoader = (event: FetchEvent, urlOverride?: string) => Promise<Response>;
 

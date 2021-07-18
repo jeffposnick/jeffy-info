@@ -2,15 +2,16 @@ import globby from 'globby';
 import prettyBytes from 'pretty-bytes';
 
 import {
-  BROWSER_SW,
-  bundle,
-  copyStatic,
-  CF_SW,
+  bundleSWJS,
+  bundleWindowJS,
   clean,
+  copyStatic,
   generateRSS,
   log,
   PAGES_DIR,
   processMarkdown,
+  SW_SRC_DIR,
+  WINDOW_SRC_DIR,
   writeCollections,
 } from './utils.mjs';
 
@@ -37,9 +38,16 @@ async function main() {
   const rssFile = await generateRSS(posts);
   log(`Wrote RSS feed to ${rssFile}.`);
 
-  for (const swFileName of [CF_SW, BROWSER_SW]) {
-    const file = await bundle(swFileName);
-    log(`Wrote ${file}.`);
+  const windowTSFiles = await globby([`${WINDOW_SRC_DIR}/*.ts`]);
+  for (const windowTSFile of windowTSFiles) {
+    const bundledFile = await bundleWindowJS(windowTSFile);
+    log(`Wrote ${bundledFile}.`);
+  }
+
+  const swSFiles = await globby([`${SW_SRC_DIR}/*.ts`]);
+  for (const swSFile of swSFiles) {
+    const bundledFile = await bundleSWJS(swSFile);
+    log(`Wrote ${bundledFile}.`);
   }
 }
 

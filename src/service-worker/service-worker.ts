@@ -2,11 +2,10 @@
 declare const self: ServiceWorkerGlobalScope;
 
 import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
-import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 
-import { URLPatternMatcher } from './URLPatternMatcher';
-import { registerRoutes, StaticLoader } from './common';
+import { URLPatternMatcher } from './shared/URLPatternMatcher';
+import { registerRoutes, StaticLoader } from './shared/common';
 
 self.addEventListener('install', () => {
   self.skipWaiting();
