@@ -72,7 +72,7 @@ export async function processMarkdown(file) {
 export async function writeCollections(posts) {
   const file = path.join(BUILD_DIR, STATIC_DIR, 'collections.json');
   await fse.writeJSON(file, {
-    posts: posts.reverse(),
+    posts: posts.sort((a, b) => b.date.localeCompare(a.date)),
   });
 }
 
