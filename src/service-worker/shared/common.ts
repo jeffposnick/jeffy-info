@@ -16,14 +16,18 @@ export function registerRoutes(loadStatic: StaticLoader) {
       [
         () => Templates.Start({ site }),
         async ({ event }: { event: ExtendableEvent }) => {
-          const response = await loadStatic(event as FetchEvent, `/static/collections.json`);
+          try {
+            const response = await loadStatic(event as FetchEvent, `/static/collections.json`);
 
-          if (response?.ok) {
-            const collections = await response.json();
-            return Templates.Index({ site, collections });
-          }
+            if (response?.ok) {
+              const collections = await response.json();
+              return Templates.Index({ site, collections });
+            }
 
-          return Templates.Error({ site });
+            throw new Error('Unable to load static resource.');
+          } catch (err) {
+            return Templates.Error({ site });
+          }          
         },
         () => Templates.End({ site }),
       ],
@@ -39,18 +43,22 @@ export function registerRoutes(loadStatic: StaticLoader) {
       [
         () => Templates.Start({ site }),
         async ({ event, params }: { event: ExtendableEvent; params?: Record<string, any> }) => {
-          const post = params.pathname.groups[0];
-          const response = await loadStatic(event as FetchEvent, `/static/${post}.json`);
+          try {
+            const post = params.pathname.groups[0];
+            const response = await loadStatic(event as FetchEvent, `/static/${post}.json`);
 
-          if (response?.ok) {
-            const json = await response.json();
-            return Templates.Page({
-              site,
-              ...json,
-            });
+            if (response?.ok) {
+              const json = await response.json();
+              return Templates.Page({
+                site,
+                ...json,
+              });
+            }
+
+            throw new Error('Unable to load static resource.');
+          } catch (err) {
+            return Templates.Error({ site });
           }
-
-          return Templates.Error({ site });
         },
         () => Templates.End({ site }),
       ],
