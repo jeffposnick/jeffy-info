@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Offline-first for Your Templated Site (Part Two)'
 excerpt: 'Full-page caching vs. App Shell vs. service worker rendering.'
 tags:
@@ -10,7 +9,6 @@ tags:
   - post
   - pwa
   - service-worker
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 _This is the second part of a planned three-part series._

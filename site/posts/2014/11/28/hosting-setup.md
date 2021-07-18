@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Hosting Setup'
 excerpt: 'A step-by-step guide to hosting a blog on HTTPS-enabled custom domain.'
 tags:
@@ -10,7 +9,6 @@ tags:
   - https
   - meta
   - post
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # Blogging Software

@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Service workers in create-react-app v2'
 excerpt: 'There are many alternatives, and something has to be the default.'
 tags:
@@ -7,7 +6,6 @@ tags:
   - post
   - web
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 Spurred on by [this Twitter thread](https://twitter.com/AdamRackis/status/1050176700150108160), I wanted to share some thoughts in a longer forum than Twitter would allow.

@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Debugging a specific service worker request'
 excerpt: 'The power of DevTools conditional breakpoints.'
 tags:
@@ -7,7 +6,6 @@ tags:
   - debugging
   - devtools
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 ## Conditional breakpoints

@@ -1,12 +1,10 @@
 ---
-layout: default.njk
 title: 'Styling inline scripts'
 excerpt: 'Show what you run when demoing JavaScript.'
 tags:
   - css
   - javascript
   - post
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 Following up on [this tweet](https://twitter.com/jeffposnick/status/1106217552190062598), I remembered that I have a blog(!) and that I can use it to host and run arbitrary JavaScript and CSS(!).

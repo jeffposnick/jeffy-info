@@ -1,12 +1,10 @@
 ---
-layout: default.njk
 title: 'Testing multiple versions of a module dependency'
 excerpt: 'module-alias ftw'
 tags:
   - post
   - webpack
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 ## The problem

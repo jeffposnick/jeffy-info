@@ -1,12 +1,10 @@
 ---
-layout: default.njk
 title: 'Using npm modules inside of Apps Script'
 excerpt: "Bundlers: the source of, and solution to, all of JavaScript's problems."
 tags:
   - post
   - npm
   - appsscript
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 I recently was processing some data using [Apps Script](https://developers.google.com/apps-script), and needed to parse out [second-level domain](https://en.wikipedia.org/wiki/Second-level_domain) info from a bunch of URLs. This is definitely [**not** the job for regular expressions](https://twitter.com/jeffposnick/status/1401218570093305863), but it's perfect for an `npm` module, [`psl`](https://www.npmjs.com/package/psl), that uses the [public suffix list](https://publicsuffix.org/).

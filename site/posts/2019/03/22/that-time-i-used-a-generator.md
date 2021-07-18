@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'That time I used a generator'
 excerpt: "They're there for a reason!"
 tags:
@@ -7,7 +6,6 @@ tags:
   - javascript
   - post
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # Backstory

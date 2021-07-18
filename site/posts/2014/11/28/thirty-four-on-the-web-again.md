@@ -1,11 +1,9 @@
 ---
-layout: default.njk
 title: 'thirty-four on the Web (Again)'
 excerpt: 'But first, some administrivia.'
 tags:
   - meta
   - post
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # About Me

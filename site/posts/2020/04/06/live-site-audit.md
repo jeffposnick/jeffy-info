@@ -1,11 +1,9 @@
 ---
-layout: default.njk
 title: 'Performance auditing an eCommerce site'
 excerpt: "...let's do it live!"
 tags:
   - performance
   - post
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 ## Alan's weekly eCommerce livestreams

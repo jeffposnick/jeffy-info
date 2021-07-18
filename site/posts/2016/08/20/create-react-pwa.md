@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'create-react-pwa'
 excerpt: "What's it take to turn a create-react-app project into a Progressive Web App?"
 tags:
@@ -8,7 +7,6 @@ tags:
   - react
   - service-worker
   - sw
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # tl;dr

@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Offline-first for Your Templated Site (Part One)'
 excerpt: 'Terminology and an exploring the architecture.'
 tags:
@@ -8,7 +7,6 @@ tags:
   - post
   - pwa
   - service-worker
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 _This is the first part of a planned three-part series._

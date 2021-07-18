@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'CDS Perf Review Clinic Takeaways'
 excerpt: 'A linkdump by any other name....'
 tags:
@@ -8,7 +7,6 @@ tags:
   - post
   - web
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # CDS '17 Retrospective

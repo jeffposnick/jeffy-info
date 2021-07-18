@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Exposing headers on CORS responses'
 excerpt: 'Access-Control-Expose-Headers is your friend.'
 tags:
@@ -7,7 +6,6 @@ tags:
   - javascript
   - post
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 ## CORS and its discontents

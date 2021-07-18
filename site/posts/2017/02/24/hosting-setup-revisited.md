@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Hosting Setup, Revisited'
 excerpt: 'Goodbye gh-pages + Cloudflare, hello Firebase Hosting.'
 tags:
@@ -8,7 +7,6 @@ tags:
   - github
   - hosting
   - post
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # Background

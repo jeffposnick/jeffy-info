@@ -1,5 +1,4 @@
 ---
-layout: default.njk
 title: 'Something Brewing'
 excerpt: 'Apparently, the whole point of this blog is to blog about blogging architecture.'
 tags:
@@ -9,7 +8,6 @@ tags:
   - post
   - web
   - workbox
-permalink: "/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}.html"
 ---
 
 # Motivation
