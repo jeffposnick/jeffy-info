@@ -5,11 +5,10 @@
   "description": "A template for kick starting a Cloudflare Workers project",
   "main": "dist/cf-sw.js",
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "node utils/build.mjs",
     "dev": "wrangler dev",
-    "format": "prettier --write \"{site,src,scripts,static}/**/*.{ts,md,json,mjs,js}\"",
-    "publish": "wrangler publish",
-    "watch": "node scripts/watch.mjs"
+    "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,mjs,js}\"",
+    "publish": "wrangler publish"
   },
   "author": "Jeff Posnick <jeffy@google.com>",
   "license": "MIT",

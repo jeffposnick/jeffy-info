@@ -13,7 +13,7 @@ import {
   SW_SRC_DIR,
   WINDOW_SRC_DIR,
   writeCollections,
-} from './utils.mjs';
+} from './lib.mjs';
 
 async function main() {
   await clean();

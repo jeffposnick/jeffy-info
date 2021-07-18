@@ -76,15 +76,17 @@ export async function writeCollections(posts) {
   await fse.writeJSON(file, {
     // Remove the html field, which was used for the RSS feed, before we
     // serialize it.
-    posts: posts.sort((a, b) => b.date.localeCompare(a.date)).map((post) => {
-      delete post.html;
-      return post;
-    }),
+    posts: posts
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .map((post) => {
+        delete post.html;
+        return post;
+      }),
   });
 }
 
 export async function bundleSWJS(file) {
-  const {name} = path.parse(file);
+  const { name } = path.parse(file);
   const outfile = path.join(BUILD_DIR, `${name}.js`);
 
   await esbuild.build({
@@ -103,7 +105,7 @@ export async function bundleSWJS(file) {
 }
 
 export async function bundleWindowJS(file) {
-  const {name} = path.parse(file);
+  const { name } = path.parse(file);
   const outfile = path.join(BUILD_DIR, STATIC_DIR, `${name}.js`);
 
   await esbuild.build({
