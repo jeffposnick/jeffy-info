@@ -19,11 +19,9 @@ export function registerRoutes(loadStatic: StaticLoader) {
       [
         () => Templates.Start({ site }),
         async ({ event }: { event: ExtendableEvent }) => {
+          const jsonURL = `/static/collections.json`;
           try {
-            const response = await loadStatic(
-              event as FetchEvent,
-              `/static/collections.json`,
-            );
+            const response = await loadStatic(event as FetchEvent, jsonURL);
 
             if (response?.ok) {
               const collections = await response.json();
@@ -32,7 +30,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ site });
+            return Templates.Error({ site, url: jsonURL });
           }
         },
         () => Templates.End({ site }),
@@ -55,12 +53,10 @@ export function registerRoutes(loadStatic: StaticLoader) {
           event: ExtendableEvent;
           params?: Record<string, any>;
         }) => {
+          const post = params.pathname.groups[0];
+          const jsonURL = `/static/${post}.json`;
           try {
-            const post = params.pathname.groups[0];
-            const response = await loadStatic(
-              event as FetchEvent,
-              `/static/${post}.json`,
-            );
+            const response = await loadStatic(event as FetchEvent, jsonURL);
 
             if (response?.ok) {
               const json = await response.json();
@@ -72,7 +68,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ site });
+            return Templates.Error({ site, url: jsonURL });
           }
         },
         () => Templates.End({ site }),
