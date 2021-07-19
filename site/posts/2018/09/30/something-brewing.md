@@ -35,9 +35,12 @@ Check out the [latest deployed version](/service-worker.js) of this site's servi
 ```js
 const postHandler = async ({ params }) => {
   const site = await initSiteData();
-  const cachedResponse = await caches.match(`/_posts/${params.join('-')}.json`, {
-    cacheName: workbox.core.cacheNames.precache,
-  });
+  const cachedResponse = await caches.match(
+    `/_posts/${params.join('-')}.json`,
+    {
+      cacheName: workbox.core.cacheNames.precache,
+    },
+  );
   const context = await cachedResponse.json();
   context.site = site;
   context.content = context.html;
@@ -53,7 +56,10 @@ const postHandler = async ({ params }) => {
   return new Response(html, { headers });
 };
 
-workbox.routing.registerRoute(new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'), postHandler);
+workbox.routing.registerRoute(
+  new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
+  postHandler,
+);
 ```
 
 # Caching strategies

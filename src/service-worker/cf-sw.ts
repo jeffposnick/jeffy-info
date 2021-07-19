@@ -1,6 +1,10 @@
 /// <reference lib="webworker"/>
 
-import { getAssetFromKV, mapRequestToAsset, NotFoundError } from '@cloudflare/kv-asset-handler';
+import {
+  getAssetFromKV,
+  mapRequestToAsset,
+  NotFoundError,
+} from '@cloudflare/kv-asset-handler';
 
 import { registerRoutes, StaticLoader } from './shared/common';
 

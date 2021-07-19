@@ -7,7 +7,10 @@ import { URLPatternMatcher } from './URLPatternMatcher';
 import * as Templates from './templates';
 import site from '../../../site/site.json';
 
-export type StaticLoader = (event: FetchEvent, urlOverride?: string) => Promise<Response>;
+export type StaticLoader = (
+  event: FetchEvent,
+  urlOverride?: string,
+) => Promise<Response>;
 
 export function registerRoutes(loadStatic: StaticLoader) {
   registerRoute(
@@ -17,7 +20,10 @@ export function registerRoutes(loadStatic: StaticLoader) {
         () => Templates.Start({ site }),
         async ({ event }: { event: ExtendableEvent }) => {
           try {
-            const response = await loadStatic(event as FetchEvent, `/static/collections.json`);
+            const response = await loadStatic(
+              event as FetchEvent,
+              `/static/collections.json`,
+            );
 
             if (response?.ok) {
               const collections = await response.json();
@@ -42,10 +48,19 @@ export function registerRoutes(loadStatic: StaticLoader) {
     streamingStrategy(
       [
         () => Templates.Start({ site }),
-        async ({ event, params }: { event: ExtendableEvent; params?: Record<string, any> }) => {
+        async ({
+          event,
+          params,
+        }: {
+          event: ExtendableEvent;
+          params?: Record<string, any>;
+        }) => {
           try {
             const post = params.pathname.groups[0];
-            const response = await loadStatic(event as FetchEvent, `/static/${post}.json`);
+            const response = await loadStatic(
+              event as FetchEvent,
+              `/static/${post}.json`,
+            );
 
             if (response?.ok) {
               const json = await response.json();
