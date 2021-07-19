@@ -1,11 +1,12 @@
+import { Feed } from 'feed';
 import { transform as tempuraTransform } from 'tempura/esbuild';
+import csso from 'csso';
 import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
 import fse from 'fs-extra';
 import MarkdownIt from 'markdown-it';
 import path from 'path';
 import tinydate from 'tinydate';
-import { Feed } from 'feed';
 
 export const BROWSER_SW = 'service-worker';
 export const CF_SW = 'cf-sw';
@@ -156,4 +157,12 @@ export async function generateRSS(posts) {
   const file = path.join(BUILD_DIR, site.rssFeed);
   await fse.writeFile(file, feed.rss2());
   return file;
+}
+
+export async function minifyCSS(file) {
+  const outfile = path.join(BUILD_DIR, STATIC_DIR, path.basename(file));
+  const rawCSS = await fse.readFile(file);
+  const minifiedCSS = csso.minify(rawCSS).css;
+  await fse.writeFile(outfile, minifiedCSS);
+  return outfile;
 }

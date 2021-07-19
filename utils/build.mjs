@@ -8,6 +8,7 @@ import {
   copyStatic,
   generateRSS,
   log,
+  minifyCSS,
   PAGES_DIR,
   processMarkdown,
   SW_SRC_DIR,
@@ -48,6 +49,12 @@ async function main() {
   for (const swSFile of swSFiles) {
     const bundledFile = await bundleSWJS(swSFile);
     log(`Wrote ${bundledFile}.`);
+  }
+
+  const cssFiles = await globby([`site/**/*.css`]);
+  for (const cssFile of cssFiles) {
+    const minifiedFile = await minifyCSS(cssFile);
+    log(`Wrote ${minifiedFile}.`);
   }
 }
 
