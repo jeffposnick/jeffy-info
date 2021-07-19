@@ -2,20 +2,22 @@
   "private": true,
   "name": "cf-worker",
   "version": "1.0.0",
-  "description": "A template for kick starting a Cloudflare Workers project",
+  "description": "An example of isomorphic service worker rendering.",
   "main": "dist/cf-sw.js",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "build": "node utils/build.mjs",
     "dev": "wrangler dev",
     "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,mjs,js}\"",
     "publish": "wrangler publish"
   },
-  "author": "Jeff Posnick <jeffy@google.com>",
+  "author": "Jeff Posnick <blog@posnick.org>",
   "license": "Apache-2.0",
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.3",
     "@cloudflare/wrangler": "^1.18.0",
-    "@worker-tools/location-polyfill": "^0.3.0",
     "csso": "^4.2.0",
     "esbuild": "^0.12.15",
     "feed": "^4.2.2",
