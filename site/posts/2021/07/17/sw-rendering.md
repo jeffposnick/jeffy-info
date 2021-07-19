@@ -126,7 +126,7 @@ const loadStatic = async (event, urlOverride) => {
 };
 ```
 
-An alternative would be to use [Workbox's build tools](https://developers.google.com/web/tools/workbox/modules/workbox-build) to generate a precache manifest of all the JSON files needed to render every page on the site. (This is what I've done with previous iterations of this blog.) I decided to go with runtime caching approach instead, in the interest of minimizing the amount of data transferred during service worker installation. This means that you can navigate to every page on this blog while offline—only to the pages you've previously visited. If making the entirety of your site work offline after the first visit is important to your use case, precaching everything will let you do that!
+An alternative would be to use [Workbox's build tools](https://developers.google.com/web/tools/workbox/modules/workbox-build) to generate a precache manifest of all the JSON files needed to render every page on the site. (This is what I've done with previous iterations of this blog.) I decided to go with runtime caching approach instead, in the interest of minimizing the amount of data transferred during service worker installation. This means that you can't navigate to every page on this blog while offline—only to the pages you've previously visited. If making the entirety of your site work offline after the first visit is important to your use case, precaching everything will let you do that!
 
 ## What's next?
 
