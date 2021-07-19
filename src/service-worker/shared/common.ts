@@ -27,7 +27,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
             throw new Error('Unable to load static resource.');
           } catch (err) {
             return Templates.Error({ site });
-          }          
+          }
         },
         () => Templates.End({ site }),
       ],

@@ -1,10 +1,14 @@
+import { STATIC_CACHE_NAME } from '../shared/constants';
+
 async function addUncachedClass() {
-  const cache = await caches.open('static');
+  const cache = await caches.open(STATIC_CACHE_NAME);
   const keys = await cache.keys();
-  const cachedPaths = new Set(keys.map((request) => {
-    const url = new URL(request.url);
-    return url.pathname;
-  }));
+  const cachedPaths = new Set(
+    keys.map((request) => {
+      const url = new URL(request.url);
+      return url.pathname;
+    }),
+  );
 
   const els = document.querySelectorAll('[data-json-file]');
   for (const el of els) {
@@ -22,10 +26,10 @@ function removeUncachedClass() {
 }
 
 export function setupOfflineListeners() {
-  window.addEventListener('online',  () => {
+  window.addEventListener('online', () => {
     removeUncachedClass();
   });
-  
+
   window.addEventListener('offline', () => {
     addUncachedClass();
   });
