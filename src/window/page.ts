@@ -1,23 +1,22 @@
-export function setMetadata(
-  site: Record<string, any>,
-  page: Record<string, any>,
-): void {
-  const title = page.title || site.title;
+import { BlogPosting, WithContext } from 'schema-dts';
 
-  if (title) {
-    document.title = title;
+import { Page, Site } from '../shared/types';
 
-    // See https://developers.google.com/search/docs/data-types/article#non-amp
-    const schemaData = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      datePublished: page.date,
-      headline: title,
-      image: [site.logo],
-    };
-    const scriptEl = document.createElement('script');
-    scriptEl.setAttribute('type', 'application/ld+json');
-    scriptEl.innerText = JSON.stringify(schemaData);
-    document.head.appendChild(scriptEl);
-  }
+export function setMetadata(site: Site, page: Page): void {
+  document.title = page.title;
+
+  // See https://developers.google.com/search/docs/data-types/article#non-amp
+  const schemaData: WithContext<BlogPosting> = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    abstract: page.excerpt,
+    datePublished: page.date,
+    headline: page.title,
+    image: site.logo,
+  };
+
+  const scriptEl = document.createElement('script');
+  scriptEl.setAttribute('type', 'application/ld+json');
+  scriptEl.innerText = JSON.stringify(schemaData);
+  document.head.appendChild(scriptEl);
 }
