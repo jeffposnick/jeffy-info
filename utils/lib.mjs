@@ -18,7 +18,9 @@ const BUILD_DIR = 'dist';
 const SITE_JSON = path.join('site', 'site.json');
 const STATIC_DIR = 'static';
 
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+  html:true,
+});
 const timestamp = tinydate('[{HH}:{mm}:{ss}] ');
 const dateRegexp = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
 
