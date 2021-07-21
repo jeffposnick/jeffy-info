@@ -49,8 +49,7 @@ Check out the log messages in the JavaScript console to see which headers are vi
 
 <button id="request-with-aceh">With Access-Control-Expose-Headers: Date</button>
 
-<script>async function logResponseHeaders(url) {
-  console.log('here');
+<script class="visible">async function logResponseHeaders(url) {
   // mode: 'cors' is the default, but let's just be explicit here.  
   const response = await fetch(url, {mode: 'cors'});
   console.log(`Response headers for ${url}:\n`, ...response.headers);

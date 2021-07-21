@@ -115,3 +115,15 @@ img {
 .uncached {
   opacity: 50%;
 }
+
+script.visible {
+  border-radius: 0.5em;
+  border: 2px dotted #272343;
+  display: block;
+  font-family: "Source Code Pro", Monaco, monospace;
+  font-family: monospace;
+  margin: 1em;
+  overflow-x: auto;
+  padding: 1em;
+  white-space: pre;
+}

@@ -11,18 +11,6 @@ Following up on [this tweet](https://twitter.com/jeffposnick/status/110621755219
 
 Here's a rather contrived example of how you could use CSS to make certain `<script>` tags visible, and use `<details>` + `<summary>` to hide them by default.
 
-<style>
-script.visible {
-  border: 1px solid #009688;
-  display: block;
-  font-family: monospace;
-  margin: 1em;
-  overflow-x: auto;
-  padding: 1em;
-  white-space: pre;
-}
-</style>
-
 <script class="visible">console.log('This is visible.');</script>
 
 <details>
