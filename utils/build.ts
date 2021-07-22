@@ -1,5 +1,4 @@
 import globby from 'globby';
-import prettyBytes from 'pretty-bytes';
 
 import {
   bundleSWJS,
@@ -14,7 +13,7 @@ import {
   SW_SRC_DIR,
   WINDOW_SRC_DIR,
   writeCollections,
-} from './lib.mjs';
+} from './lib';
 
 async function main() {
   await clean();

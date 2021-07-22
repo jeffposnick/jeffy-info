@@ -96,7 +96,7 @@ export async function bundleSWJS(file) {
     outfile,
     bundle: true,
     define: {
-      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_ENV': `"production"`,
     },
     entryPoints: [file],
     format: 'iife',

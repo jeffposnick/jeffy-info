@@ -8,7 +8,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "node utils/build.mjs",
+    "build": "esrun utils/build.ts",
     "dev": "wrangler dev",
     "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,mjs,js}\"",
     "publish": "wrangler publish"
@@ -18,6 +18,7 @@
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.1.3",
     "@cloudflare/wrangler": "^1.18.0",
+    "@digitak/esrun": "^1.2.6",
     "csso": "^4.2.0",
     "esbuild": "^0.12.15",
     "feed": "^4.2.2",
@@ -26,7 +27,6 @@
     "globby": "^11.0.4",
     "markdown-it": "^12.1.0",
     "prettier": "^2.3.2",
-    "pretty-bytes": "^5.6.0",
     "schema-dts": "^0.9.0",
     "tempura": "^0.2.0",
     "tinydate": "^1.3.0",
