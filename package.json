@@ -8,9 +8,9 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "esrun utils/build.ts",
+    "build": "esrun src/build/main.ts",
     "dev": "wrangler dev",
-    "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,mjs,js}\"",
+    "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,js}\"",
     "publish": "wrangler publish"
   },
   "author": "Jeff Posnick <blog@posnick.org>",
