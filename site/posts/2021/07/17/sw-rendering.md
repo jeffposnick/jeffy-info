@@ -47,7 +47,7 @@ The nice thing is that, for the most part, my existing posts didn't need to chan
 
 ### Shared service worker code
 
-Most of the magic takes place in the [shared service worker code](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/src/service-worker/shared), which handles routing using a [wrapper](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/URLPatternMatcher.ts) on top of the upcoming [`URLPattern`](https://chromestatus.com/feature/5731920199548928) API (which, [stay tuned](https://github.com/GoogleChrome/web.dev/pull/5780) to learn more about), along with some logic to handle requests for static assets like images, CSS, JS, or JSON files.
+Most of the magic takes place in the [shared service worker code](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/src/service-worker/shared), which handles routing using a [wrapper](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/URLPatternMatcher.ts) on top of the upcoming [`URLPattern` API](https://web.dev/urlpattern/), along with some logic to handle requests for static assets like images, CSS, JS, or JSON files.
 
 ### Streaming, sequential templates
 
