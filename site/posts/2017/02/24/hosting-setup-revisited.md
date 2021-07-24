@@ -9,7 +9,9 @@ tags:
   - post
 ---
 
-# Background
+_All of the info in this post is long out of date. See [Service worker rendering, in the cloud and in the browser](/2021/07/17/sw-rendering.html) for the latest setup._
+
+## Background
 
 As I [detailed ](https://jeffy.info/2014/11/28/hosting-setup.html)a few years ago when I started up this blog, I used a combination of [GitHub Pages](https://help.github.com/categories/github-pages-basics/) + [Cloudflare](https://www.cloudflare.com/) for a basic HTTPS static site deployment, pointed at by the `jeffy.info` domain I bought from [Google Domains](https://domains.google.com/registrar).
 
@@ -21,11 +23,11 @@ I'd be meaning to try something different for a while now, since
 
 For [whatever reason](https://blog.cloudflare.com/incident-report-on-memory-leak-caused-by-cloudflare-parser-bug/), last night seemed like a good night to actually switch to something else.
 
-# Migrating to Firebase Hosting
+## Migrating to Firebase Hosting
 
 I work with the folks responsible for [Firebase Hosting](https://firebase.google.com/docs/hosting/), so I won't pretend that this was an unbiased decision, but I'm quite glad that I decided to switch things over to them.
 
-## Deploying to jeffy-info.firebaseapp.com
+### Deploying to jeffy-info.firebaseapp.com
 
 The first step was getting my site deployed to a subdomain under `firebaseapp.com`, to make sure that everything looked okay there. Given that I just was serving the entirety of a static `build/` folder, this was low-drama. A basic [`firebase.json`](https://github.com/jeffposnick/jeffposnick.github.io/blob/d0bfdf81b7f1ddc29a299d98919f506f5366182b/firebase.json) configuration was enough to specify my public `build/` directory, and also configure the cache policy I wanted for `/service-worker.js` at the same time:
 
@@ -50,7 +52,7 @@ The first step was getting my site deployed to a subdomain under `firebaseapp.co
 
 Things looked fine when deployed to `jeffy-info.firebaseapp.com`, so the next step was to switch over the DNS entries for `jeffy.info` to point to Firebase Hosting's IP addresses, and [wait for Firebase Hosting to generate a new HTTPS certificate](https://firebase.google.com/docs/hosting/custom-domain#wait-for-ssl-certificate-provisioning) for me.
 
-## Configuring Google Domains DNS
+### Configuring Google Domains DNS
 
 This was arguably the hardest part of the migration, primarily because it's a change that might take up to an hour (or whatever the previous [DNS TTL](https://en.wikipedia.org/wiki/Time_to_live#DNS_records) was) to go into effect. During that interval things might look broken in several different ways. But patience was called for, and things just started working once the DNS configuration changes and new certificate went into affect.
 
@@ -62,7 +64,7 @@ And then also adding in an [`A` record](https://en.wikipedia.org/wiki/List_of_DN
 
 ![A records](/static/images/2017-02-24/google-domain-a-records.png)
 
-# Let's Encrypt FTW
+## Let's Encrypt FTW
 
 One of the original reasons I went with a Cloudflare proxy in front of my GitHub Pages deployment was because it was a simple way to get an HTTPS certificate for a custom domain. It's 2017 and [Let's Encrypt](https://letsencrypt.org/) is very much a thing, and it was great to see that the HTTPS certificate that Firebase Hosting automatically generated for `https://jeffy.info` came from Let's Encrypt:
 
