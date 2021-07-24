@@ -15,3 +15,6 @@ command = "npm run build"
 
 [build.upload]
 format = "service-worker"
+
+[env.staging]
+name = "cf-worker-staging"
