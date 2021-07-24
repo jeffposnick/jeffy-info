@@ -85,17 +85,19 @@ export async function processMarkdown(file: string) {
   return { html, data, jsonFile };
 }
 
+export function sortPosts(posts: Array<RSSItem>) {
+  posts.sort((a, b) => b.date.localeCompare(a.date));
+}
+
 export async function writeCollections(posts: Array<RSSItem>): Promise<void> {
   const file = path.join(BUILD_DIR, STATIC_DIR, 'collections.json');
   await fse.writeJSON(file, {
     // Remove the html field, which was used for the RSS feed, before we
     // serialize it.
-    posts: posts
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .map((post) => {
-        delete post.html;
-        return post;
-      }),
+    posts: posts.map((post) => {
+      delete post.html;
+      return post;
+    }),
   });
 }
 

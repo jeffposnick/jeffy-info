@@ -10,6 +10,7 @@ import {
   minifyCSS,
   PAGES_DIR,
   processMarkdown,
+  sortPosts,
   SW_SRC_DIR,
   WINDOW_SRC_DIR,
   writeCollections,
@@ -34,6 +35,8 @@ async function main(): Promise<void> {
     const { date, excerpt, title, url } = data;
     posts.push({ html, date, excerpt, title, url });
   }
+
+  sortPosts(posts);
 
   const rssFile = await generateRSS(posts);
   log(`Wrote RSS feed to ${rssFile}.`);
