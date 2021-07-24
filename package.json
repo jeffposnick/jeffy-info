@@ -19,6 +19,7 @@
     "@cloudflare/kv-asset-handler": "^0.1.3",
     "@cloudflare/wrangler": "^1.18.0",
     "@digitak/esrun": "^1.2.6",
+    "@types/node": "^16.4.0",
     "csso": "^4.2.0",
     "esbuild": "^0.12.15",
     "feed": "^4.2.2",

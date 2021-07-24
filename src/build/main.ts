@@ -13,6 +13,7 @@ import {
   SW_SRC_DIR,
   WINDOW_SRC_DIR,
   writeCollections,
+  writeManifest,
 } from './lib';
 
 async function main() {
@@ -44,17 +45,21 @@ async function main() {
     log(`Wrote ${bundledFile}.`);
   }
 
-  const swSFiles = await globby([`${SW_SRC_DIR}/*.ts`]);
-  for (const swSFile of swSFiles) {
-    const bundledFile = await bundleSWJS(swSFile);
-    log(`Wrote ${bundledFile}.`);
-  }
-
   const cssFiles = await globby([`site/**/*.css`]);
   for (const cssFile of cssFiles) {
     const minifiedFile = await minifyCSS(cssFile);
     log(`Wrote ${minifiedFile}.`);
   }
+
+  const assetManifestFile = await writeManifest();
+  log(`Wrote ${assetManifestFile}.`);
+
+  const swSFiles = await globby([`${SW_SRC_DIR}/*.ts`]);
+  for (const swSFile of swSFiles) {
+    const bundledFile = await bundleSWJS(swSFile);
+    log(`Wrote ${bundledFile}.`);
+  }
 }
 
+// @ts-ignore
 await main();

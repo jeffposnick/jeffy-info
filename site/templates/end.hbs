@@ -1,4 +1,4 @@
-{{#expect site}}
+{{#expect assetManifest, site}}
     <footer class="site-footer" role="contentinfo">
       <div class="links">
         <div><a href="mailto:{{{ site.email }}}">{{{ site.email }}}</a></div>
@@ -32,7 +32,7 @@
       </div>
     </footer>
     <script type="module">
-      import {registerSW, listenForUpdates} from '/static/end.js';
+      import {registerSW, listenForUpdates} from '{{{ assetManifest['end.js'] }}}';
 
       listenForUpdates();
       registerSW('/service-worker.js');

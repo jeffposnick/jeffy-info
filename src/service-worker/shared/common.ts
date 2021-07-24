@@ -6,6 +6,8 @@ import { strategy as streamingStrategy } from 'workbox-streams';
 import { URLPatternMatcher } from './URLPatternMatcher';
 import * as Templates from './templates';
 import site from '../../../site/site.json';
+// This needs to be generated at build time prior to bundling.
+import assetManifest from '../../../dist/asset-manifest.json';
 
 export type StaticLoader = (
   event: FetchEvent,
@@ -17,7 +19,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
     new URLPatternMatcher({ pathname: '/' }).matcher,
     streamingStrategy(
       [
-        () => Templates.Start({ site }),
+        () => Templates.Start({ assetManifest, site }),
         async ({ event }: { event: ExtendableEvent }) => {
           const jsonURL = `/static/collections.json`;
           try {
@@ -25,15 +27,15 @@ export function registerRoutes(loadStatic: StaticLoader) {
 
             if (response?.ok) {
               const collections = await response.json();
-              return Templates.Index({ site, collections });
+              return Templates.Index({ assetManifest, collections, site });
             }
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ site, url: jsonURL });
+            return Templates.Error({ assetManifest, site, url: jsonURL });
           }
         },
-        () => Templates.End({ site }),
+        () => Templates.End({ assetManifest, site }),
       ],
       {
         'content-type': 'text/html',
@@ -45,7 +47,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
     new URLPatternMatcher({ pathname: '/(.*).html' }).matcher,
     streamingStrategy(
       [
-        () => Templates.Start({ site }),
+        () => Templates.Start({ assetManifest, site }),
         async ({
           event,
           params,
@@ -61,6 +63,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
             if (response?.ok) {
               const json = await response.json();
               return Templates.Page({
+                assetManifest,
                 site,
                 ...json,
               });
@@ -68,10 +71,10 @@ export function registerRoutes(loadStatic: StaticLoader) {
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ site, url: jsonURL });
+            return Templates.Error({ assetManifest, site, url: jsonURL });
           }
         },
-        () => Templates.End({ site }),
+        () => Templates.End({ assetManifest, site }),
       ],
       {
         'content-type': 'text/html',
