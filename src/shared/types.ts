@@ -6,6 +6,19 @@ export interface Page {
   url: string;
 }
 
+export interface Post {
+  content: string;
+  page: Page;
+}
+
+export interface RSSItem {
+  date: string;
+  excerpt: string;
+  html: string;
+  title: string;
+  url: string;
+}
+
 export interface Site {
   author?: string;
   baseurl: string;

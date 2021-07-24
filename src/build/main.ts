@@ -16,14 +16,16 @@ import {
   writeManifest,
 } from './lib';
 
-async function main() {
+import { RSSItem } from '../shared/types';
+
+async function main(): Promise<void> {
   await clean();
   log('Cleaned up previous build.');
 
   await copyStatic();
   log('Copied static files.');
 
-  const posts = [];
+  const posts: Array<RSSItem> = [];
   const pages = await globby([`${PAGES_DIR}/**/*.md`]);
   for (const page of pages) {
     const { html, data, jsonFile } = await processMarkdown(page);
