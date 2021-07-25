@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "esrun src/build/main.ts",
+    "check-links": "esrun src/build/check-links.ts",
     "dev": "ENVIRONMENT_NAME=staging wrangler dev --env=staging",
     "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,js}\"",
     "publish": "wrangler publish --env=$ENVIRONMENT_NAME",
@@ -30,6 +31,7 @@
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
     "markdown-it": "^12.1.0",
+    "page-link-checker": "^1.3.0",
     "prettier": "^2.3.2",
     "schema-dts": "^0.9.0",
     "tempura": "^0.2.0",
