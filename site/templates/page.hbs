@@ -1,4 +1,4 @@
-{{#expect content, page, site}}
+{{#expect assetManifest, content, page, site}}
     <div class="page-content" role="main">
       <div class="wrapper">
         <h1 class="post-header"><a href="">{{{ page.title }}}</a></h1>
@@ -9,7 +9,7 @@
       </div>
     </div>
     <script type="module">
-      import {setMetadata} from '/static/page.js';
+      import {setMetadata} from '{{{ assetManifest['page.js'] }}}';
 
       setMetadata({{{ JSON.stringify(site) }}}, {{{ JSON.stringify(page) }}});
     </script>

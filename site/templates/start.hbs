@@ -1,11 +1,11 @@
-{{#expect site}}
+{{#expect assetManifest, site}}
 <html lang="en" itemscope itemtype="http://schema.org/Blog">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{{ site.title }}}</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{{ assetManifest['styles.css'] }}}">
 
     <link rel="manifest" href="/static/manifest.json">
     <link rel="icon" sizes="192x192" href="{{{ site.logo }}}">
