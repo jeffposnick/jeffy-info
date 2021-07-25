@@ -2,10 +2,17 @@
 declare const self: ServiceWorkerGlobalScope;
 
 import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
 import { registerRoutes, StaticLoader } from './shared/common';
-import { STATIC_CACHE_NAME } from '../shared/constants';
+import {
+  HASH_CHARS,
+  HASHED_STATIC_CACHE_NAME,
+  STATIC_CACHE_NAME,
+} from '../shared/constants';
+import { revisionedAssetsPlugin } from './shared/revisionedAssetsPlugin';
+
+const hashedURLPattern = new RegExp(`/_.{${HASH_CHARS}}_`);
 
 self.addEventListener('install', () => {
   self.skipWaiting();
@@ -17,10 +24,26 @@ const swrStrategy = new StaleWhileRevalidate({
   cacheName: STATIC_CACHE_NAME,
   plugins: [new BroadcastUpdatePlugin()],
 });
+
+// Anything with a hash in its URL can be safely loaded cache-first.
+const cacheFirstStrategy = new CacheFirst({
+  cacheName: HASHED_STATIC_CACHE_NAME,
+  plugins: [revisionedAssetsPlugin],
+});
+
 const loadStatic: StaticLoader = async (event, urlOverride) => {
+  const url = urlOverride || event.request.url;
+
+  if (hashedURLPattern.test(url)) {
+    return await cacheFirstStrategy.handle({
+      event,
+      request: url,
+    });
+  }
+
   return await swrStrategy.handle({
     event,
-    request: urlOverride || event.request.url,
+    request: url,
   });
 };
 

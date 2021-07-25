@@ -13,7 +13,7 @@ _All of the info in this post is long out of date. See [Service worker rendering
 
 ## Background
 
-As I [detailed ](https://jeffy.info/2014/11/28/hosting-setup.html)a few years ago when I started up this blog, I used a combination of [GitHub Pages](https://help.github.com/categories/github-pages-basics/) + [Cloudflare](https://www.cloudflare.com/) for a basic HTTPS static site deployment, pointed at by the `jeffy.info` domain I bought from [Google Domains](https://domains.google.com/registrar).
+As I [detailed](https://jeffy.info/2014/11/28/hosting-setup.html)a few years ago when I started up this blog, I used a combination of [GitHub Pages](https://help.github.com/categories/github-pages-basics/) + [Cloudflare](https://www.cloudflare.com/) for a basic HTTPS static site deployment, pointed at by the `jeffy.info` domain I bought from [Google Domains](https://domains.google.com/registrar).
 
 I'd be meaning to try something different for a while now, since
 

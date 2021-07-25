@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import { Feed } from 'feed';
 import { transform as tempuraTransform } from 'tempura/esbuild';
 import csso from 'csso';
@@ -8,8 +9,8 @@ import MarkdownIt from 'markdown-it';
 import path from 'path';
 import tinydate from 'tinydate';
 
-import { getHash, getHashedFilename } from '../shared/file-hashes';
 import { Page, RSSItem } from '../shared/types';
+import { HASH_CHARS } from '../shared/constants';
 
 export const BROWSER_SW = 'service-worker';
 export const CF_SW = 'cf-sw';
@@ -109,11 +110,14 @@ export async function bundleSWJS(file: string): Promise<string> {
     outfile,
     bundle: true,
     define: {
-      'process.env.NODE_ENV': `"production"`,
+      'process.env.NODE_ENV':
+        process.env.ENVIRONMENT_NAME === 'staging' && name === 'service-worker'
+          ? `"development"`
+          : `"production"`,
     },
     entryPoints: [file],
     format: 'iife',
-    minify: true,
+    minify: process.env.ENVIRONMENT_NAME === 'staging' ? false : true,
     plugins: [tempuraTransform()],
   });
 
@@ -130,7 +134,7 @@ export async function bundleWindowJS(file: string): Promise<string> {
     bundle: true,
     entryPoints: [file],
     format: 'esm',
-    minify: true,
+    minify: process.env.ENVIRONMENT_NAME === 'staging' ? false : true,
   });
 
   const hash = await getHash(outfile);
@@ -140,6 +144,19 @@ export async function bundleWindowJS(file: string): Promise<string> {
   assetManifest[basename] = '/' + path.relative(BUILD_DIR, hashedFilename);
 
   return hashedFilename;
+}
+
+export async function getHash(pathToFile: string): Promise<string> {
+  const contents = await fse.readFile(pathToFile);
+
+  const hash = createHash('sha256');
+  hash.update(contents);
+  return hash.digest('base64url').toString().substring(0, HASH_CHARS);
+}
+
+export function getHashedFilename(pathToFile: string, hash: string) {
+  const { dir, base } = path.parse(pathToFile);
+  return path.format({ dir, base: `_${hash}_${base}` });
 }
 
 export async function generateRSS(posts: Array<RSSItem>): Promise<string> {

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "esrun src/build/main.ts",
-    "dev": "wrangler dev",
+    "dev": "ENVIRONMENT_NAME=staging wrangler dev --env=staging",
     "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,js}\"",
     "publish": "wrangler publish --env=$ENVIRONMENT_NAME",
     "stage": "ENVIRONMENT_NAME=staging npm run publish"
