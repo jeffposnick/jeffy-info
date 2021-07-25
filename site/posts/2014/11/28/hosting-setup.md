@@ -32,7 +32,7 @@ Google Domains is in invite-only beta mode at the moment, but using an alternati
 
 ## Add a `CNAME` file to GitHub
 
-As per the [instructions](https://help.github.com/articles/adding-a-cname-file-to-your-repository/), I added a [`CNAME` file](https://github.com/jeffposnick/jeffposnick.github.io/blob/master/CNAME) to the top-level of the repo and pushed to GitHub.
+As per the [instructions](https://help.github.com/articles/adding-a-cname-file-to-your-repository/), I added a `CNAME` file to the top-level of the repo and pushed to GitHub.
 
 ## CloudFlare Setup
 
@@ -55,7 +55,7 @@ CloudFlare auto-provisioned a certificate for "jeffy.info" withing a couple of m
 Make sure you use the "Flexible SSL" option, which is required to work with a GitHub Pages backend server.
 Using "Flexible SSL" means that the GitHub Pages ⇔ CloudFlare traffic isn't encrypted, but the CloudFlare ⇔ user's browser traffic is.
 That's sufficient for my goal of enabling web functionality that requires HTTPS to the end user's browser, but it's probably not a good idea if you're concerned about traffic vulnerabilities in the GitHub Pages ⇔ CloudFlare hop.
-I want to make sure that my blog is HTTPS-only, and [CloudFlare's page rules](https://support.cloudflare.com/hc/en-us/sections/200038236-Page-Rules) interface allowed me to set that up:
+I want to make sure that my blog is HTTPS-only, and CloudFlare's page rules interface allowed me to set that up:
 
 ![HTTPS-only via CloudFlare's page rules](/static/images/cloudflare_page_rules.png)
 
@@ -73,4 +73,4 @@ CloudFlare offers image minification as well, but only as part of their paid off
 
 I'm not particularly happy with the default Jekyll templates, and have already made a few changes.
 I'm sure there will be lots of twiddling with that to come.
-I'm also not particularly familiar with the best practices for a build workflow. I've got a basic [`gulpfile.js`](https://github.com/jeffposnick/jeffposnick.github.io/blob/master/gulpfile.js) that I'm sure will grow over time.
+I'm also not particularly familiar with the best practices for a build workflow. I've got a basic `gulpfile.js` that I'm sure will grow over time.

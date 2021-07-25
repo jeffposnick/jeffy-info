@@ -28,8 +28,8 @@ After adding `@digitak/esrun` to `devDependencies`, and rewriting my build scrip
 ```json
 {
   "scripts": {
-    "build": "node src/build/main.js",
-  },
+    "build": "node src/build/main.js"
+  }
 }
 ```
 
@@ -38,8 +38,8 @@ to
 ```json
 {
   "scripts": {
-    "build": "esrun src/build/main.ts",
-  },
+    "build": "esrun src/build/main.ts"
+  }
 }
 ```
 
