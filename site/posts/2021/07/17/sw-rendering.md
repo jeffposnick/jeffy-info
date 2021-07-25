@@ -41,7 +41,7 @@ Well, no time like this weekend!
 
 ### Build setup
 
-Some of the work involved swapping out the 11ty build infrastructure in favor of a [bespoke build process](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/utils). At some point I might re-add 11ty, because I ultimately think that I just ended up recreating most of what it already does. But while prototyping this, I needed the level of control offered by generating _exactly_ the build artifacts I wanted from my [source Markdown files](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/site/posts).
+Some of the work involved swapping out the 11ty build infrastructure in favor of a [bespoke build process](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/src/build). At some point I might re-add 11ty, because I ultimately think that I just ended up recreating most of what it already does. But while prototyping this, I needed the level of control offered by generating _exactly_ the build artifacts I wanted from my [source Markdown files](https://github.com/jeffposnick/jeffy-info/tree/cf-worker/site/posts).
 
 The nice thing is that, for the most part, my existing posts didn't need to change—they remain Markdown documents with some [frontmatter](https://jekyllrb.com/docs/front-matter/) metadata, just like 11ty (and before that, Jekyll) expected.
 
