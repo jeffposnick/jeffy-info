@@ -1,16 +1,19 @@
 import globby from 'globby';
 
 import {
+  BUILD_DIR,
   bundleSWJS,
   bundleWindowJS,
   clean,
   copyStatic,
   generateRSS,
+  hashFiles,
   log,
   minifyCSS,
   PAGES_DIR,
   processMarkdown,
   sortPosts,
+  STATIC_DIR,
   SW_SRC_DIR,
   WINDOW_SRC_DIR,
   writeCollections,
@@ -55,6 +58,12 @@ async function main(): Promise<void> {
     const minifiedFile = await minifyCSS(cssFile);
     log(`Wrote ${minifiedFile}.`);
   }
+
+  const filesToHash = await globby([
+    `${BUILD_DIR}/${STATIC_DIR}/**/*.{css,js}`,
+  ]);
+  await hashFiles(filesToHash);
+  console.log(`Renamed ${filesToHash.length} files with hashes.`);
 
   const assetManifestFile = await writeManifest();
   log(`Wrote ${assetManifestFile}.`);

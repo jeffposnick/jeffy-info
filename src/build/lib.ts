@@ -13,14 +13,14 @@ import { Page, RSSItem } from '../shared/types';
 import { HASH_CHARS } from '../shared/constants';
 
 export const BROWSER_SW = 'service-worker';
+export const BUILD_DIR = 'dist';
 export const CF_SW = 'cf-sw';
 export const PAGES_DIR = 'site/posts';
+export const STATIC_DIR = 'static';
 export const SW_SRC_DIR = 'src/service-worker';
 export const WINDOW_SRC_DIR = 'src/window';
 
-const BUILD_DIR = 'dist';
 const SITE_JSON = path.join('site', 'site.json');
-const STATIC_DIR = 'static';
 
 const md = new MarkdownIt({
   html: true,
@@ -137,13 +137,7 @@ export async function bundleWindowJS(file: string): Promise<string> {
     minify: process.env.ENVIRONMENT_NAME === 'staging' ? false : true,
   });
 
-  const hash = await getHash(outfile);
-  const hashedFilename = getHashedFilename(outfile, hash);
-  await fse.rename(outfile, hashedFilename);
-
-  assetManifest[basename] = '/' + path.relative(BUILD_DIR, hashedFilename);
-
-  return hashedFilename;
+  return outfile;
 }
 
 export async function getHash(pathToFile: string): Promise<string> {
@@ -207,13 +201,16 @@ export async function minifyCSS(file: string): Promise<string> {
   const minifiedCSS = csso.minify(rawCSS).css;
   await fse.writeFile(outfile, minifiedCSS);
 
-  const hash = await getHash(outfile);
-  const hashedFilename = getHashedFilename(outfile, hash);
-  await fse.rename(outfile, hashedFilename);
+  return outfile;
+}
 
-  assetManifest[basename] = '/' + path.relative(BUILD_DIR, hashedFilename);
-
-  return hashedFilename;
+export async function hashFiles(files: Array<string>): Promise<void> {
+  for (const file of files) {
+    const hash = await getHash(file);
+    const hashedFilename = getHashedFilename(file, hash);
+    await fse.rename(file, hashedFilename);
+    assetManifest[file] = '/' + path.relative(BUILD_DIR, hashedFilename);
+  }
 }
 
 export async function writeManifest(): Promise<string> {
