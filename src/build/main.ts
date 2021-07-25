@@ -63,7 +63,7 @@ async function main(): Promise<void> {
     `${BUILD_DIR}/${STATIC_DIR}/**/*.{css,js}`,
   ]);
   await hashFiles(filesToHash);
-  console.log(`Renamed ${filesToHash.length} files with hashes.`);
+  log(`Renamed ${filesToHash.length} files with hashes.`);
 
   const assetManifestFile = await writeManifest();
   log(`Wrote ${assetManifestFile}.`);

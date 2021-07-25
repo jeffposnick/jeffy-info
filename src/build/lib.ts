@@ -206,10 +206,11 @@ export async function minifyCSS(file: string): Promise<string> {
 
 export async function hashFiles(files: Array<string>): Promise<void> {
   for (const file of files) {
+    const basename = path.basename(file);
     const hash = await getHash(file);
     const hashedFilename = getHashedFilename(file, hash);
     await fse.rename(file, hashedFilename);
-    assetManifest[file] = '/' + path.relative(BUILD_DIR, hashedFilename);
+    assetManifest[basename] = '/' + path.relative(BUILD_DIR, hashedFilename);
   }
 }
 
