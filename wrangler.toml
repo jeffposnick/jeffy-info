@@ -1,4 +1,4 @@
-name = "cf-worker"
+name = "cf-worker-dev"
 type = "javascript"
 
 account_id = ""
