@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import globby from 'globby';
+import { globby } from 'globby';
 import got from 'got';
 import parser from 'node-html-parser';
 import { URL } from 'url';
