@@ -8,7 +8,7 @@
     }
   ],
   "start_url": "/",
-  "display": "browser",
+  "display": "minimal-ui",
   "orientation": "portrait",
   "background_color": "#fdfdfd",
   "theme_color": "#00bcd4"
