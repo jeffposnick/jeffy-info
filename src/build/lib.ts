@@ -9,7 +9,7 @@ import MarkdownIt from 'markdown-it';
 import path from 'path';
 import tinydate from 'tinydate';
 
-import { Page, RSSItem } from '../shared/types';
+import { Page, Post, RSSItem, Site } from '../shared/types';
 import { HASH_CHARS } from '../shared/constants';
 
 export const BROWSER_SW = 'service-worker';
@@ -78,12 +78,13 @@ export async function processMarkdown(file: string) {
   data.url = jsonFilenameToURL(jsonFile);
 
   await fse.ensureDir(path.dirname(jsonFile));
-  await fse.writeJSON(jsonFile, {
+  const post: Post = {
     content: html,
     page: data,
-  });
+  };
+  await fse.writeJSON(jsonFile, post);
 
-  return { html, data, jsonFile };
+  return { data, html, jsonFile };
 }
 
 export function sortPosts(posts: Array<RSSItem>) {
@@ -154,7 +155,7 @@ export function getHashedFilename(pathToFile: string, hash: string) {
 }
 
 export async function generateRSS(posts: Array<RSSItem>): Promise<string> {
-  const site = await fse.readJSON(SITE_JSON);
+  const site: Site = await fse.readJSON(SITE_JSON);
 
   const feed = new Feed({
     author: {
