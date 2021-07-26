@@ -37,25 +37,18 @@ export const revisionedAssetsPlugin: WorkboxPlugin = {
 
     for (const key of keys) {
       if (filterPredicate(request.url, key.url) && request.url !== key.url) {
-        console.log(
-          `Removed out of old revisioned URL on ${key.url} as ${request.url} is newer.`,
-        );
         await cache.delete(key);
       }
     }
   },
 
   handlerDidError: async ({ error, request, state }) => {
-    console.log('error:', error);
     if (state.cacheName) {
       const cache = await caches.open(state.cacheName);
       const keys = await cache.keys();
 
       for (const key of keys) {
         if (filterPredicate(request.url, key.url)) {
-          console.log(
-            `Falling back on ${key.url} as a replacement for ${request.url}.`,
-          );
           return cache.match(key);
         }
       }
