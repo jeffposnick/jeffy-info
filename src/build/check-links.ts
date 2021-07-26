@@ -1,52 +1,46 @@
-import globby from 'globby';
-import plc from 'page-link-checker';
 import fse from 'fs-extra';
+import globby from 'globby';
+import got from 'got';
+import parser from 'node-html-parser';
+import { URL } from 'url';
 
 import { log } from './lib';
-import { Post } from '../shared/types';
-
-interface LinkCheckerResponse {
-  link: {
-    href: string;
-    text: string;
-  };
-  request: {
-    failed: boolean;
-    statusCode: number;
-  };
-}
-
-const BASE_URL = 'https://jeffy.info';
-
-function checkLinkPromise(html: string) {
-  return new Promise<Array<LinkCheckerResponse>>((resolve, reject) => {
-    plc.check(
-      html,
-      BASE_URL,
-      (err: string, responses: Array<LinkCheckerResponse>) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(responses);
-        }
-      },
-    );
-  });
-}
+import { Post, Site } from '../shared/types';
 
 async function main() {
+  const site: Site = await fse.readJSON('site/site.json');
   const files = await globby('dist/static/*/**/*.json');
   for (const file of files) {
-    log(`Checking ${file} for broken links...`);
+    let shouldLog = true;
+
     const post: Post = await fse.readJSON(file);
-    const responses = await checkLinkPromise(post.content);
-    for (const response of responses) {
-      if (
-        response.request.failed ||
-        (response.request.statusCode !== 200 &&
-          !response.link.href.startsWith(BASE_URL))
-      ) {
-        log(`- ${response.link.href} (${response.request.statusCode})`);
+    const root = parser.parse(post.content);
+
+    const urls: Set<string> = new Set();
+    const hrefEls = root.querySelectorAll('[href]');
+    for (const hrefEl of hrefEls) {
+      const url = new URL(hrefEl.getAttribute('href'), site.url + site.baseurl);
+      if (url.origin !== site.url) {
+        urls.add(url.href);
+      }
+    }
+    const srcEls = root.querySelectorAll('[src]');
+    for (const srcEl of srcEls) {
+      const url = new URL(srcEl.getAttribute('src'), site.url + site.baseurl);
+      if (url.origin !== site.url) {
+        urls.add(url.href);
+      }
+    }
+
+    for (const url of urls) {
+      try {
+        await got.head(url);
+      } catch (error) {
+        if (shouldLog) {
+          shouldLog = false;
+          log(`${file} has broken links:`);
+        }
+        log(`- ${url} [${error}]`);
       }
     }
   }
