@@ -42,7 +42,7 @@ export const revisionedAssetsPlugin: WorkboxPlugin = {
     }
   },
 
-  handlerDidError: async ({ error, request, state }) => {
+  handlerDidError: async ({ request, state }) => {
     if (state.cacheName) {
       const cache = await caches.open(state.cacheName);
       const keys = await cache.keys();
