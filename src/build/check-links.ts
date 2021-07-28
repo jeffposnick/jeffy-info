@@ -1,11 +1,11 @@
 import fse from 'fs-extra';
-import { globby } from 'globby';
+import {globby} from 'globby';
 import got from 'got';
 import parser from 'node-html-parser';
-import { URL } from 'url';
+import {URL} from 'url';
 
-import { log } from './lib';
-import { Post, Site } from '../shared/types';
+import {log} from './lib';
+import {Post, Site} from '../shared/types';
 
 async function main() {
   const site: Site = await fse.readJSON('site/site.json');

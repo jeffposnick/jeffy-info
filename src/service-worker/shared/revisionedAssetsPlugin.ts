@@ -1,6 +1,6 @@
-import { WorkboxPlugin } from 'workbox-core';
+import {WorkboxPlugin} from 'workbox-core';
 
-import { HASH_CHARS } from '../../shared/constants';
+import {HASH_CHARS} from '../../shared/constants';
 
 function getOriginalFilename(hashedFilename: string): string {
   return hashedFilename.substring(HASH_CHARS + 1);
@@ -26,12 +26,12 @@ function filterPredicate(
 }
 
 export const revisionedAssetsPlugin: WorkboxPlugin = {
-  cachedResponseWillBeUsed: async ({ cacheName, cachedResponse, state }) => {
+  cachedResponseWillBeUsed: async ({cacheName, cachedResponse, state}) => {
     state.cacheName = cacheName;
     return cachedResponse;
   },
 
-  cacheDidUpdate: async ({ cacheName, request }) => {
+  cacheDidUpdate: async ({cacheName, request}) => {
     const cache = await caches.open(cacheName);
     const keys = await cache.keys();
 
@@ -42,7 +42,7 @@ export const revisionedAssetsPlugin: WorkboxPlugin = {
     }
   },
 
-  handlerDidError: async ({ request, state }) => {
+  handlerDidError: async ({request, state}) => {
     if (state.cacheName) {
       const cache = await caches.open(state.cacheName);
       const keys = await cache.keys();

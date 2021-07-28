@@ -1,6 +1,6 @@
-import { createHash } from 'crypto';
-import { Feed } from 'feed';
-import { transform as tempuraTransform } from 'tempura/esbuild';
+import {createHash} from 'crypto';
+import {Feed} from 'feed';
+import {transform as tempuraTransform} from 'tempura/esbuild';
 import csso from 'csso';
 import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
@@ -9,8 +9,8 @@ import MarkdownIt from 'markdown-it';
 import path from 'path';
 import tinydate from 'tinydate';
 
-import { Page, Post, RSSItem, Site } from '../shared/types';
-import { HASH_CHARS } from '../shared/constants';
+import {Page, Post, RSSItem, Site} from '../shared/types';
+import {HASH_CHARS} from '../shared/constants';
 
 export const BROWSER_SW = 'service-worker';
 export const BUILD_DIR = 'dist';
@@ -43,13 +43,13 @@ export async function copyStatic(): Promise<void> {
 }
 
 export function postToJSONFileName(file: string): string {
-  const { dir, name } = path.parse(file);
+  const {dir, name} = path.parse(file);
   const jsonDir = path.relative(PAGES_DIR, dir);
   return path.join(BUILD_DIR, STATIC_DIR, jsonDir, `${name}.json`);
 }
 
 export function jsonFilenameToURL(file: string): string {
-  const { dir, name } = path.parse(file);
+  const {dir, name} = path.parse(file);
   const relativeDir = path.relative(path.join(BUILD_DIR, STATIC_DIR), dir);
   return `/${relativeDir}/${name}.html`;
 }
@@ -62,7 +62,7 @@ function parseDateFromFilename(file: string): string {
 }
 
 export async function processMarkdown(file: string) {
-  const rawContents = await fse.readFile(file, { encoding: 'utf8' });
+  const rawContents = await fse.readFile(file, {encoding: 'utf8'});
   const {
     content,
     data,
@@ -84,7 +84,7 @@ export async function processMarkdown(file: string) {
   };
   await fse.writeJSON(jsonFile, post);
 
-  return { data, html, jsonFile };
+  return {data, html, jsonFile};
 }
 
 export function sortPosts(posts: Array<RSSItem>) {
@@ -104,7 +104,7 @@ export async function writeCollections(posts: Array<RSSItem>): Promise<void> {
 }
 
 export async function bundleSWJS(file: string): Promise<string> {
-  const { name } = path.parse(file);
+  const {name} = path.parse(file);
   const outfile = path.join(BUILD_DIR, `${name}.js`);
 
   await esbuild.build({
@@ -126,7 +126,7 @@ export async function bundleSWJS(file: string): Promise<string> {
 }
 
 export async function bundleWindowJS(file: string): Promise<string> {
-  const { name } = path.parse(file);
+  const {name} = path.parse(file);
   const basename = `${name}.js`;
   const outfile = path.join(BUILD_DIR, STATIC_DIR, basename);
 
@@ -150,8 +150,8 @@ export async function getHash(pathToFile: string): Promise<string> {
 }
 
 export function getHashedFilename(pathToFile: string, hash: string) {
-  const { dir, base } = path.parse(pathToFile);
-  return path.format({ dir, base: `_${hash}_${base}` });
+  const {dir, base} = path.parse(pathToFile);
+  return path.format({dir, base: `_${hash}_${base}`});
 }
 
 export async function generateRSS(posts: Array<RSSItem>): Promise<string> {

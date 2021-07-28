@@ -33,7 +33,7 @@ Nunjucks rendering worked very well—there's an official build of Nunjucks whic
 Check out the [latest deployed version](/service-worker.js) of this site's service worker if you want to learn more—I'm expecting to clean it up quite a bit as I find some more time. One pretty neat bit worth excerpting is:
 
 ```js
-const postHandler = async ({ params }) => {
+const postHandler = async ({params}) => {
   const site = await initSiteData();
   const cachedResponse = await caches.match(
     `/_posts/${params.join('-')}.json`,
@@ -52,8 +52,8 @@ const postHandler = async ({ params }) => {
       return resolve(html);
     });
   });
-  const headers = { 'content-type': 'text/html' };
-  return new Response(html, { headers });
+  const headers = {'content-type': 'text/html'};
+  return new Response(html, {headers});
 };
 
 workbox.routing.registerRoute(

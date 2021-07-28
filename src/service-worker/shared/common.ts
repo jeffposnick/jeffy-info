@@ -1,9 +1,9 @@
 /// <reference lib="webworker"/>
 
-import { registerRoute, setDefaultHandler } from 'workbox-routing';
-import { strategy as streamingStrategy } from 'workbox-streams';
+import {registerRoute, setDefaultHandler} from 'workbox-routing';
+import {strategy as streamingStrategy} from 'workbox-streams';
 
-import { URLPatternMatcher } from './URLPatternMatcher';
+import {URLPatternMatcher} from './URLPatternMatcher';
 import * as Templates from './templates';
 import site from '../../../site/site.json';
 // This needs to be generated at build time prior to bundling.
@@ -16,26 +16,26 @@ export type StaticLoader = (
 
 export function registerRoutes(loadStatic: StaticLoader) {
   registerRoute(
-    new URLPatternMatcher({ pathname: '/' }).matcher,
+    new URLPatternMatcher({pathname: '/'}).matcher,
     streamingStrategy(
       [
-        () => Templates.Start({ assetManifest, site }),
-        async ({ event }: { event: ExtendableEvent }) => {
+        () => Templates.Start({assetManifest, site}),
+        async ({event}: {event: ExtendableEvent}) => {
           const jsonURL = `/static/collections.json`;
           try {
             const response = await loadStatic(event as FetchEvent, jsonURL);
 
             if (response?.ok) {
               const collections = await response.json();
-              return Templates.Index({ assetManifest, collections, site });
+              return Templates.Index({assetManifest, collections, site});
             }
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ assetManifest, site, url: jsonURL });
+            return Templates.Error({assetManifest, site, url: jsonURL});
           }
         },
-        () => Templates.End({ assetManifest, site }),
+        () => Templates.End({assetManifest, site}),
       ],
       {
         'content-type': 'text/html',
@@ -44,10 +44,10 @@ export function registerRoutes(loadStatic: StaticLoader) {
   );
 
   registerRoute(
-    new URLPatternMatcher({ pathname: '/(.*).html' }).matcher,
+    new URLPatternMatcher({pathname: '/(.*).html'}).matcher,
     streamingStrategy(
       [
-        () => Templates.Start({ assetManifest, site }),
+        () => Templates.Start({assetManifest, site}),
         async ({
           event,
           params,
@@ -71,10 +71,10 @@ export function registerRoutes(loadStatic: StaticLoader) {
 
             throw new Error('Unable to load static resource.');
           } catch (err) {
-            return Templates.Error({ assetManifest, site, url: jsonURL });
+            return Templates.Error({assetManifest, site, url: jsonURL});
           }
         },
-        () => Templates.End({ assetManifest, site }),
+        () => Templates.End({assetManifest, site}),
       ],
       {
         'content-type': 'text/html',
@@ -82,5 +82,5 @@ export function registerRoutes(loadStatic: StaticLoader) {
     ),
   );
 
-  setDefaultHandler(({ event }) => loadStatic(event as FetchEvent));
+  setDefaultHandler(({event}) => loadStatic(event as FetchEvent));
 }

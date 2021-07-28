@@ -36,7 +36,7 @@ I manually copied the contents of the `psl.js` file into a `psl.gs` file, alongs
 Apps Script will automatically make the contents of all `.gs` files in a project visible in the same global scope, so I could now write code like
 
 ```js
-const { sld } = psl.parseHostname(url);
+const {sld} = psl.parseHostname(url);
 ```
 
 inside of my main `Code.gs` file.

@@ -1,4 +1,4 @@
-import { STATIC_CACHE_NAME } from '../shared/constants';
+import {STATIC_CACHE_NAME} from '../shared/constants';
 
 async function addUncachedClass() {
   const cache = await caches.open(STATIC_CACHE_NAME);

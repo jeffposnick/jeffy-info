@@ -57,24 +57,24 @@ Here's an [adapted](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src
 
 ```js
 registerRoute(
-  new URLPatternMatcher({ pathname: '/(.*).html' }).matcher,
+  new URLPatternMatcher({pathname: '/(.*).html'}).matcher,
   streamingStrategy(
     [
-      () => Templates.Start({ site }),
+      () => Templates.Start({site}),
 
-      async ({ event, params }) => {
+      async ({event, params}) => {
         const post = params.pathname.groups[0];
         const response = await loadStatic(event, `/static/${post}.json`);
         if (response?.ok) {
           const json = await response.json();
-          return Templates.Page({ site, ...json });
+          return Templates.Page({site, ...json});
         }
-        return Templates.Error({ site });
+        return Templates.Error({site});
       },
 
-      () => Templates.End({ site }),
+      () => Templates.End({site}),
     ],
-    { 'content-type': 'text/html' },
+    {'content-type': 'text/html'},
   ),
 );
 ```

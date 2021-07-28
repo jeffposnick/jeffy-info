@@ -1,6 +1,6 @@
-import { BlogPosting, WithContext } from 'schema-dts';
+import {BlogPosting, WithContext} from 'schema-dts';
 
-import { Page, Site } from '../shared/types';
+import {Page, Site} from '../shared/types';
 
 export function setMetadata(site: Site, page: Page): void {
   document.title = page.title;
@@ -9,10 +9,10 @@ export function setMetadata(site: Site, page: Page): void {
   const schemaData: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
-    abstract: page.excerpt,
-    datePublished: page.date,
-    headline: page.title,
-    image: site.logo,
+    'abstract': page.excerpt,
+    'datePublished': page.date,
+    'headline': page.title,
+    'image': site.logo,
   };
 
   const scriptEl = document.createElement('script');

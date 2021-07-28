@@ -1,6 +1,6 @@
-import { RouteMatchCallback } from 'workbox-core';
-import { URLPattern } from 'urlpattern-polyfill';
-import { URLPatternInit } from 'urlpattern-polyfill/dist/url-pattern.interfaces';
+import {RouteMatchCallback} from 'workbox-core';
+import {URLPattern} from 'urlpattern-polyfill';
+import {URLPatternInit} from 'urlpattern-polyfill/dist/url-pattern.interfaces';
 
 export class URLPatternMatcher {
   private _urlPattern: URLPattern;
@@ -9,7 +9,7 @@ export class URLPatternMatcher {
     this._urlPattern = new URLPattern(urlPatternInput);
   }
 
-  matcher: RouteMatchCallback = ({ url }) => {
+  matcher: RouteMatchCallback = ({url}) => {
     return this._urlPattern.exec(url.href);
   };
 }

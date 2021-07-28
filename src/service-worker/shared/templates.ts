@@ -9,4 +9,4 @@ import Page from '../../../site/templates/page.hbs';
 // @ts-ignore
 import Start from '../../../site/templates/start.hbs';
 
-export { End, Error, Index, Page, Start };
+export {End, Error, Index, Page, Start};

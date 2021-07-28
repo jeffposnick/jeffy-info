@@ -6,7 +6,7 @@ import {
   NotFoundError,
 } from '@cloudflare/kv-asset-handler';
 
-import { registerRoutes, StaticLoader } from './shared/common';
+import {registerRoutes, StaticLoader} from './shared/common';
 
 // self.location is referenced a few places in Workbox, but it's not required
 // to be set to anything meaningful for this use case.

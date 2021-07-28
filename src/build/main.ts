@@ -1,4 +1,4 @@
-import { globby } from 'globby';
+import {globby} from 'globby';
 
 import {
   BUILD_DIR,
@@ -20,7 +20,7 @@ import {
   writeManifest,
 } from './lib';
 
-import { RSSItem } from '../shared/types';
+import {RSSItem} from '../shared/types';
 
 async function main(): Promise<void> {
   await clean();
@@ -32,11 +32,11 @@ async function main(): Promise<void> {
   const posts: Array<RSSItem> = [];
   const pages = await globby([`${PAGES_DIR}/**/*.md`]);
   for (const page of pages) {
-    const { html, data, jsonFile } = await processMarkdown(page);
+    const {html, data, jsonFile} = await processMarkdown(page);
     log(`Wrote ${jsonFile}.`);
 
-    const { date, excerpt, title, url } = data;
-    posts.push({ html, date, excerpt, title, url });
+    const {date, excerpt, title, url} = data;
+    posts.push({html, date, excerpt, title, url});
   }
 
   sortPosts(posts);

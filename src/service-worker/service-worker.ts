@@ -1,16 +1,16 @@
 /// <reference lib="webworker"/>
 declare const self: ServiceWorkerGlobalScope;
 
-import { BroadcastUpdatePlugin } from 'workbox-broadcast-update';
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import {BroadcastUpdatePlugin} from 'workbox-broadcast-update';
+import {CacheFirst, StaleWhileRevalidate} from 'workbox-strategies';
 
-import { registerRoutes, StaticLoader } from './shared/common';
+import {registerRoutes, StaticLoader} from './shared/common';
 import {
   HASH_CHARS,
   HASHED_STATIC_CACHE_NAME,
   STATIC_CACHE_NAME,
 } from '../shared/constants';
-import { revisionedAssetsPlugin } from './shared/revisionedAssetsPlugin';
+import {revisionedAssetsPlugin} from './shared/revisionedAssetsPlugin';
 
 const hashedURLPattern = new RegExp(`/_.{${HASH_CHARS}}_`);
 
