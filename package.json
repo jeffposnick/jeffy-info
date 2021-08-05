@@ -39,9 +39,9 @@
     "tempura": "^0.3.0",
     "tinydate": "^1.3.0",
     "urlpattern-polyfill": "^1.0.0-rc1",
-    "workbox-broadcast-update": "^6.2.0-alpha.1",
-    "workbox-routing": "^6.2.0-alpha.1",
-    "workbox-strategies": "^6.2.0-alpha.1",
-    "workbox-streams": "^6.2.0-alpha.1"
+    "workbox-broadcast-update": "^6.2.0-alpha.2",
+    "workbox-routing": "^6.2.0-alpha.2",
+    "workbox-strategies": "^6.2.0-alpha.2",
+    "workbox-streams": "^6.2.0-alpha.2"
   }
 }
