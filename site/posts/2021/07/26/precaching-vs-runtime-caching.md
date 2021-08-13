@@ -27,7 +27,7 @@ In order to help developers decide which URLs should be precached and which shou
 
 - Requires a build step.
 - Unconditionally caches everything during service worker installation. If you include URLs for infrequently used subresources in the precache manifest, or large resources like images, that can be wasteful, as you're caching things that will never be read.
-- Precaching resources that update frequently can lead to a lot of "cache churn". This is fine for subresources that are commonly used, but the worst case scenario is that you're precached an infrequently used subresource that's updated frequently, compounding the wasted bytes described in the previous point.
+- Precaching resources that update frequently can lead to a lot of "cache churn". This is fine for subresources that are commonly used, but the worst case scenario is that you've precached an infrequently _used_ subresource that's _updated_ frequently, compounding the wasted bytes described in the previous point.
 
 ## Runtime Caching Pros
 
