@@ -11,7 +11,7 @@ Service workers and the Cache Storage API offer some very low-level primitives t
 
 There's precaching, where build tools (like [`workbox-cli`](https://developers.google.com/web/tools/workbox/modules/workbox-cli) or [`workbox-webpack-plugin`](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)) generate a manifest of URLs and revisions, which is then fed into the [`workbox-precaching`](https://developers.google.com/web/tools/workbox/modules/workbox-precaching) runtime module. Based on the precache manifest, `workbox-precaching` keeps your cache up to date and sets up a route to serve precached URLs using a cache-first strategy.
 
-There's also runtime caching, in which a mix of [`workbox-routing`](https://developers.google.com/web/tools/workbox/modules/workbox-routing) and [`workbox-strategies`](https://developers.google.com/web/tools/workbox/modules/workbox-strategies) (along with any [plugins](https://developers.google.com/web/tools/workbox/guides/using-plugins))
+There's also runtime caching, where you use a mix of [`workbox-routing`](https://developers.google.com/web/tools/workbox/modules/workbox-routing) and [`workbox-strategies`](https://developers.google.com/web/tools/workbox/modules/workbox-strategies) (along with any [plugins](https://developers.google.com/web/tools/workbox/guides/using-plugins)).
 
 Workbox will let you go all-in on either precaching of runtime caching, if you want, but you can also use both types of caching within the same service worker. (If you do, the order in which you register routes is imports; your should include `precacheAndRoute()` before any additional `registerRoute()` statements to ensure that anything in your precache manifest ends up being served via the precache strategy!)
 
