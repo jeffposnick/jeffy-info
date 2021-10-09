@@ -5,6 +5,8 @@ tags:
   - post
 ---
 
+_Note: I've since switched to [`tsm`](https://github.com/lukeed/tsm) instead of `@digitak/esrun` in some of my projects. They both use esbuild under the hood, and either should work well._
+
 ## Continued blog infra rewrite
 
 I had a lot of fun getting full [service worker rendering](https://jeffy.info/2021/07/17/sw-rendering.html) working for this blog, and have continued to noodle on a number of improvements since then.
