@@ -151,7 +151,7 @@ export async function getHash(pathToFile: string): Promise<string> {
 
 export function getHashedFilename(pathToFile: string, hash: string) {
   const {dir, base} = path.parse(pathToFile);
-  return path.format({dir, base: `_${hash}_${base}`});
+  return path.format({dir, base: `${hash}~${base}`});
 }
 
 export async function generateRSS(posts: Array<RSSItem>): Promise<string> {

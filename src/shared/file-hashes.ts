@@ -1,9 +1,9 @@
-export const HASH_CHARS = 8;
+import {HASH_CHARS} from './constants';
 
 const DUMMY_BASE_URL = 'https://example.com/';
 
 function getOriginalFilename(hashedFilename: string): string {
-  return hashedFilename.substring(HASH_CHARS + 1);
+  return hashedFilename.substring(HASH_CHARS);
 }
 
 function parseFilenameFromURL(url: string): string {
