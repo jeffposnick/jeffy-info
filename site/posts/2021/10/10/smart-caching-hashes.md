@@ -73,6 +73,6 @@ The plugin takes advantage of the `cachedResponseWillBeUsed`, `cacheDidUpdate`, 
 
 While I think the code in the plugin works as intended, I'm still not happy about the ergonomics of using it. Specifically, there's a lot of logic hardcoded in it related to the naming conventions that I'm using for my hashed URLs, and that won't work for sites that do something different, like include hashes in the middle of their filenames.
 
-What's needed to clean this up a bit is to allow the plugin to take in a function that will translate from versioned filenames to unversioned, allowing folks to use this without requiring them to adopt a specific naming convention. My current usage assumes you can just do `hashedFilename.substring(HASH_CHARS)`, but folks might need to use a regular expression to obtain the original filename, or split on specific delimiter characters.
+What's needed to clean this up a bit is to allow the plugin to take in a function that will translate from versioned filenames to unversioned, allowing folks to use this without requiring them to adopt a specific naming convention. My current usage assumes you can just do `hashedFilename.substring(HASH_CHARS + 1)`, but folks might need to use a regular expression to obtain the original filename, or split on specific delimiter characters.
 
 In the meantime, feel free to borrow the code from [that plugin](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/revisionedAssetsPlugin.ts) and adapt the logic by hand to accommodate your current naming conventions.
