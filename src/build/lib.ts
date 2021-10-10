@@ -6,6 +6,7 @@ import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
 import fse from 'fs-extra';
 import MarkdownIt from 'markdown-it';
+import mdAnchor from 'markdown-it-anchor';
 import path from 'path';
 import tinydate from 'tinydate';
 
@@ -24,7 +25,10 @@ const SITE_JSON = path.join('site', 'site.json');
 
 const md = new MarkdownIt({
   html: true,
+}).use(mdAnchor, {
+  permalink: mdAnchor.permalink.headerLink(),
 });
+
 const timestamp = tinydate('[{HH}:{mm}:{ss}] ');
 const dateRegexp = /(?<year>\d{4})\/(?<month>\d{2})\/(?<day>\d{2})/;
 

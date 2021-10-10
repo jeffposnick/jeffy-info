@@ -71,7 +71,11 @@ a {
   line-height: 1.4em;
 }
 
-#content a {
+p > a {
+  border-bottom: 1px dotted #00659d;
+}
+
+li > a {
   border-bottom: 1px dotted #00659d;
 }
 
