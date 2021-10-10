@@ -1,6 +1,6 @@
 ---
 title: 'Smarter runtime caching of hashed assets'
-excerpt: 'Why keep app.34abf34a.js when app.78dd13ee.js will do?'
+excerpt: 'Clean caches and graceful fallbacks via a custom Workbox plugin.'
 tags:
   - post
 ---
@@ -33,24 +33,46 @@ Using this approach, translating a hashed URL into the original "unversioned" fi
 
 ## Cleaning up old revisions
 
-Now that we have a well-defined way to translate from a hashed URL to the corresponding original filename, there's a straightforward approach to ensuring that we don't indefinitely cache out of date versions of the same asset. After adding a new entry to the runtime cache, we can iterate though all the previously cached URLs, find any that correspond to the same "unversioned" filename, and delete them.
+Now that we have a well-defined way to translate from a hashed URL to the corresponding original filename, there's a straightforward approach to ensuring that we don't indefinitely cache out of date versions of the same asset. The steps are:
+
+- Find the "unversioned" filename for the URL that was just cached.
+- Iterate through all the current cache keys, and find the "unversioned" filename for each.
+- If the filenames match, delete the previously cached entry.
 
 We're operating on the assumption that the newly cached hashed URL is the definitive version that should be kept around, and hopefully there isn't any other cache entries that refer to the soon-to-be-deleted hashed URL. (If there are, we'll cover how to handle that in the next section.)
 
-The code for this check could look something like:
+## Dealing with cache misses due to versioning
 
-```typescript
-function filterPredicate(
-  hashedURL: string,
-  potentialMatchURL: string,
-): boolean {
-  const hashedFilename = parseFilenameFromURL(hashedURL);
-  const hashedFilenameOfPotentialMatch =
-    parseFilenameFromURL(potentialMatchURL);
+The other drawback of runtime caching to address is cache misses triggered by one resource referring to a outdated versioned URL of a subresource. You might encounter this if, for example, you cache HTML documents at runtime, and a user revisits a very old page that still refers to your CSS and JS files using hashes that have long since been purged from your servers and local caches.
 
-  return (
-    getOriginalFilename(hashedFilename) ===
-    getOriginalFilename(hashedFilenameOfPotentialMatch)
-  );
-}
-```
+This is a solved problem for precaching (usually! assuming [you're careful about when you call `skipWaiting()`](https://pawll.glitch.me/)!), where you can deploy compatible versions of your HTML, JS, and CSS altogether, versioned alongside your service worker.
+
+So how should you deal with it when using runtime caching? The answer is a little bit of `¯\_(ツ)_/¯` sprinkled in with some best-effort fallback logic.
+
+Before implementing this, you should ask yourself whether you're actually comfortable using anything other than the exact version of a subresource that a page asks for. That answer might depend on what type of subresource is being requests—using an outdated CSS file or versioned image is likely to be a lot "safer" than using an old JS file containing crucial business logic. You should only adopt fallback logic when you're comfortable with that risk.
+
+Assuming you are comfortable with falling back to a different version, being able to translate a versioned URL into the underlying logical resource makes things straightforward:
+
+- Attempt to read the requested version of a given resource from some combination of the cache or network, depending on which runtime caching strategy you're using.
+- If that fails for any reason, get the "unversioned" filename for the URL you're requesting.
+- Iterate through all the cache keys, getting the "unversioned" filename of each entry.
+- If there's a match, use that cached response to fulfill the original request.
+- Otherwise, the request can't be fulfilled.
+
+## Packaging this up
+
+I've been using this logic for my current service worker setup, packaged in a [standalone Workbox plugin](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/revisionedAssetsPlugin.ts).
+
+If you've never tried writing a Workbox plugin before, we've got some [basic info in our docs](https://developers.google.com/web/tools/workbox/guides/using-plugins), and I recorded a video for last year's Chrome Dev Summit with more examples:
+
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/jR9-aDWZeSE" allowfullscreen frameborder="0"></iframe>
+
+The plugin takes advantage of the `cachedResponseWillBeUsed`, `cacheDidUpdate`, and `handlerDidError` strategy lifecycle methods to trigger all of the steps described above.
+
+### Why not officially release the plugin?
+
+While I think the code in the plugin works as intended, I'm still not happy about the ergonomics of using it. Specifically, there's a lot of logic hardcoded in it related to the naming conventions that I'm using for my hashed URLs, and that won't work for sites that do something different, like include hashes in the middle of their filenames.
+
+What's needed to clean this up a bit is to allow the plugin to take in a function that will translate from versioned filenames to unversioned, allowing folks to use this without requiring them to adopt a specific naming convention. My current usage assumes you can just do `hashedFilename.substring(HASH_CHARS)`, but folks might need to use a regular expression to obtain the original filename, or split on specific delimiter characters.
+
+In the meantime, feel free to borrow the code from [that plugin](https://github.com/jeffposnick/jeffy-info/blob/cf-worker/src/service-worker/shared/revisionedAssetsPlugin.ts) and adapt the logic by hand to accommodate your current naming conventions.
