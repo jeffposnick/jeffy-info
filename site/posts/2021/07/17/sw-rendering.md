@@ -1,6 +1,6 @@
 ---
 title: 'Service worker rendering, in the cloud and in the browser'
-excerpt: 'CloudFlare Workers + Workbox = isomorphic rendering'
+excerpt: 'Cloudflare Workers + Workbox = isomorphic rendering'
 tags:
   - post
   - serviceworker
@@ -11,7 +11,7 @@ tags:
 
 This site is now rendered entirely on-demand via service workers!
 
-The first time you visit, you'll get HTML rendered in the cloud using [CloudFlare Workers](https://workers.cloudflare.com/). For each subsequent page you visit, a local in-browser service worker generates equivalent HTML, taking advantage of local caching to render as much HTML as possible without blocking on the network.
+The first time you visit, you'll get HTML rendered in the cloud using [Cloudflare Workers](https://workers.cloudflare.com/). For each subsequent page you visit, a local in-browser service worker generates equivalent HTML, taking advantage of local caching to render as much HTML as possible without blocking on the network.
 
 Both service worker environments share the majority of the same [Workbox](https://developers.google.com/web/tools/workbox/) code for routing and streaming response generation.
 
@@ -33,9 +33,9 @@ But, the disconnect between how 11ty and the service worker generated the HTML b
 
 ## Service workers everywhere
 
-I've been fascinated by the new crop of cloud runtime environments that expose a [service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) API (or some modified version of it). [CloudFlare Workers](https://workers.cloudflare.com/) seems like the most mature of them, and it looks like the recently formed [Deno Company](https://deno.com/blog/the-deno-company) is [working](https://github.com/denoland/deno/issues/5957) on something similar. Running the service worker API in the cloud opens the door for a closer sharing routing and HTML generation logic with the browser's service worker—[isomorphic](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) rendering, if you will. (It's cool if you won't.)
+I've been fascinated by the new crop of cloud runtime environments that expose a [service worker](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) API (or some modified version of it). [Cloudflare Workers](https://workers.cloudflare.com/) seems like the most mature of them, and it looks like the recently formed [Deno Company](https://deno.com/blog/the-deno-company) is [working](https://github.com/denoland/deno/issues/5957) on something similar. Running the service worker API in the cloud opens the door for a closer sharing routing and HTML generation logic with the browser's service worker—[isomorphic](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) rendering, if you will. (It's cool if you won't.)
 
-A recent [tweet](https://twitter.com/lukeed05/status/1415036180765106176) from [Luke Edwards](https://twitter.com/lukeed05) about his new, lightweight [Handlebars](https://handlebarsjs.com/)-compatible templating library, [Tempura](https://github.com/lukeed/tempura), reminded me that Luke was now working on the CloudFlare DevRel team, and that I have been [intending](https://twitter.com/jeffposnick/status/1379525749514850305) to explore this space further.
+A recent [tweet](https://twitter.com/lukeed05/status/1415036180765106176) from [Luke Edwards](https://twitter.com/lukeed05) about his new, lightweight [Handlebars](https://handlebarsjs.com/)-compatible templating library, [Tempura](https://github.com/lukeed/tempura), reminded me that Luke was now working on the Cloudflare DevRel team, and that I have been [intending](https://twitter.com/jeffposnick/status/1379525749514850305) to explore this space further.
 
 Well, no time like this weekend!
 
