@@ -49,7 +49,7 @@ While I've traditionally used `sw-precache` as a JavaScript module inside of a [
 
 Here's what the deployed PWA looks like on Chrome for Android, going through the steps of accepting the Add to Homescreen banner, and then launching it without a network connection.
 
-<iframe class="youtube-embed" src="https://www.youtube.com/embed/nV8sKoVbD5Q?rel=0" frameborder="0" allowfullscreen></iframe>
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/nV8sKoVbD5Q?rel=0" frameborder="0" loading="lazy" allowfullscreen></iframe>
 
 # Try it Yourself
 

@@ -65,7 +65,7 @@ I've been using this logic for my current service worker setup, packaged in a [s
 
 If you've never tried writing a Workbox plugin before, we've got some [basic info in our docs](https://developers.google.com/web/tools/workbox/guides/using-plugins), and I recorded a video for last year's Chrome Dev Summit with more examples:
 
-<iframe class="youtube-embed" src="https://www.youtube.com/embed/jR9-aDWZeSE" allowfullscreen frameborder="0"></iframe>
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/jR9-aDWZeSE" allowfullscreen frameborder="0" loading="lazy"></iframe>
 
 The plugin takes advantage of the `cachedResponseWillBeUsed`, `cacheDidUpdate`, and `handlerDidError` strategy lifecycle methods to trigger all of the steps described above.
 

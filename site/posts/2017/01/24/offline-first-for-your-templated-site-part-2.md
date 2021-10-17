@@ -26,7 +26,7 @@ ahead of time._
 _I also covered the material in this blog post in a presentation at the
 [{static is} The New Dynamic Meetup](https://www.meetup.com/JAMstack-nyc/events/236530076/):_
 
-<iframe class="youtube-embed" src="https://www.youtube.com/embed/_kJMjJ1tm6o" allowfullscreen frameborder="0"></iframe>
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/_kJMjJ1tm6o" allowfullscreen frameborder="0" loading="lazy"></iframe>
 
 # Decisions, decisions
 
@@ -96,7 +96,7 @@ A number of my colleagues, including [Matt Gaunt](https://gauntface.com/blog/), 
 
 The Application Shell architecture is covered in great detail in [this article](https://developers.google.com/web/fundamentals/architecture/app-shell) by Addy Osmani and Matt Gaunt. My talk from the 2015 Chrome Dev Summit also covers similar ground, for those who prefer video:
 
-<iframe class="youtube-embed" src="https://www.youtube.com/embed/jCKZDTtUA2A" allowfullscreen frameborder="0"></iframe>
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/jCKZDTtUA2A" allowfullscreen frameborder="0" loading="lazy"></iframe>
 
 While the Application Shell architecture is often talked about in reference to "web apps," it's definitely applicable to the types of templated "content sites" that we're talking about here.
 

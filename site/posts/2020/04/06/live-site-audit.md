@@ -18,7 +18,7 @@ The review process took about 50 minutes (I'd recommend watching at 2x playback 
 
 We choose the site, [https://threddies.com/](https://threddies.com/), "at random" based on folks who [volunteered](https://twitter.com/akent99/status/1245466347502333952). I think it ended up being fairly representative of the types of issues a lot of sites encounter.
 
-<iframe class="youtube-embed" src="https://www.youtube.com/embed/l4bIT3CXCpc" allowfullscreen frameborder="0"></iframe>
+<iframe class="youtube-embed" src="https://www.youtube.com/embed/l4bIT3CXCpc" allowfullscreen frameborder="0" loading="lazy"></iframe>
 
 _Lightly edited from the notes I took during the review._
 
