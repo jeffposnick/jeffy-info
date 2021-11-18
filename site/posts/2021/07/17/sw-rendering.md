@@ -7,6 +7,8 @@ tags:
   - cloudflare
 ---
 
+_You can watch me chat with Luke Edwards about this architecture [on Cloudflare.tv](https://cloudflare.tv/event/6ZJ5mEjrgcnCtBXBsUtyqV)!_
+
 ## tl;dr
 
 This site is now rendered entirely on-demand via service workers!
