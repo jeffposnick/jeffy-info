@@ -127,11 +127,14 @@ test('extra fetch handler behavior', async ({page}) => {
   // Ensure you include clients.claim() in your activate handler!
   await page.evaluate(async () => {
     const [response, message] = await Promise.all([
-      fetch('/url/to/test'),
       new Promise((resolve) => {
         navigator.serviceWorker.addEventListener(
-          'message', (e) => resolve(e.data), {once: true});
-      });
+          'message',
+          (e) => resolve(e.data),
+          {once: true},
+        );
+      }),
+      fetch('/url/to/test'),
     ]);
     // Optionally do something to serialize response or message
     // and return it from the page.evaluate().
