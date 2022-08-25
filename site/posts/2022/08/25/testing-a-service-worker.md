@@ -190,7 +190,7 @@ test('service worker install caching', async ({baseURL, page}) => {
 
 Checking cache state using strict equality assertions can be a problem if your web app caches [hashed URLs](https://bundlers.tooling.report/hashing/). While it's possible to update your test expectations every time any of your assets' contents change, you risk noise from failing tests if you ever forget.
 
-A more flexible approach is to replace the hash portion of your URLs with a stable placeholder, and then compare those normalized URLs against strings that also use the same placeholder. Since I couldn't find an existing module that would accomplish this, and since I already had a [different use case](​​/smart-caching-hashes.html) for the same functionality, I pushed the [`remove-filename-hash` module](https://github.com/jeffposnick/remove-filename-hash) to package up the reusable logic.
+A more flexible approach is to replace the hash portion of your URLs with a stable placeholder, and then compare those normalized URLs against strings that also use the same placeholder. Since I couldn't find an existing module that would accomplish this, and since I already had a [different use case](​​/smart-caching-hashes.html) for the same functionality, I published the [`remove-filename-hash` module](https://github.com/jeffposnick/remove-filename-hash) to package up the reusable logic.
 
 `remove-filename-hash` is flexible enough to deal with hashes using any character set, of any length, found anywhere in a URL or filename string. It works in any runtime environment that supports RegExp match indices.
 
