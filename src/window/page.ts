@@ -5,16 +5,6 @@ import {Page, Site} from '../shared/types';
 export function setMetadata(site: Site, page: Page): void {
   document.title = page.title;
 
-  const ogTitle = document.head.querySelector('meta[property="og:title"]');
-  ogTitle?.setAttribute('content', page.title);
-
-  if (page.excerpt) {
-    const ogDescription = document.head.querySelector(
-      'meta[property="og:description"]',
-    );
-    ogDescription?.setAttribute('content', page.excerpt);
-  }
-
   // See https://developers.google.com/search/docs/data-types/article#non-amp
   const schemaData: WithContext<BlogPosting> = {
     '@context': 'https://schema.org',
