@@ -126,7 +126,7 @@ test('extra fetch handler behavior', async ({page}) => {
   // await a promise that resolves when the page is controlled.
   // Ensure you include clients.claim() in your activate handler!
   await page.evaluate(async () => {
-    const [response, message] = await Promise.all([
+    const [message, response] = await Promise.all([
       new Promise((resolve) => {
         navigator.serviceWorker.addEventListener(
           'message',
