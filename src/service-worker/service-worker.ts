@@ -1,6 +1,7 @@
 /// <reference lib="webworker"/>
 declare const self: ServiceWorkerGlobalScope;
 
+import {BASE64_URL_CHARACTER_CLASS} from 'remove-filename-hash';
 import {BroadcastUpdatePlugin} from 'workbox-broadcast-update';
 import {CacheFirst, StaleWhileRevalidate} from 'workbox-strategies';
 
@@ -12,7 +13,9 @@ import {
 } from '../shared/constants';
 import {revisionedAssetsPlugin} from './shared/revisionedAssetsPlugin';
 
-const hashedURLPattern = new RegExp(`/_.{${HASH_CHARS}}_`);
+const hashedURLPattern = new RegExp(
+  `/${BASE64_URL_CHARACTER_CLASS}{${HASH_CHARS}}~`,
+);
 
 self.addEventListener('install', () => {
   self.skipWaiting();

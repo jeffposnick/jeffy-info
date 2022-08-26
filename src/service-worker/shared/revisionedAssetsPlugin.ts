@@ -1,33 +1,40 @@
-import {WorkboxPlugin} from 'workbox-core';
+import {
+  BASE64_URL_CHARACTER_CLASS,
+  createRegExp,
+  removeHash,
+} from 'remove-filename-hash';
+import type {WorkboxPlugin} from 'workbox-core';
 
 import {HASH_CHARS} from '../../shared/constants';
-
-function getOriginalFilename(hashedFilename: string): string {
-  return hashedFilename.substring(HASH_CHARS + 1);
-}
-
-function parseFilenameFromURL(url: string): string {
-  const urlObject = new URL(url);
-  return urlObject.pathname.split('/').pop();
-}
 
 function filterPredicate(
   hashedURL: string,
   potentialMatchURL: string,
 ): boolean {
-  const hashedFilename = parseFilenameFromURL(hashedURL);
-  const hashedFilenameOfPotentialMatch =
-    parseFilenameFromURL(potentialMatchURL);
+  const regexp = createRegExp({
+    after: '~',
+    before: '/',
+    characters: BASE64_URL_CHARACTER_CLASS,
+    size: HASH_CHARS,
+  });
 
   return (
-    getOriginalFilename(hashedFilename) ===
-    getOriginalFilename(hashedFilenameOfPotentialMatch)
+    removeHash({
+      regexps: [regexp],
+      replacement: '',
+      stringWithHash: hashedURL,
+    }) ===
+    removeHash({
+      regexps: [regexp],
+      replacement: '',
+      stringWithHash: potentialMatchURL,
+    })
   );
 }
 
 export const revisionedAssetsPlugin: WorkboxPlugin = {
   cachedResponseWillBeUsed: async ({cacheName, cachedResponse, state}) => {
-    state.cacheName = cacheName;
+    state!.cacheName = cacheName;
     return cachedResponse;
   },
 
@@ -43,7 +50,7 @@ export const revisionedAssetsPlugin: WorkboxPlugin = {
   },
 
   handlerDidError: async ({request, state}) => {
-    if (state.cacheName) {
+    if (state?.cacheName) {
       const cache = await caches.open(state.cacheName);
       const keys = await cache.keys();
 

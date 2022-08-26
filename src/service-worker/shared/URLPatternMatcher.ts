@@ -1,6 +1,5 @@
-import {RouteMatchCallback} from 'workbox-core';
-import {URLPattern} from 'urlpattern-polyfill';
-import {URLPatternInit} from 'urlpattern-polyfill/dist/url-pattern.interfaces';
+import type {RouteMatchCallback} from 'workbox-core';
+import 'urlpattern-polyfill';
 
 export class URLPatternMatcher {
   private _urlPattern: URLPattern;
