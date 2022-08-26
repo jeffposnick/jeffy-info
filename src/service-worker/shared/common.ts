@@ -74,7 +74,7 @@ export function registerRoutes(loadStatic: StaticLoader) {
             return Templates.Error({assetManifest, site, url: jsonURL});
           }
         },
-        () => Templates.End({assetManifest, site, showComments: true}),
+        () => Templates.End({assetManifest, site}),
       ],
       {
         'content-type': 'text/html',

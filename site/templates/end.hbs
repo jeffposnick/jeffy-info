@@ -1,7 +1,4 @@
-{{#expect assetManifest, site, showComments}}
-    {{#if showComments}}
-      <div class="giscus"></div>
-    {{/if}}
+{{#expect assetManifest, site}}
     <footer class="site-footer" role="contentinfo">
       <div class="links">
         <div><a href="mailto:{{{ site.email }}}">{{{ site.email }}}</a></div>
@@ -40,21 +37,5 @@
       listenForUpdates();
       registerSW('/service-worker.js');
     </script>
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dca665e8e66d48b6a0214fc2005d2e31"}'></script>
-    {{#if showComments}}
-      <script src="https://giscus.app/client.js"
-          data-repo="jeffposnick/jeffy-info"
-          data-repo-id="MDEwOlJlcG9zaXRvcnkyNzIwNDY1Mg=="
-          data-category="Announcements"
-          data-category-id="DIC_kwDOAZ8cLM4CAA07"
-          data-mapping="pathname"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-theme="light_protanopia"
-          data-lang="en"
-          crossorigin="anonymous"
-          async>
-      </script>
-    {{/if}}
   </body>
 </html>

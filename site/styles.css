@@ -85,13 +85,6 @@ li > a {
   width: 534px;
 }
 
-.giscus {
-  border-top: 1px dotted #cecece;
-  height: 350px;
-  margin-top: 3em;
-  padding-top: 3em;
-}
-
 .site-footer {
   border-top: 1px dotted #cecece;
   display: flex;
