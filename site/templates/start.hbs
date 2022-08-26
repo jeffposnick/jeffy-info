@@ -1,16 +1,21 @@
 {{#expect assetManifest, site}}
+<!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/Blog">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>{{{ site.title }}}</title>
     <link rel="stylesheet" href="{{{ assetManifest['styles.css'] }}}">
-
     <link rel="manifest" href="/static/manifest.json">
     <link rel="icon" sizes="192x192" href="{{{ site.logo }}}">
+    <meta property="og:title" content="{{{ site.title }}}">
+    <meta property="og:description" content="{{{ site.description }}}">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="{{{ site.logo }}}">
+    <meta property="og:image:width" content="192">
+    <meta property="og:image:height" content="192">
+    <meta name="twitter:site" content="@{{{ site.twitter.username }}}">
     <meta name="theme-color" content="#00bcd4">
-
     <link rel="alternate" type="application/rss+xml" title="thirty-four" href="{{{ site.rssFeed }}}">
   </head>
   <body>
