@@ -211,12 +211,12 @@ _Note: It's normally a [best-practice](https://web.dev/service-worker-lifecycle/
 
 ### Simulating an update
 
-Here's an example of triggering a service worker update inside of a Playwright test; assume that the web page at '/' already registers the service worker URL `/sw.js`, and that you have an updated service worker (potentially with different logic, if you'd like) available at `/sw-updated.js`.
+Here's an example of triggering a service worker update inside of a Playwright test; assume that the web page being tested already registers the service worker URL `/sw.js`, and that you have an updated service worker (potentially with different logic, if you'd like) available at `/sw-updated.js`.
 
 ```js
 import {test, expect} from '@playwright/test';
 
-test('fetch handler behavior', async ({baseURL, page}) => {
+test('fetch handler behavior', async ({page}) => {
 	// Navigate to a page which registers /sw.js
 	await page.goto('/');
 
