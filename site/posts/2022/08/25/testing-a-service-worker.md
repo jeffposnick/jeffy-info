@@ -198,3 +198,51 @@ A more flexible approach is to replace the hash portion of your URLs with a stab
 `remove-filename-hash` is flexible enough to deal with hashes using any character set, of any length, found anywhere in a URL or filename string. It works in any runtime environment that supports RegExp match indices.
 
 Since a sample that illustrates the full cache comparison test is fairly long, you can take a look at a [representative Playwright test on GitHub](https://github.com/jeffposnick/yt-playlist-notifier/blob/396624c7f3471ad2bf713b87579be60572ba0c64/tests/sw.spec.ts) for inspiration.
+
+## Service worker update flow
+
+Adding logic to your progressive web app to reacts to [service worker updates](https://web.dev/service-worker-lifecycle/#updates) can be a key part of a good user experience. However, triggering this logic in a test suite can be a challenge.
+
+If you are running a custom HTTP server as part of your test suite, you can write runtime logic in that server that will respond with a slightly different version of your service worker JavaScript file each time it's requested—perhaps by appending a commented-out incremented counter to the end of the response. Any byte-for-byte difference between the current service worker file and the latest network response is sufficient to trigger the service worker update.
+
+But if you're just using a static HTTP server, or if you'd prefer not to write custom server-side logic, your best bet for triggering a service worker update is to register two different service worker URLs sequentially.
+
+_Note: It's normally a [best-practice](https://web.dev/service-worker-lifecycle/#avoid-url-change) to keep your service worker URL unchanged, but explicitly triggering an update is an exception to that._
+
+### Simulating an update
+
+Here's an example of triggering a service worker update inside of a Playwright test; assume that the web page at '/' already registers the service worker URL `/sw.js`, and that you have an updated service worker (potentially with different logic, if you'd like) available at `/sw-updated.js`.
+
+```js
+import {test, expect} from '@playwright/test';
+
+test('fetch handler behavior', async ({baseURL, page}) => {
+	// Navigate to a page which registers /sw.js
+	await page.goto('/');
+
+	// Ensure you include clients.claim() in your activate handler!
+	await page.evaluate(async () => {
+		// Wait until the initial /sw.js controls the page.
+		await new Promise((resolve) => {
+			if (navigator.serviceWorker.controller) {
+				resolve();
+			} else {
+				navigator.serviceWorker.addEventListener(
+					'controllerchange',
+					() => resolve(),
+					{once: true},
+				);
+			}
+		});
+
+		// At this point, you can set up listeners for whatever events/state
+		// changes you care about waiting for, potentially creating new promises
+		// (as with the above example) to confirm that they take place.
+		navigator.serviceWorker.register('/sw-updated.js');
+		// After calling register() with the updated URL, await the promises
+		// you previously created to ensure that the changes happened.
+	});
+
+	// Any other test logic goes here.
+});
+```
