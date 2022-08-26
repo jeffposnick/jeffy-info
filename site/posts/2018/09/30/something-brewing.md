@@ -34,31 +34,31 @@ Check out the [latest deployed version](/service-worker.js) of this site's servi
 
 ```js
 const postHandler = async ({params}) => {
-  const site = await initSiteData();
-  const cachedResponse = await caches.match(
-    `/_posts/${params.join('-')}.json`,
-    {
-      cacheName: workbox.core.cacheNames.precache,
-    },
-  );
-  const context = await cachedResponse.json();
-  context.site = site;
-  context.content = context.html;
-  const html = await new Promise((resolve, reject) => {
-    nunjucksEnv.render(context.layout, context, (error, html) => {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(html);
-    });
-  });
-  const headers = {'content-type': 'text/html'};
-  return new Response(html, {headers});
+	const site = await initSiteData();
+	const cachedResponse = await caches.match(
+		`/_posts/${params.join('-')}.json`,
+		{
+			cacheName: workbox.core.cacheNames.precache,
+		},
+	);
+	const context = await cachedResponse.json();
+	context.site = site;
+	context.content = context.html;
+	const html = await new Promise((resolve, reject) => {
+		nunjucksEnv.render(context.layout, context, (error, html) => {
+			if (error) {
+				return reject(error);
+			}
+			return resolve(html);
+		});
+	});
+	const headers = {'content-type': 'text/html'};
+	return new Response(html, {headers});
 };
 
 workbox.routing.registerRoute(
-  new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
-  postHandler,
+	new RegExp('/(\\d{4})/(\\d{2})/(\\d{2})/(.+)\\.html'),
+	postHandler,
 );
 ```
 

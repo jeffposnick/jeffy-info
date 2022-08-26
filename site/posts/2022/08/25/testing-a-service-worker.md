@@ -41,18 +41,18 @@ A service worker might precache a set of URLs during [installation](https://web.
 import {test, expect} from '@playwright/test';
 
 test('post-install state', async ({baseURL, page}) => {
-  // Navigate to a page which registers a service worker.
-  await page.goto('/');
+	// Navigate to a page which registers a service worker.
+	await page.goto('/');
 
-  // await the navigator.serviceWorker.ready promise.
-  const swURL = await page.evaluate(async () => {
-    const registration = await navigator.serviceWorker.ready;
-    return registration.active?.scriptURL;
-  });
-  // Confirm the expected service worker script installed.
-  expect(swURL).toBe(`${baseURL}sw.js`);
+	// await the navigator.serviceWorker.ready promise.
+	const swURL = await page.evaluate(async () => {
+		const registration = await navigator.serviceWorker.ready;
+		return registration.active?.scriptURL;
+	});
+	// Confirm the expected service worker script installed.
+	expect(swURL).toBe(`${baseURL}sw.js`);
 
-  // Now you're ready to check cache or IndexedDB state.
+	// Now you're ready to check cache or IndexedDB state.
 });
 ```
 
@@ -66,27 +66,27 @@ While there's [no built-in equivalent](https://github.com/w3c/ServiceWorker/issu
 import {test, expect} from '@playwright/test';
 
 test('fetch handler behavior', async ({page}) => {
-  // Navigate to a page which registers a service worker.
-  await page.goto('/');
+	// Navigate to a page which registers a service worker.
+	await page.goto('/');
 
-  // await a promise that resolves when the page is controlled.
-  // Ensure you include clients.claim() in your activate handler!
-  await page.evaluate(async () => {
-    await new Promise((resolve) => {
-      if (navigator.serviceWorker.controller) {
-        // If we're already controlled, resolve immediately.
-        resolve();
-      } else {
-        // Otherwise, resolve after controllerchange fires.
-        navigator.serviceWorker.addEventListener('controllerchange', () =>
-          resolve(),
-        );
-      }
-    });
-  });
+	// await a promise that resolves when the page is controlled.
+	// Ensure you include clients.claim() in your activate handler!
+	await page.evaluate(async () => {
+		await new Promise((resolve) => {
+			if (navigator.serviceWorker.controller) {
+				// If we're already controlled, resolve immediately.
+				resolve();
+			} else {
+				// Otherwise, resolve after controllerchange fires.
+				navigator.serviceWorker.addEventListener('controllerchange', () =>
+					resolve(),
+				);
+			}
+		});
+	});
 
-  // Now calls to page.evaluate() which make network requests will
-  // be intercepted by the service worker's fetch handler.
+	// Now calls to page.evaluate() which make network requests will
+	// be intercepted by the service worker's fetch handler.
 });
 ```
 
@@ -120,27 +120,27 @@ self.addEventListener('fetch', (e) => {
 import {test, expect} from '@playwright/test';
 
 test('extra fetch handler behavior', async ({page}) => {
-  // Navigate to a page which registers a service worker.
-  await page.goto('/');
+	// Navigate to a page which registers a service worker.
+	await page.goto('/');
 
-  // await a promise that resolves when the page is controlled.
-  // Ensure you include clients.claim() in your activate handler!
-  await page.evaluate(async () => {
-    const [message, response] = await Promise.all([
-      new Promise((resolve) => {
-        navigator.serviceWorker.addEventListener(
-          'message',
-          (e) => resolve(e.data),
-          {once: true},
-        );
-      }),
-      fetch('/url/to/test'),
-    ]);
-    // Optionally do something to serialize response or message
-    // and return it from the page.evaluate().
-  });
+	// await a promise that resolves when the page is controlled.
+	// Ensure you include clients.claim() in your activate handler!
+	await page.evaluate(async () => {
+		const [message, response] = await Promise.all([
+			new Promise((resolve) => {
+				navigator.serviceWorker.addEventListener(
+					'message',
+					(e) => resolve(e.data),
+					{once: true},
+				);
+			}),
+			fetch('/url/to/test'),
+		]);
+		// Optionally do something to serialize response or message
+		// and return it from the page.evaluate().
+	});
 
-  // Now the service worker's fetch handler has finished everything.
+	// Now the service worker's fetch handler has finished everything.
 });
 ```
 
@@ -156,36 +156,36 @@ There's no [cache storage API](https://developer.mozilla.org/en-US/docs/Web/API/
 import {test, expect} from '@playwright/test';
 
 test('service worker install caching', async ({baseURL, page}) => {
-  await page.goto('/');
+	await page.goto('/');
 
-  // Wait until the service worker has finished installing.
-  const swURL = await page.evaluate(async () => {
-    const registration = await navigator.serviceWorker.ready;
-    return registration.active?.scriptURL;
-  });
-  expect(swURL).toBe(`${baseURL}sw.js`);
+	// Wait until the service worker has finished installing.
+	const swURL = await page.evaluate(async () => {
+		const registration = await navigator.serviceWorker.ready;
+		return registration.active?.scriptURL;
+	});
+	expect(swURL).toBe(`${baseURL}sw.js`);
 
-  const cacheContents = await page.evaluate(async () => {
-    const cacheState = {};
-    for (const cacheName of await caches.keys()) {
-      const cache = await caches.open(cacheName);
-      const reqs = await cache.keys();
-      // Use the req.url string value, not an unserializable Request.
-      // sort() allows the array to be used for stable comparisons.
-      cacheState[cacheName] = reqs.map((req) => req.url).sort();
-    }
-    return cacheState;
-  });
+	const cacheContents = await page.evaluate(async () => {
+		const cacheState = {};
+		for (const cacheName of await caches.keys()) {
+			const cache = await caches.open(cacheName);
+			const reqs = await cache.keys();
+			// Use the req.url string value, not an unserializable Request.
+			// sort() allows the array to be used for stable comparisons.
+			cacheState[cacheName] = reqs.map((req) => req.url).sort();
+		}
+		return cacheState;
+	});
 
-  // cacheContents now contains a mapping of cache names to an
-  // sorted array of URL strings contained in the cache.
-  expect(cacheContents).toEqual({
-    'precache-v1': [
-      `${baseURL}assets/app.js`,
-      `${baseURL}assets/index.css`,
-      // etc.
-    ],
-  });
+	// cacheContents now contains a mapping of cache names to an
+	// sorted array of URL strings contained in the cache.
+	expect(cacheContents).toEqual({
+		'precache-v1': [
+			`${baseURL}assets/app.js`,
+			`${baseURL}assets/index.css`,
+			// etc.
+		],
+	});
 });
 ```
 

@@ -49,12 +49,12 @@ const urlToMatch = '...';
 
 const urlVariation1 = generateVariation1(originalUrl);
 if (urlToMatch === urlVariation1) {
-  return true;
+	return true;
 }
 
 const urlVariation2 = generateVariation2(originalUrl);
 if (urlToMatch === urlVariation2) {
-  return true;
+	return true;
 }
 
 // etc.
@@ -75,15 +75,15 @@ const originalUrl = '...';
 const urlToMatch = '...';
 
 const urlVariations = [
-  generateVariation1,
-  generateVariation2,
-  // etc.
+	generateVariation1,
+	generateVariation2,
+	// etc.
 ].map((generateVariation) => generateVariation(originalUrl));
 
 for (const urlVariation of urlVariations) {
-  if (urlToMatch === urlVariation) {
-    return true;
-  }
+	if (urlToMatch === urlVariation) {
+		return true;
+	}
 }
 
 return false;
@@ -118,16 +118,16 @@ Using a generator and a `for...of` loop gives us code that looks something like:
 
 ```javascript
 function* generateVariations(originalUrl) {
-  // You could put these yields inside a loop, too!
-  yield generateVariation1(originalUrl);
-  yield generateVariation2(originalUrl);
-  // etc.
+	// You could put these yields inside a loop, too!
+	yield generateVariation1(originalUrl);
+	yield generateVariation2(originalUrl);
+	// etc.
 }
 
 for (const urlVariation of generateVariations(originalUrl)) {
-  if (urlToMatch === urlVariation) {
-    return true;
-  }
+	if (urlToMatch === urlVariation) {
+		return true;
+	}
 }
 
 return false;

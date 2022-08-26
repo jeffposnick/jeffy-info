@@ -46,10 +46,10 @@ Here's an approximation of how I used it:
 ```js
 const path = require('path');
 require('module-alias').addAlias(
-  // Replace with the "real" name of the module.
-  'webpack',
-  // Replace with the actual local versioned directory path.
-  path.resolve('node_modules', 'webpack-v4'),
+	// Replace with the "real" name of the module.
+	'webpack',
+	// Replace with the actual local versioned directory path.
+	path.resolve('node_modules', 'webpack-v4'),
 );
 ```
 

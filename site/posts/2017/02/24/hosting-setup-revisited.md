@@ -33,20 +33,20 @@ The first step was getting my site deployed to a subdomain under `firebaseapp.co
 
 ```json
 {
-  "hosting": {
-    "public": "build",
-    "headers": [
-      {
-        "source": "/service-worker.js",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          }
-        ]
-      }
-    ]
-  }
+	"hosting": {
+		"public": "build",
+		"headers": [
+			{
+				"source": "/service-worker.js",
+				"headers": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					}
+				]
+			}
+		]
+	}
 }
 ```
 

@@ -23,7 +23,7 @@ So how can we use runtime caching and still get a reasonable best-effort coordin
 
 ## Naming conventions
 
-All of the techniques in this blog post assume that you've adopted a consistent  convention for translating "unversioned" filenames, like `app.js`, into a versioned equivalent containing a hash, like `app.34abf34a.js` or `app.78dd13ee.js`. If you're using a build tool that can do versioning, like [Rollup](https://rollupjs.org/guide/en/#outputassetfilenames) or [webpack](https://webpack.js.org/configuration/output/#template-strings), you're probably familiar with using the placeholder `[hash]` to specify where you want that hash inserted.
+All of the techniques in this blog post assume that you've adopted a consistent convention for translating "unversioned" filenames, like `app.js`, into a versioned equivalent containing a hash, like `app.34abf34a.js` or `app.78dd13ee.js`. If you're using a build tool that can do versioning, like [Rollup](https://rollupjs.org/guide/en/#outputassetfilenames) or [webpack](https://webpack.js.org/configuration/output/#template-strings), you're probably familiar with using the placeholder `[hash]` to specify where you want that hash inserted.
 
 The exact tool you use to add these hashes doesn't matter as much as adopting a consistent naming format across all your URLs, with a fixed number of characters in the hash. We'll be writing code that will need to translate from a hashed URL to the underlying "unversioned" filename (i.e. `app.34abf34a.js` => `app.js`), so if you have the flexibility to do so, try to optimize your hash delimiters for ease of parsing.
 

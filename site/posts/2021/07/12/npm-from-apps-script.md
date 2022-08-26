@@ -18,8 +18,8 @@ import psl from 'psl';
 import Url from 'url-parse';
 
 export function parseHostname(sourceURL) {
-  const url = new Url(sourceURL);
-  return psl.parse(url.hostname);
+	const url = new Url(sourceURL);
+	return psl.parse(url.hostname);
 }
 ```
 

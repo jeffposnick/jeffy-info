@@ -29,9 +29,9 @@ After adding `@digitak/esrun` to `devDependencies`, and rewriting my build scrip
 
 ```json
 {
-  "scripts": {
-    "build": "node src/build/main.js"
-  }
+	"scripts": {
+		"build": "node src/build/main.js"
+	}
 }
 ```
 
@@ -39,9 +39,9 @@ to
 
 ```json
 {
-  "scripts": {
-    "build": "esrun src/build/main.ts"
-  }
+	"scripts": {
+		"build": "esrun src/build/main.ts"
+	}
 }
 ```
 
