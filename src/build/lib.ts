@@ -1,7 +1,7 @@
 import {createHash} from 'crypto';
 import {Feed} from 'feed';
+import {minify} from 'csso';
 import {transform as tempuraTransform} from 'tempura/esbuild';
-import csso from 'csso';
 import esbuild from 'esbuild';
 import frontmatter from 'frontmatter';
 import fse from 'fs-extra';
@@ -60,8 +60,10 @@ export function jsonFilenameToURL(file: string): string {
 
 function parseDateFromFilename(file: string): string {
   const result = dateRegexp.exec(file);
-  if (result) {
+  if (result && result.groups) {
     return `${result.groups.year}-${result.groups.month}-${result.groups.day}`;
+  } else {
+    throw new Error(`Unable to parse date from ${file}`);
   }
 }
 
@@ -101,6 +103,7 @@ export async function writeCollections(posts: Array<RSSItem>): Promise<void> {
     // Remove the html field, which was used for the RSS feed, before we
     // serialize it.
     posts: posts.map((post) => {
+      // @ts-ignore
       delete post.html;
       return post;
     }),
@@ -202,8 +205,8 @@ export async function generateRSS(posts: Array<RSSItem>): Promise<string> {
 export async function minifyCSS(file: string): Promise<string> {
   const basename = path.basename(file);
   const outfile = path.join(BUILD_DIR, STATIC_DIR, basename);
-  const rawCSS = await fse.readFile(file);
-  const minifiedCSS = csso.minify(rawCSS).css;
+  const rawCSS = await fse.readFile(file, 'utf-8');
+  const minifiedCSS = minify(rawCSS).css;
   await fse.writeFile(outfile, minifiedCSS);
 
   return outfile;
