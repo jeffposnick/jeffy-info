@@ -1,21 +1,13 @@
 name = "cf-worker-dev"
-type = "javascript"
-
-account_id = ""
+main = "./dist/cf-sw.js"
 workers_dev = true
-route = ""
-zone_id = ""
-compatibility_date = "2021-10-10"
+compatibility_date = "2022-07-26"
 
 [site]
 bucket = "./dist/"
-entry-point = "."
 
 [build]
 command = "npm run build"
-
-[build.upload]
-format = "service-worker"
 
 [env.production]
 name = "cf-worker"

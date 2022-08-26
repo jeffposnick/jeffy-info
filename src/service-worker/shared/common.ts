@@ -10,77 +10,77 @@ import site from '../../../site/site.json';
 import assetManifest from '../../../dist/asset-manifest.json';
 
 export type StaticLoader = (
-  event: FetchEvent,
-  urlOverride?: string,
+	event: FetchEvent,
+	urlOverride?: string,
 ) => Promise<Response>;
 
 export function registerRoutes(loadStatic: StaticLoader) {
-  registerRoute(
-    new URLPatternMatcher({pathname: '/'}).matcher,
-    streamingStrategy(
-      [
-        () => Templates.Start({assetManifest, site}),
-        async ({event}: {event: ExtendableEvent}) => {
-          const jsonURL = `/static/collections.json`;
-          try {
-            const response = await loadStatic(event as FetchEvent, jsonURL);
+	registerRoute(
+		new URLPatternMatcher({pathname: '/'}).matcher,
+		streamingStrategy(
+			[
+				() => Templates.Start({assetManifest, site}),
+				async ({event}: {event: ExtendableEvent}) => {
+					const jsonURL = `/static/collections.json`;
+					try {
+						const response = await loadStatic(event as FetchEvent, jsonURL);
 
-            if (response?.ok) {
-              const collections = await response.json();
-              return Templates.Index({assetManifest, collections, site});
-            }
+						if (response?.ok) {
+							const collections = await response.json();
+							return Templates.Index({assetManifest, collections, site});
+						}
 
-            throw new Error('Unable to load static resource.');
-          } catch (err) {
-            return Templates.Error({assetManifest, site, url: jsonURL});
-          }
-        },
-        () => Templates.End({assetManifest, site}),
-      ],
-      {
-        'content-type': 'text/html',
-      },
-    ),
-  );
+						throw new Error('Unable to load static resource.');
+					} catch (err) {
+						return Templates.Error({assetManifest, site, url: jsonURL});
+					}
+				},
+				() => Templates.End({assetManifest, site}),
+			],
+			{
+				'content-type': 'text/html',
+			},
+		),
+	);
 
-  registerRoute(
-    new URLPatternMatcher({pathname: '/(.*).html'}).matcher,
-    streamingStrategy(
-      [
-        () => Templates.Start({assetManifest, site}),
-        async ({
-          event,
-          params,
-        }: {
-          event: ExtendableEvent;
-          params?: Record<string, any>;
-        }) => {
-          const post = params.pathname.groups[0];
-          const jsonURL = `/static/${post}.json`;
-          try {
-            const response = await loadStatic(event as FetchEvent, jsonURL);
+	registerRoute(
+		new URLPatternMatcher({pathname: '/(.*).html'}).matcher,
+		streamingStrategy(
+			[
+				() => Templates.Start({assetManifest, site}),
+				async ({
+					event,
+					params,
+				}: {
+					event: ExtendableEvent;
+					params?: Record<string, any>;
+				}) => {
+					const post = params!.pathname.groups[0];
+					const jsonURL = `/static/${post}.json`;
+					try {
+						const response = await loadStatic(event as FetchEvent, jsonURL);
 
-            if (response?.ok) {
-              const json = await response.json();
-              return Templates.Page({
-                assetManifest,
-                site,
-                ...json,
-              });
-            }
+						if (response?.ok) {
+							const json = await response.json();
+							return Templates.Page({
+								assetManifest,
+								site,
+								...json,
+							});
+						}
 
-            throw new Error('Unable to load static resource.');
-          } catch (err) {
-            return Templates.Error({assetManifest, site, url: jsonURL});
-          }
-        },
-        () => Templates.End({assetManifest, site}),
-      ],
-      {
-        'content-type': 'text/html',
-      },
-    ),
-  );
+						throw new Error('Unable to load static resource.');
+					} catch (err) {
+						return Templates.Error({assetManifest, site, url: jsonURL});
+					}
+				},
+				() => Templates.End({assetManifest, site}),
+			],
+			{
+				'content-type': 'text/html',
+			},
+		),
+	);
 
-  setDefaultHandler(({event}) => loadStatic(event as FetchEvent));
+	setDefaultHandler(({event}) => loadStatic(event as FetchEvent));
 }

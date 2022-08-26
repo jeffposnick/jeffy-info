@@ -1,25 +1,8 @@
 {
-  "private": true,
-  "name": "cf-worker",
-  "version": "1.0.0",
-  "description": "An example of isomorphic service worker rendering.",
-  "main": "dist/cf-sw.js",
-  "engines": {
-    "node": ">=12"
-  },
-  "scripts": {
-    "build": "tsm src/build/main.ts",
-    "check-links": "tsm src/build/check-links.ts",
-    "dev": "ENVIRONMENT_NAME=staging wrangler dev --env=staging",
-    "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,js}\"",
-    "publish": "wrangler publish --env=$ENVIRONMENT_NAME",
-    "stage": "ENVIRONMENT_NAME=staging npm run publish"
-  },
   "author": "Jeff Posnick <blog@posnick.org>",
-  "license": "Apache-2.0",
+  "description": "An example of isomorphic service worker rendering.",
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.2.0",
-    "@cloudflare/wrangler": "^1.19.12",
     "@types/fs-extra": "^9.0.13",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^18.7.13",
@@ -44,6 +27,36 @@
     "workbox-broadcast-update": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4"
+    "workbox-streams": "^6.5.4",
+    "wrangler": "^2.0.27"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "Apache-2.0",
+  "main": "dist/cf-sw.js",
+  "name": "cf-worker",
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": false,
+    "printWidth": 80,
+    "quoteProps": "consistent",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "useTabs": true
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsm src/build/main.ts",
+    "check-links": "tsm src/build/check-links.ts",
+    "dev": "ENVIRONMENT_NAME=staging wrangler dev --env=staging",
+    "format": "prettier --write \"{site,src,utils,static}/**/*.{ts,md,json,js}\"",
+    "publish": "wrangler publish --env=$ENVIRONMENT_NAME",
+    "stage": "ENVIRONMENT_NAME=staging npm run publish"
+  },
+  "version": "1.0.0",
+  "volta": {
+    "node": "16.17.0"
   }
 }
