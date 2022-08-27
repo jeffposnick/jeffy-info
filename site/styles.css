@@ -13,19 +13,6 @@ body {
 	}
 }
 
-code {
-	font-family: 'Source Code Pro', Monaco, monospace;
-	tab-size: 2;
-}
-
-pre {
-	border: 2px dotted #272343;
-	border-radius: 0.5em;
-	font-size: 0.8em;
-	overflow-x: auto;
-	padding: 1em;
-}
-
 a {
 	color: #272343;
 	text-decoration: none;
@@ -71,6 +58,12 @@ a {
 
 #content {
 	line-height: 1.4em;
+}
+
+#content > h2,
+#content > h3,
+#content > h4 {
+	margin-top: 2em;
 }
 
 p a {
@@ -137,8 +130,62 @@ script.visible {
 	white-space: pre;
 }
 
-h2,
-h3,
-h4 {
-	margin-top: 2em;
+code {
+	font-family: 'Source Code Pro', Monaco, monospace;
+	tab-size: 2;
+}
+
+pre {
+	border: 2px dotted #272343;
+	border-radius: 0.5em;
+	font-size: 0.8em;
+	overflow-x: auto;
+	padding: 1em;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-variable {
+	color: green;
+}
+.hljs-built_in,
+.hljs-keyword,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-tag {
+	color: #00f;
+}
+.hljs-addition,
+.hljs-attribute,
+.hljs-literal,
+.hljs-section,
+.hljs-string,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-title,
+.hljs-type {
+	color: #a31515;
+}
+.hljs-deletion,
+.hljs-meta,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+	color: #2b91af;
+}
+.hljs-doctag {
+	color: grey;
+}
+.hljs-attr {
+	color: red;
+}
+.hljs-bullet,
+.hljs-link,
+.hljs-symbol {
+	color: #00b0e8;
+}
+.hljs-emphasis {
+	font-style: italic;
+}
+.hljs-strong {
+	font-weight: 700;
 }
