@@ -21,7 +21,7 @@ _Folks who can't wait for part three are welcome to check out the
 service worker [implementation](https://github.com/jeffposnick/jeffposnick.github.io/tree/work/src)
 ahead of time._
 
-# What's offline-first?
+## What's offline-first?
 
 Let's see if I can get away with just embedding a tweet:
 
@@ -30,7 +30,7 @@ Let's see if I can get away with just embedding a tweet:
 
 That's offline-first.
 
-# What's a templated site?
+## What's a templated site?
 
 What I'm calling a _templated site_ is built using multiple templates, combined with the actual text, images and other resources that make up the site's content, spread across multiple pages. The site's URLs uniquely identify the content specific to a page. The templates provide a structural layout shared across the pages.
 
@@ -40,11 +40,11 @@ Since it's always fun to draw contrasts, if I did have to hold up something in o
 
 In case it's not clear from that preamble, what you're reading now, assuming it's being read on https://jeffy.info/, is part of a templated site. Blogs, newspapers, and whole host of sites driven drive by a backend [content management system](https://en.wikipedia.org/wiki/Content_management_system) are traditionally deployed as templated sites. If you're reading the syndicated copy of this on https://medium.com/, then I'm going to hazard a guess that the "templated site" label is also appropriate, but I'm not as familiar with how they implement things. `¯\_(ツ)_/¯`
 
-# Anatomy of a templated site
+## Anatomy of a templated site
 
 All right: with what's hopefully a non-controversial set of a definitions out of the way, let's take a deeper dive into the different pieces that work together to produce a templated site. I'm going to focus on a specific framework, [Jekyll](https://jekyllrb.com/), which I'm familiar with and that I use on https://jeffy.info/. The general concepts, if not the specific formats used for all the pieces, should apply broadly to other frameworks.
 
-## Templates!
+### Templates!
 
 Yes, templates. Templated sites have templates. Moving along…
 
@@ -56,7 +56,7 @@ Unfortunately, I lack the visual skills of some of my [colleagues](https://jakea
 
 The interesting bit here is that each of those smaller templates can be tweaked and modified individually, and sometimes (but not always) don't have to coordinate with each other or with the parent layout. You can imagine a rebranding in which a product name is changed in `head.tmpl`, or a copyright year is changed in `foot.tmpl`, without that requiring a larger change to any of the other templates or layouts.
 
-## Content!
+### Content!
 
 Next up, let's assume that we have some content (like: this post) that we want to share with the world. That content might live in a database. It might live in individual files—Jekyll uses individual [Markdown files](https://jekyllrb.com/docs/posts/). It might be accessed as JSON returned from a content management system's API. The important bits are the idea that there's a logical separation between the content for one page and the content for another, and the idea that content is independent from the overall page structure that's used to display it.
 
@@ -64,7 +64,7 @@ I don't know how to make diagrams of abstract content interesting, but... here's
 
 <img src="/static/images/2016-11-02/content.svg" alt="An abstract representation of content" class="half-width">
 
-## The process that smushes together the templates and the contents and outputs a final HTML document!
+### The process that smushes together the templates and the contents and outputs a final HTML document!
 
 We've got some templates that are stitched together to make a layout, and we've got some content. What's left is smushing the layout and the content together to form a unique HTML document corresponding to each piece of source of content.
 

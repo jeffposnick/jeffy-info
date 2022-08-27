@@ -6,12 +6,12 @@ tags:
   - post
 ---
 
-# About Me
+## About Me
 
 I'm [Jeff Posnick](https://twitter.com/jeffposnick).
 I've been working on the [Developer Relations](https://developers.google.com/careers/) team at Google NYC since 2007, first on the [Ads APIs](https://developers.google.com/adwords/api/), then [YouTube](https://developers.google.com/youtube/), and currently on the [Open Web Platform](http://www.webplatform.org/).
 
-# About this Blog
+## About this Blog
 
 I've been blogging [elsewhere](http://thirtyfour.blogspot.com/) since 2003.
 The other 34 started out using [Blosxom](http://en.wikipedia.org/wiki/Blosxom) on a self-hosted web server.

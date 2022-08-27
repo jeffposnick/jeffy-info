@@ -10,7 +10,7 @@ tags:
   - workbox
 ---
 
-# Motivation
+## Motivation
 
 Following up from my "[Beyond SPAs: alternative architectures for your PWA](https://developers.google.com/web/updates/2018/05/beyond-spa)" talk at Google I/O this year, I've been investigating ways of bringing all of the benefits folks associate with PWAs (network-independent loading, rich metadata provided by a web app manifest) to a more traditional, "blog-y" site architecture.
 
@@ -18,7 +18,7 @@ Following up from my "[Beyond SPAs: alternative architectures for your PWA](http
 
 And, while I was at it, I wanted to see what it would look like to implement all of the site build + templating infrastructure inside of a service worker, to give a more robust offline-first experience than what Mathias was able to get for the V8 blog. (Just the index page was being cached.)
 
-# The present
+## The present
 
 I've moved most of the templates over to use Nunjucks, though I believe I've lost a few filters and date formatting options that I had with Liquid.
 
@@ -62,7 +62,7 @@ workbox.routing.registerRoute(
 );
 ```
 
-# Caching strategies
+## Caching strategies
 
 All of the site metadata, templates and content (a whole 8 blog posts!) are precached, which adds up to only ~77kb for my blog. If I were working on a larger site, I'd consider only precaching the site metadata and templates, and using a runtime caching strategy for the posts' JSON.
 
@@ -70,7 +70,7 @@ I've got a cache-first strategy set up for the few images that I use on this blo
 
 After the service worker's installed, subsequent navigations should be fulfilled entirely from the cache, making the site work fully offline and, more importantly, load reliably fast. (The fact that it's all just some ugly static HTML and CSS helps with the speed, too.)
 
-# The future
+## The future
 
 I'd love to get some of the logic that I've put into the custom build scripts into the core of the 11ty project, if that makes sense, or at least packaged up into a standalone set of helpers.
 
@@ -82,7 +82,7 @@ The actual service worker code needs to be refactored a bit, and I'd like to mak
 
 I'm not minimizing anything right now, and the build process is generally a bunch of things stuck together with tap.
 
-# Alternatives
+## Alternatives
 
 There are a host of other options for folks to consider right now—it's actually a really great time for PWA-y static blogs and site generators. I like what [Gatsby's doing](https://www.gatsbyjs.org/), especially with v2 (featuring [Workbox-powered offline support](https://www.gatsbyjs.org/packages/gatsby-plugin-offline/)). [Vuepress](https://vuepress.vuejs.org/) is similarly vue-pressive, and features Workbox integration as well.
 

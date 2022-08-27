@@ -8,7 +8,7 @@ tags:
   - workbox
 ---
 
-# Backstory
+## Backstory
 
 I moved over to work on Google's Web DevRel team way back in 2014, and one of
 the first tasks that I took on was writing short update articles and code
@@ -24,14 +24,14 @@ some value.
 
 So I wrote that, moved on, and then pretty much forgot that generators existed for the next 4 years.
 
-# Refactoring
+## Refactoring
 
 That takes us to a few months ago, when I was working on a [rewrite](https://github.com/GoogleChrome/workbox/issues/1793)
 of the `workbox-precaching` module as part of the [Workbox v4](https://github.com/GoogleChrome/workbox/releases/tag/v4.0.0)
 release. This gave me an opportunity to revisit some code that hadn't been
 touched in a while.
 
-## Original logic
+### Original logic
 
 The actual code isn't super-relevant (I'll link to the before and after below,
 for those who are interested), but the main points were:
@@ -66,7 +66,7 @@ I'm not a huge fan of a repeated sequence of `if(...) { return ... }` statements
 aesthetically, and structuring code like that can make it harder to understand
 that each test case is effectively doing the same thing.
 
-## Refactoring without generators
+### Refactoring without generators
 
 One potential refactoring to emphasize the repeated logic could be:
 
@@ -94,7 +94,7 @@ downside is that you end up running each of the `generateVariationN()` functions
 ahead of time. If a variation early in the list ends up matching, you've ended
 up running (potentially expensive) code for nothing.
 
-## Refactoring with generators
+### Refactoring with generators
 
 So! This is when I remembered that generators were A Thing, and could come in
 handy in this use case.
@@ -133,7 +133,7 @@ for (const urlVariation of generateVariations(originalUrl)) {
 return false;
 ```
 
-## The actual changes in Workbox
+### The actual changes in Workbox
 
 If you're curious, the original code in Workbox v3 is
 [here](https://github.com/GoogleChrome/workbox/blob/d27aafbdf164f051a883965058e6eb4c0df3a052/packages/workbox-precaching/_default.mjs#L76-L130).
