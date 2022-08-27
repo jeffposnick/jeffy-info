@@ -1,7 +1,7 @@
 body {
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 		Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-	margin: 1em 15% 1em 15%;
+	margin: 1em 10%;
 	padding: 0;
 	color: #2d334a;
 	background-color: #fffffe;
@@ -21,6 +21,7 @@ code {
 pre {
 	border: 2px dotted #272343;
 	border-radius: 0.5em;
+	font-size: 0.8em;
 	overflow-x: auto;
 	padding: 1em;
 }
@@ -134,4 +135,10 @@ script.visible {
 	overflow-x: auto;
 	padding: 1em;
 	white-space: pre;
+}
+
+h2,
+h3,
+h4 {
+	margin-top: 2em;
 }
