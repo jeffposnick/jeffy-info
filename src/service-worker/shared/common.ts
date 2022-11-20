@@ -1,6 +1,7 @@
 /// <reference lib="webworker"/>
 
 import {registerRoute, setDefaultHandler} from 'workbox-routing';
+import {NetworkOnly} from 'workbox-strategies';
 import {strategy as streamingStrategy} from 'workbox-streams';
 
 import {URLPatternMatcher} from './URLPatternMatcher';
@@ -80,6 +81,12 @@ export function registerRoutes(loadStatic: StaticLoader) {
 				'content-type': 'text/html',
 			},
 		),
+	);
+
+	// Mastodon API calls should be network-only.
+	registerRoute(
+		({sameOrigin, url}) => !sameOrigin && url.pathname.startsWith('/api'),
+		new NetworkOnly(),
 	);
 
 	setDefaultHandler(({event}) => loadStatic(event as FetchEvent));

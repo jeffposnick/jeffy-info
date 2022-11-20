@@ -13,3 +13,7 @@
 
       setMetadata({{{ JSON.stringify(site) }}}, {{{ JSON.stringify(page) }}});
     </script>
+
+    {{#each page.scripts as scriptName}}
+    <script src="{{{ assetManifest[scriptName] }}}"></script>
+    {{/each}}
