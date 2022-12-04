@@ -32,8 +32,8 @@ export function registerRoutes(loadStatic: StaticLoader) {
 						}
 
 						throw new Error('Unable to load static resource.');
-					} catch (err) {
-						return Templates.Error({assetManifest, site, url: jsonURL});
+					} catch (error) {
+						return Templates.Error({assetManifest, error, site, url: jsonURL});
 					}
 				},
 				() => Templates.End({assetManifest, site}),
@@ -71,8 +71,8 @@ export function registerRoutes(loadStatic: StaticLoader) {
 						}
 
 						throw new Error('Unable to load static resource.');
-					} catch (err) {
-						return Templates.Error({assetManifest, site, url: jsonURL});
+					} catch (error) {
+						return Templates.Error({assetManifest, error, site, url: jsonURL});
 					}
 				},
 				() => Templates.End({assetManifest, site}),

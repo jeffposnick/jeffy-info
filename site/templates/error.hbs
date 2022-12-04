@@ -1,3 +1,6 @@
-{{#expect url}}
+{{#expect error, url}}
     <h2>Unable to display page</h2>
-    <p>The request for <code>{{{ url }}}</code> failed.</code>
+    <p>The request for <code>{{{ url }}}</code> failed.</p>
+    {{#if error}}
+    <pre><code>{{error.stack}}</code></pre>
+    {{/if}}
