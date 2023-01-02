@@ -11,6 +11,10 @@
 	"twitter": {
 		"username": "jeffposnick"
 	},
+	"mastodon": {
+		"username": "jeffposnick",
+		"url": "https://hachyderm.io/@jeffposnick"
+	},
 	"logo": "/static/34.png",
 	"rssFeed": "/feed.xml"
 }
